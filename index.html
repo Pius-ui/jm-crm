@@ -558,9 +558,9 @@ function renderDayContent(){
   day.visits.forEach((v,vi)=>{
     const isDone = doneMap[day.id].has(vi);
     const cust = v.cid ? getCust(v.cid) : null;
-    const name = cust ? cust.name : v.name;
-    const addr = cust ? (cust.ulice ? cust.ulice+', '+cust.mesto : cust.mesto) : v.addr;
-    const obrat = cust ? fmtK(cust.obratTotal)+' Kč' : '—';
+    const name = cust ? cust.n : v.name;
+    const addr = cust ? (cust.ul ? cust.ul+', '+cust.m : cust.m) : v.addr;
+    const obrat = cust ? fmtK(cust.o)+' Kč' : '—';
     const isNew = v.prio==='NEW';
     const borderColor = prioColor(v.prio);
     const dayId = day.id;
@@ -576,7 +576,7 @@ function renderDayContent(){
           ${addr?`<div class="vc-addr">${addr}</div>`:''}
           <div class="vc-tags">
             <span class="vc-tag ${isNew?'':'prio-'+v.prio.toLowerCase()}" style="${isNew?'background:var(--accent-new-dim);color:var(--accent-new)':''}">${isNew?'★ Nový':v.prio==='A'?'Priorita A':'Priorita '+v.prio}</span>
-            ${cust?`<span class="vc-tag prio-c">${fmtK(cust.obratTotal)} Kč / 4M</span>`:'<span class="vc-tag prio-c">bez historie</span>'}
+            ${cust?`<span class="vc-tag prio-c">${fmtK(cust.o)} Kč / 4M</span>`:'<span class="vc-tag prio-c">bez historie</span>'}
             ${cust?`<span class="vc-tag prio-c">${cust.rc}</span>`:''}
           </div>
         </div>
@@ -803,13 +803,13 @@ function saveZapis(){
 
   const z = {
     id: Date.now(),
-    custId, custName: cust?cust.name:'Nový zákazník',
+    custId, custName: cust?cust.n:'Nový zákazník',
     datum, typ, vysledek, vystup, akce, followup, progs,
     ts: new Date().toLocaleString('cs-CZ')
   };
   zapisky.unshift(z);
 
-  const det = `${cust?cust.name:'?'} · ${new Date(datum).toLocaleDateString('cs-CZ')} · ${typ}`;
+  const det = `${cust?cust.n:'?'} · ${new Date(datum).toLocaleDateString('cs-CZ')} · ${typ}`;
   document.getElementById('success-detail').textContent = det;
   document.getElementById('form-success').classList.add('show');
   document.getElementById('cnt-zapisky').textContent = zapisky.length;
