@@ -54,7 +54,7 @@ tr:hover td{background:#fafbfc}
 /* PLÁN */
 .week-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px}
 .day-card{background:#fff;border-radius:10px;border:0.5px solid #e0e0e0;overflow:hidden}
-.day-head{background:#1a2744;color:#fff;padding:8px 12px;font-size:13px;font-weight:500}
+.day-head{background:#1a2744;color:#fff;padding:9px 12px;font-size:13px;font-weight:500;line-height:1.4}
 .day-body{padding:8px}
 .visit-item{border-left:3px solid #ccc;padding:6px 8px;margin-bottom:6px;border-radius:0 6px 6px 0;cursor:pointer;transition:.1s}
 .visit-item:hover{background:#f5f5f5}
@@ -67,7 +67,7 @@ tr:hover td{background:#fafbfc}
 .empty-day{font-size:12px;color:#bbb;padding:8px;text-align:center}
 .pri-n-border{border-left-color:#7c3aed;background:#f5f3ff}
 .tag.new-tag{background:#ede9fe;color:#5b21b6;font-size:10px;padding:1px 6px;border-radius:3px;margin-left:5px}
-.week-grid{grid-template-columns:repeat(auto-fit,minmax(195px,1fr))}
+.week-grid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
 
 /* ZÁPISKY */
 .notes-toolbar{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap}
@@ -379,28 +379,90 @@ function renderTable(){
   }).join('');
 }
 
-// Noví zákazníci (nulový obrat, reální firmy)
-const NEW_CUSTOMERS = [
-  {id:35757,name:'Pneuservis Třeboň s.r.o.',obrat:0,avg:0,cnt:0,priority:'N'},
-  {id:37492,name:'Autoservis ZEKA s.r.o.',obrat:0,avg:0,cnt:0,priority:'N'},
-  {id:33365,name:'NIKERLE auto s.r.o.',obrat:0,avg:0,cnt:0,priority:'N'},
-  {id:36688,name:'CHROMÝ CARS s.r.o.',obrat:0,avg:0,cnt:0,priority:'N'},
-  {id:37485,name:'CARSTORIES, s.r.o.',obrat:0,avg:0,cnt:0,priority:'N'},
-  {id:36694,name:'AUTOSERVIS DAN A SYN s.r.o.',obrat:0,avg:0,cnt:0,priority:'N'},
-  {id:37500,name:'Miloslav Beránek',obrat:0,avg:0,cnt:0,priority:'N'},
-  {id:37499,name:'Zdeněk Krška',obrat:0,avg:0,cnt:0,priority:'N'},
-  {id:36010,name:'NICOTRANS a.s.',obrat:0,avg:0,cnt:0,priority:'N'},
-  {id:35579,name:'JASPO - AUTODOPRAVA s.r.o.',obrat:0,avg:0,cnt:0,priority:'N'},
-];
+// ── GEOGRAFICKY STRUKTUROVANÝ PLÁN ──────────────────────────────────────────
+// Každý zákazník má přiřazenou oblast podle adresy
+// Oblasti: cb | jih | zapad | vychod
 
-// PLÁN TÝDNE – přesně 8 schůzek denně (6–7 zákazníků + 1–2 noví)
+const GEO_PLAN = {
+  // PONDĚLÍ – CB centrum (do 5 km), 6 stávajících + 2 noví CB
+  po: {
+    label:'Pondělí', area:'České Budějovice centrum', icon:'🏙️',
+    customers:[
+      {id:15814,name:'Autodíly Bemar s.r.o.',city:'ČB – centrum',obrat:840215,avg:210054,cnt:4,priority:'A'},
+      {id:33336,name:'Martin Havlík',city:'ČB – Čtyři Dvory',obrat:517143,avg:129286,cnt:4,priority:'A'},
+      {id:35170,name:'Oleksandr Babiichuk',city:'ČB – centrum',obrat:500390,avg:125098,cnt:4,priority:'A'},
+      {id:34337,name:'MOGUL AUTO-PLUS s.r.o.',city:'ČB – Suché Vrbné',obrat:415594,avg:103899,cnt:4,priority:'A'},
+      {id:33544,name:'Auto HR s.r.o.',city:'ČB – centrum',obrat:102148,avg:25537,cnt:4,priority:'B'},
+      {id:33456,name:'Petr Erhart',city:'ČB – Rožnov',obrat:90752,avg:22688,cnt:4,priority:'B'},
+      {id:33316,name:'Roman Čížek – NOVÝ',city:'ČB oblast – akvizice',obrat:0,avg:0,cnt:0,priority:'N',note:'Kájov – blízko ČB'},
+      {id:35509,name:'Autoservis ZEKA s.r.o.',city:'ČB – akvizice',obrat:0,avg:0,cnt:0,priority:'N',note:'Nový zákazník ČB'},
+    ]
+  },
+  // ÚTERÝ – Jih: Kaplice, Český Krumlov, Větřní, Chvalšiny, Střítež, D.A.K.Ř.
+  ut: {
+    label:'Úterý', area:'Jih – Kaplice / Český Krumlov / Chvalšiny', icon:'🏔️',
+    customers:[
+      {id:33303,name:'Ladislav Hovorka',city:'Český Krumlov',obrat:472634,avg:118159,cnt:4,priority:'A'},
+      {id:33316,name:'Roman Čížek',city:'Kájov',obrat:130906,avg:32727,cnt:4,priority:'B'},
+      {id:33328,name:'Libor Miška',city:'Střítež',obrat:108579,avg:27145,cnt:4,priority:'B'},
+      {id:33309,name:'Milan Ruschak',city:'Chvalšiny',obrat:73150,avg:18288,cnt:4,priority:'B'},
+      {id:34490,name:'D.A.K.Ř.',city:'Markvartice / Zubčice',obrat:65003,avg:16251,cnt:4,priority:'B'},
+      {id:34208,name:'J.A.S.I.X',city:'Český Krumlov',obrat:11762,avg:2941,cnt:4,priority:'C'},
+      {id:44662,name:'Luboš Kijac – NOVÝ',city:'Velešín (akvizice)',obrat:0,avg:0,cnt:0,priority:'N',note:'Na trase CK–Kaplice'},
+      {id:33362,name:'CHROMÝ CARS s.r.o. – NOVÝ',city:'Kaplice (akvizice)',obrat:0,avg:0,cnt:0,priority:'N',note:'Nový zákazník Kaplice'},
+    ]
+  },
+  // STŘEDA – Západ: Rožmitál, Hluboká, Křemže, Neplachov, Hrdějovice, Zliv, Lišov
+  st: {
+    label:'Středa', area:'Západ – Šumava / Hluboká / Rožmitál', icon:'🌲',
+    customers:[
+      {id:33302,name:'Michaela Bílková',city:'Rožmitál na Šumavě',obrat:557720,avg:139430,cnt:4,priority:'A'},
+      {id:14140,name:'HB automateriál spol. s r.o.',city:'ČB – Novohradská (západ. trasa)',obrat:513977,avg:128494,cnt:4,priority:'A'},
+      {id:33358,name:'Autoservis Vítovec s.r.o.',city:'Hluboká nad Vltavou',obrat:84722,avg:21181,cnt:4,priority:'B'},
+      {id:35509,name:'Autoservis Koprna s.r.o.',city:'Křemže',obrat:76075,avg:19019,cnt:4,priority:'B'},
+      {id:43968,name:'Ladislav Beňo',city:'Zliv',obrat:19333,avg:9667,cnt:2,priority:'C'},
+      {id:33338,name:'Marcel Lichtenberg',city:'Čakov',obrat:15745,avg:3936,cnt:4,priority:'C'},
+      {id:33354,name:'Radek Lorenc',city:'Hrdějovice',obrat:10426,avg:5213,cnt:2,priority:'C'},
+      {id:35577,name:'Radoslav Havlík – NOVÝ',city:'Kamenný Újezd (akvizice)',obrat:0,avg:0,cnt:0,priority:'N',note:'Na trase západ'},
+    ]
+  },
+  // ČTVRTEK – Východ: Třeboň, Rudolfov, J.Hradec, Stráž, Borovany, Trhové Sviny, Lomnice
+  ct: {
+    label:'Čtvrtek', area:'Východ – Třeboň / Rudolfov / Jindřichův Hradec', icon:'🏞️',
+    customers:[
+      {id:34673,name:'Jan Nezbeda',city:'Třeboň',obrat:372959,avg:93240,cnt:4,priority:'A'},
+      {id:35427,name:'Tomáš Ryba',city:'Rudolfov',obrat:140906,avg:35227,cnt:4,priority:'B'},
+      {id:38313,name:'POSEIDON JH, spol. s r.o.',city:'Stráž nad Nežárkou',obrat:62227,avg:15557,cnt:4,priority:'B'},
+      {id:33322,name:'Martin Nečas',city:'Břilice / Třeboň',obrat:18722,avg:6241,cnt:3,priority:'C'},
+      {id:33364,name:'Otakar Šobr',city:'Lomnice nad Lužnicí',obrat:17361,avg:4340,cnt:4,priority:'C'},
+      {id:33401,name:'Brůžek Lubomír',city:'Jílovice / Trhové Sviny',obrat:14530,avg:4843,cnt:3,priority:'C'},
+      {id:35119,name:'Jan Tisoň',city:'Trhové Sviny',obrat:11937,avg:2984,cnt:4,priority:'C'},
+      {id:35757,name:'Pneuservis Třeboň – NOVÝ',city:'Třeboň (akvizice)',obrat:0,avg:0,cnt:0,priority:'N',note:'Nový zákazník Třeboň'},
+    ]
+  },
+  // PÁTEK – CB centrum + okolí do 15 km: Rudolfov, Lišov, Srubec, Hrdějovice, Borek, Ševětín
+  pa: {
+    label:'Pátek', area:'České Budějovice + okolí do 15 km', icon:'🔄',
+    customers:[
+      {id:34200,name:'Maloobchod České Budějovice',city:'ČB – centrum',obrat:321368,avg:80342,cnt:4,priority:'A'},
+      {id:37789,name:'AUTOSERVIS NA ROZCESTÍ s.r.o.',city:'ČB – Zavadilka',obrat:241000,avg:60250,cnt:4,priority:'A'},
+      {id:32769,name:'BestDrive Czech Republic s.r.o.',city:'ČB – Objízdná',obrat:215649,avg:53912,cnt:4,priority:'B'},
+      {id:35679,name:'Bohumil Šober',city:'ČB – centrum',obrat:72340,avg:18085,cnt:4,priority:'B'},
+      {id:33398,name:'AUTO FUTURE s.r.o.',city:'ČB – Okružní',obrat:66624,avg:16656,cnt:4,priority:'B'},
+      {id:38080,name:'AUTOPROFI, s.r.o.',city:'ČB – Husova',obrat:43430,avg:14477,cnt:3,priority:'B'},
+      {id:33350,name:'Pavel Klestil',city:'ČB – Palmová',obrat:43041,avg:10760,cnt:4,priority:'C'},
+      {id:37502,name:'Tomáš Beránek AUTO FRANCE – NOVÝ',city:'ČB – Krumlovská (akvizice)',obrat:0,avg:0,cnt:0,priority:'N',note:'Nový zákazník okolí ČB'},
+    ]
+  }
+};
+
+// PLÁN TÝDNE – geograficky optimalizovaný, 8 schůzek/den
 function initPlan(){
   const today=new Date();
-  const days=['Pondělí','Úterý','Středa','Čtvrtek','Pátek'];
+  const days=['po','ut','st','ct','pa'];
   const dates=[];
   let d=new Date(today);
   const dow=d.getDay();
-  // Najdi příští pondělí
   const toMon=dow===1?0:dow===0?1:(8-dow);
   d.setDate(d.getDate()+toMon);
   for(let i=0;i<5;i++){
@@ -409,54 +471,30 @@ function initPlan(){
     dates.push(nd);
   }
 
-  // Zákazníci seřazení: A nejdříve, pak B, pak C
-  const aC=CUSTOMERS.filter(c=>c.priority==='A'&&c.obrat>0);
-  const bC=CUSTOMERS.filter(c=>c.priority==='B'&&c.obrat>0);
-  const cC=CUSTOMERS.filter(c=>c.priority==='C'&&c.obrat>0);
-
-  // Rozděl 40 schůzek (8/den) + 9 nových (1-2/den)
-  // Distribuce: Po(2A,4B,2C,1N), Út(2A,3B,2C,1N), St(2A,3B,1C,2N), Čt(2A,3B,2C,1N), Pá(2A,3B,1C,2N)
-  // Celkem A=10, B=16, C=8, N=7 → přizpůsobíme na přesně 8+noví
-  const newC=[...NEW_CUSTOMERS];
-
-  // Každý den: 6 zákazníků (mix priorit) + 1-2 noví = 8
-  // Plán: [aIdx range, bIdx range, cIdx range, nIdx range]
-  const dayPlans=[
-    // Po: 3A + 3B + 0C + 2N = 8
-    {a:[0,1,2], b:[0,1,2], c:[], n:[0,1]},
-    // Út: 2A + 3B + 2C + 1N = 8
-    {a:[3,4],   b:[3,4,5], c:[0,1], n:[2]},
-    // St: 2A + 3B + 2C + 1N = 8 (+ 1 navíc C)
-    {a:[5,6],   b:[6,7,8], c:[2,3], n:[3]},
-    // Čt: 2A + 3B + 2C + 1N = 8
-    {a:[7,8],   b:[9,10,11],c:[4,5], n:[4]},
-    // Pá: 2A + 3B + 1C + 2N = 8
-    {a:[9,0],   b:[12,13,14],c:[6],  n:[5,6]},
-  ];
-
   const grid=document.getElementById('week-grid');
-  grid.innerHTML=days.map((day,i)=>{
+  grid.innerHTML=days.map((key,i)=>{
+    const dp=GEO_PLAN[key];
     const dt=dates[i];
     const ds=dt.toLocaleDateString('cs-CZ',{day:'numeric',month:'numeric'});
-    const dp=dayPlans[i];
-    const items=[
-      ...dp.a.map(idx=>aC[idx]).filter(Boolean),
-      ...dp.b.map(idx=>bC[idx%bC.length]).filter(Boolean),
-      ...dp.c.map(idx=>cC[idx%cC.length]).filter(Boolean),
-      ...dp.n.map(idx=>newC[idx]).filter(Boolean),
-    ];
-
+    const items=dp.customers;
     return `<div class="day-card">
-      <div class="day-head">${day} ${ds} <span style="float:right;font-size:11px;opacity:.7">${items.length} schůzek</span></div>
+      <div class="day-head">
+        <span>${dp.label} ${ds}</span>
+        <span style="float:right;font-size:11px;opacity:.75">${items.length} schůzek</span>
+        <div style="font-size:11px;opacity:.8;margin-top:2px">${dp.icon} ${dp.area}</div>
+      </div>
       <div class="day-body">
         ${items.map(c=>{
           const isNew=c.priority==='N';
           const borderCls=isNew?'pri-n-border':('pri-'+priority(c).cls+'-border');
-          const label=isNew?'NOVÝ':('Priorita '+priority(c).label);
-          const meta=isNew?'Akvizice – nový zákazník':`${label} &bull; Obrat ${c.avg?fmt(Math.round(c.avg/1000))+'k/m':'–'}`;
-          const cData=JSON.stringify(c).replace(/"/g,'&quot;');
+          const priLabel=isNew?'NOVÝ':('Priorita '+priority(c).label);
+          const meta=isNew
+            ? `🆕 Akvizice – ${c.note||'nový zákazník'}`
+            : `${priLabel} · ${c.city} · ${c.avg?fmt(Math.round(c.avg/1000))+'k/m':'–'}`;
+          const cData=JSON.stringify({...c,name:c.name.replace(/ – NOVÝ$/,'')}).replace(/"/g,'&quot;');
+          const displayName=c.name.replace(/ – NOVÝ$/,'');
           return `<div class="visit-item ${borderCls}" onclick="openModal(${cData})">
-            <div class="visit-name">${c.name}${isNew?'<span class="tag new-tag">NOVÝ</span>':''}</div>
+            <div class="visit-name">${displayName}${isNew?'<span class="tag new-tag">NOVÝ</span>':''}</div>
             <div class="visit-meta">${meta}</div>
           </div>`;
         }).join('')}
