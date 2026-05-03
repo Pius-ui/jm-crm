@@ -7,86 +7,82 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:15px}
-header{background:#1a2744;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
-header .logo{background:#e63329;border-radius:6px;padding:4px 8px;font-weight:700;font-size:13px;letter-spacing:.5px}
+header{background:#1a2744;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+header .logo{background:#e63329;border-radius:6px;padding:4px 9px;font-weight:700;font-size:13px;letter-spacing:.5px}
 header h1{font-size:16px;font-weight:500}
-header .sub{font-size:12px;opacity:.65;margin-left:auto}
+header .sub{font-size:12px;opacity:.6;margin-left:auto}
 nav{background:#fff;border-bottom:1px solid #e0e0e0;display:flex;overflow-x:auto;position:sticky;top:49px;z-index:99}
 nav button{background:none;border:none;padding:12px 18px;font-size:14px;color:#555;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:.15s}
-nav button.active{color:#1a2744;border-bottom-color:#e63329;font-weight:500}
+nav button.active{color:#1a2744;border-bottom-color:#e63329;font-weight:600}
 nav button:hover:not(.active){background:#f9f9f9}
 .tab{display:none;padding:16px}
 .tab.active{display:block}
-
-/* PŘEHLED */
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
-.stat{background:#fff;border-radius:10px;padding:14px 16px;border:0.5px solid #e0e0e0}
-.stat .num{font-size:26px;font-weight:600;color:#1a2744}
+.stat{background:#fff;border-radius:10px;padding:14px 16px;border:.5px solid #e0e0e0}
+.stat .num{font-size:26px;font-weight:700;color:#1a2744}
 .stat .lbl{font-size:12px;color:#888;margin-top:2px}
 .stat .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;margin-top:4px}
-.badge-a{background:#fff0f0;color:#c0392b}
-.badge-b{background:#fff8e1;color:#b7770d}
-.badge-c{background:#e8f5e9;color:#2e7d32}
-
-/* ZÁKAZNÍCI TABLE */
+.badge-a{background:#fff0f0;color:#c0392b}.badge-b{background:#fff8e1;color:#b7770d}.badge-c{background:#e8f5e9;color:#2e7d32}
+.section-title{font-size:13px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.5px;margin:0 0 10px}
 .toolbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
-.toolbar input{border:1px solid #ddd;border-radius:7px;padding:8px 12px;font-size:14px;flex:1;min-width:180px}
-.toolbar select{border:1px solid #ddd;border-radius:7px;padding:8px 10px;font-size:14px;background:#fff}
-.tbl-wrap{overflow-x:auto;border-radius:10px;border:0.5px solid #e0e0e0}
+.toolbar input,.toolbar select{border:1px solid #ddd;border-radius:7px;padding:8px 12px;font-size:14px;background:#fff}
+.toolbar input{flex:1;min-width:160px}
+.tbl-wrap{overflow-x:auto;border-radius:10px;border:.5px solid #e0e0e0}
 table{width:100%;border-collapse:collapse;background:#fff;font-size:13px}
 thead{background:#f8f9fb}
-th{padding:10px 12px;text-align:left;font-weight:500;color:#555;border-bottom:1px solid #eee;white-space:nowrap}
-td{padding:9px 12px;border-bottom:0.5px solid #f0f0f0;vertical-align:middle}
+th{padding:10px 12px;text-align:left;font-weight:500;color:#555;border-bottom:1px solid #eee;white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{background:#f0f2f5}
+td{padding:8px 12px;border-bottom:.5px solid #f0f0f0;vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#fafbfc}
 .pri{display:inline-block;width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;font-size:11px;font-weight:700;color:#fff}
-.pri-a{background:#c0392b}
-.pri-b{background:#e67e22}
-.pri-c{background:#27ae60}
-.obrat{font-variant-numeric:tabular-nums;font-weight:500;color:#1a2744}
-.trend-up{color:#27ae60;font-size:12px}
-.trend-dn{color:#c0392b;font-size:12px}
-.trend-eq{color:#888;font-size:12px}
-.customer-name{font-weight:500;cursor:pointer}
-.customer-name:hover{color:#e63329}
+.pri-a{background:#c0392b}.pri-b{background:#e67e22}.pri-c{background:#27ae60}
+.obrat{font-variant-numeric:tabular-nums;font-weight:600;color:#1a2744}
+.customer-name{font-weight:500;cursor:pointer;color:#1a2744}
+.customer-name:hover{color:#e63329;text-decoration:underline}
+.addr-cell{color:#555;font-size:12px;max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.city-pill{display:inline-block;background:#f0f4ff;color:#3949ab;font-size:11px;padding:2px 8px;border-radius:10px;white-space:nowrap}
 .tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;background:#eef2ff;color:#3949ab;margin-left:4px}
-
-/* PLÁN */
-.week-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px}
-.day-card{background:#fff;border-radius:10px;border:0.5px solid #e0e0e0;overflow:hidden}
-.day-head{background:#1a2744;color:#fff;padding:9px 12px;font-size:13px;font-weight:500;line-height:1.4}
+.new-tag{background:#ede9fe;color:#5b21b6}
+.area-tag{font-size:11px;padding:2px 7px;border-radius:8px;display:inline-block;white-space:nowrap}
+.area-cb{background:#e8f0fe;color:#1a73e8}
+.area-jih{background:#fce8e6;color:#c62828}
+.area-zapad{background:#e6f4ea;color:#2e7d32}
+.area-vychod{background:#fff3e0;color:#e65100}
+.area-ostatni{background:#f3e8ff;color:#7c3aed}
+.week-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.day-card{background:#fff;border-radius:10px;border:.5px solid #e0e0e0;overflow:hidden}
+.day-head{background:#1a2744;color:#fff;padding:10px 12px;line-height:1.5}
+.day-head-top{display:flex;justify-content:space-between;font-size:13px;font-weight:600}
+.day-head-sub{font-size:11px;opacity:.8;margin-top:2px}
+.day-head-route{font-size:10px;opacity:.58;margin-top:2px}
 .day-body{padding:8px}
-.visit-item{border-left:3px solid #ccc;padding:6px 8px;margin-bottom:6px;border-radius:0 6px 6px 0;cursor:pointer;transition:.1s}
-.visit-item:hover{background:#f5f5f5}
+.visit-item{border-left:3px solid #ccc;padding:6px 8px;margin-bottom:5px;border-radius:0 6px 6px 0;cursor:pointer;transition:.1s}
 .visit-item:last-child{margin-bottom:0}
+.visit-item:hover{filter:brightness(.96)}
 .visit-item.pri-a-border{border-left-color:#c0392b;background:#fff8f8}
 .visit-item.pri-b-border{border-left-color:#e67e22;background:#fffdf5}
 .visit-item.pri-c-border{border-left-color:#27ae60;background:#f6fff7}
-.visit-name{font-size:13px;font-weight:500;color:#1a2744}
-.visit-meta{font-size:11px;color:#888;margin-top:2px}
-.empty-day{font-size:12px;color:#bbb;padding:8px;text-align:center}
-.pri-n-border{border-left-color:#7c3aed;background:#f5f3ff}
-.tag.new-tag{background:#ede9fe;color:#5b21b6;font-size:10px;padding:1px 6px;border-radius:3px;margin-left:5px}
-.week-grid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
-
-/* ZÁPISKY */
+.visit-item.pri-n-border{border-left-color:#7c3aed;background:#f5f3ff}
+.visit-name{font-size:12.5px;font-weight:600;color:#1a2744;line-height:1.3}
+.visit-addr{font-size:11px;color:#666;margin-top:1px}
+.visit-meta{font-size:11px;color:#999;margin-top:2px}
 .notes-toolbar{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap}
-.notes-toolbar input{border:1px solid #ddd;border-radius:7px;padding:8px 12px;font-size:14px;flex:1;min-width:160px}
-.notes-toolbar select{border:1px solid #ddd;border-radius:7px;padding:8px 10px;font-size:14px;background:#fff}
-.notes-toolbar button{border:1px solid #1a2744;border-radius:7px;padding:8px 14px;font-size:13px;background:#1a2744;color:#fff;cursor:pointer;display:flex;align-items:center;gap:6px}
+.notes-toolbar input,.notes-toolbar select{border:1px solid #ddd;border-radius:7px;padding:8px 12px;font-size:14px;background:#fff}
+.notes-toolbar input{flex:1;min-width:150px}
+.notes-toolbar button{border:none;border-radius:7px;padding:8px 14px;font-size:13px;background:#1a2744;color:#fff;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap}
 .notes-toolbar button:hover{background:#243460}
 .notes-grid{display:grid;gap:12px}
-.note-card{background:#fff;border-radius:10px;border:0.5px solid #e0e0e0;padding:14px 16px}
-.note-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.note-card{background:#fff;border-radius:10px;border:.5px solid #e0e0e0;padding:14px 16px}
+.note-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:8px}
 .note-customer{font-size:15px;font-weight:600;color:#1a2744}
-.note-date{font-size:12px;color:#888;white-space:nowrap;margin-left:8px}
+.note-date{font-size:12px;color:#888;white-space:nowrap}
 .note-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:600px){.note-fields{grid-template-columns:1fr}}
+@media(max-width:600px){.note-fields{grid-template-columns:1fr}.week-grid{grid-template-columns:1fr}}
 .note-field{background:#f8f9fb;border-radius:7px;padding:10px 12px}
-.note-field-label{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.note-field-label{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
 .note-field-val{font-size:13px;color:#1a2744;line-height:1.5}
 .notes-empty{text-align:center;padding:40px 20px;color:#aaa}
-.notes-empty svg{margin-bottom:12px;opacity:.4}
 .loading-dots::after{content:'...';animation:dots 1.2s steps(4,end) infinite}
 @keyframes dots{0%,20%{content:'.'}40%{content:'..'}60%,100%{content:'...'}}
 .status-bar{font-size:12px;color:#888;margin-bottom:10px;display:flex;align-items:center;gap:6px}
@@ -94,23 +90,29 @@ tr:hover td{background:#fafbfc}
 .status-dot.loading{background:#e67e22;animation:pulse 1s ease-in-out infinite}
 .status-dot.error{background:#c0392b}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-
-/* DETAIL MODAL */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center;padding:16px}
 .modal-bg.open{display:flex}
-.modal{background:#fff;border-radius:14px;padding:24px;width:min(500px,92vw);max-height:85vh;overflow-y:auto}
-.modal h2{font-size:17px;font-weight:600;color:#1a2744;margin-bottom:4px}
-.modal .close{float:right;background:none;border:none;font-size:20px;cursor:pointer;color:#aaa;line-height:1}
-.modal .close:hover{color:#333}
-.modal-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid #f0f0f0;font-size:14px}
+.modal{background:#fff;border-radius:14px;width:min(520px,100%);max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.modal-header{background:#1a2744;color:#fff;padding:18px 20px;border-radius:14px 14px 0 0;position:relative}
+.modal-header h2{font-size:16px;font-weight:600;padding-right:30px;line-height:1.4}
+.modal-header .msub{font-size:12px;opacity:.7;margin-top:3px}
+.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:#fff;font-size:22px;cursor:pointer;opacity:.7;line-height:1}
+.modal-close:hover{opacity:1}
+.modal-body{padding:16px 20px}
+.modal-addr-box{background:#f0f4ff;border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px;font-size:13px}
+.modal-addr-box svg{flex-shrink:0;margin-top:1px;color:#3949ab}
+.modal-addr-text{line-height:1.5}
+.modal-addr-text a{color:#3949ab;text-decoration:none;font-weight:500;font-size:12px}
+.modal-addr-text a:hover{text-decoration:underline}
+.modal-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:.5px solid #f0f0f0;font-size:14px;gap:8px}
 .modal-row:last-child{border-bottom:none}
-.modal-row .k{color:#888;font-size:13px}
+.modal-row .k{color:#888;font-size:13px;flex-shrink:0}
 .modal-row .v{font-weight:500;text-align:right}
-.modal-actions{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
-.btn{border:1px solid #1a2744;border-radius:7px;padding:8px 14px;font-size:13px;background:#1a2744;color:#fff;cursor:pointer}
-.btn:hover{background:#243460}
-.btn-outline{background:#fff;color:#1a2744}
-.btn-outline:hover{background:#f0f0f0}
+.modal-actions{padding:0 20px 18px;display:flex;gap:8px;flex-wrap:wrap}
+.btn{border-radius:7px;padding:8px 16px;font-size:13px;cursor:pointer;border:none;font-weight:500}
+.btn-primary{background:#1a2744;color:#fff}.btn-primary:hover{background:#243460}
+.btn-maps{background:#4285f4;color:#fff}.btn-maps:hover{background:#3367d6}
+.btn-outline{background:#f4f5f7;color:#1a2744;border:1px solid #ddd}.btn-outline:hover{background:#e9eaec}
 </style>
 </head>
 <body>
@@ -128,472 +130,420 @@ tr:hover td{background:#fafbfc}
   <button onclick="showTab('zapisky',this)">Zápisky</button>
 </nav>
 
-<!-- TAB: PŘEHLED -->
 <div id="prehled" class="tab active">
   <div class="stats">
     <div class="stat"><div class="num" id="cnt-a">–</div><div class="lbl">Priorita A</div><span class="badge badge-a">každé 1–2 týdny</span></div>
     <div class="stat"><div class="num" id="cnt-b">–</div><div class="lbl">Priorita B</div><span class="badge badge-b">1× měsíčně</span></div>
     <div class="stat"><div class="num" id="cnt-c">–</div><div class="lbl">Priorita C</div><span class="badge badge-c">1× za 6–8 týdnů</span></div>
     <div class="stat"><div class="num" id="cnt-total">–</div><div class="lbl">Aktivní zákazníci</div></div>
-    <div class="stat"><div class="num" id="total-obrat">–</div><div class="lbl">Obrat 4M celkem (Kč)</div></div>
+    <div class="stat"><div class="num" id="total-obrat">–</div><div class="lbl">Obrat 4M (Kč)</div></div>
   </div>
-
-  <h3 style="font-size:14px;font-weight:600;color:#555;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">Top 10 zákazníků (obrat 4 měsíce)</h3>
+  <p class="section-title" style="margin-bottom:10px">Top 10 zákazníků – obrat 4 měsíce</p>
   <div class="tbl-wrap" style="margin-bottom:20px">
-    <table id="top10-table">
-      <thead><tr><th>#</th><th>Zákazník</th><th>Priorita</th><th>Obrat celkem</th><th>Prům./měs.</th></tr></thead>
+    <table>
+      <thead><tr><th>#</th><th>Zákazník</th><th>Adresa</th><th>Město</th><th>Oblast</th><th>P</th><th>Obrat 4M</th><th>Prům./měs.</th></tr></thead>
       <tbody id="top10-body"></tbody>
     </table>
   </div>
-
-  <h3 style="font-size:14px;font-weight:600;color:#555;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">Upozornění</h3>
+  <p class="section-title" style="margin-bottom:10px">Upozornění</p>
   <div id="alerts"></div>
 </div>
 
-<!-- TAB: ZÁKAZNÍCI -->
 <div id="zakaznici" class="tab">
   <div class="toolbar">
-    <input type="text" id="search" placeholder="Hledat zákazníka..." oninput="renderTable()">
+    <input type="text" id="search" placeholder="🔍  Hledat zákazníka, ulici, město…" oninput="renderTable()">
     <select id="filter-pri" onchange="renderTable()">
       <option value="">Všechny priority</option>
       <option value="A">Priorita A</option>
       <option value="B">Priorita B</option>
       <option value="C">Priorita C</option>
     </select>
-    <select id="sort-by" onchange="renderTable()">
-      <option value="obrat">Seřadit: Obrat ↓</option>
-      <option value="name">Seřadit: Název A–Z</option>
+    <select id="filter-area" onchange="renderTable()">
+      <option value="">Všechny oblasti</option>
+      <option value="cb">ČB centrum</option>
+      <option value="jih">Jih</option>
+      <option value="zapad">Západ</option>
+      <option value="vychod">Východ</option>
+      <option value="ostatni">Ostatní</option>
+    </select>
+    <select id="sort-by" onchange="setSort(this.value)">
+      <option value="obrat">Obrat ↓</option>
+      <option value="name">Název A–Z</option>
+      <option value="city">Město A–Z</option>
+      <option value="street">Ulice A–Z</option>
     </select>
   </div>
   <div class="tbl-wrap">
     <table>
-      <thead><tr><th>P</th><th>Zákazník</th><th>ID</th><th>Obrat 4M</th><th>Prům./měs.</th><th>Trend</th><th>Frekvence</th></tr></thead>
+      <thead><tr>
+        <th>P</th>
+        <th onclick="setSort('name')">Zákazník ↕</th>
+        <th onclick="setSort('street')">Ulice ↕</th>
+        <th onclick="setSort('city')">Město ↕</th>
+        <th onclick="setSort('area')">Oblast ↕</th>
+        <th onclick="setSort('obrat')">Obrat 4M ↕</th>
+        <th onclick="setSort('avg')">Prům./měs. ↕</th>
+        <th>Frekvence</th>
+      </tr></thead>
       <tbody id="customer-body"></tbody>
     </table>
   </div>
 </div>
 
-<!-- TAB: PLÁN -->
 <div id="plan" class="tab">
-  <p style="font-size:13px;color:#888;margin-bottom:14px">Navrhovaný plán na příští týden – schůzky zadejte do Nextis CRM ručně.</p>
+  <p style="font-size:13px;color:#888;margin-bottom:14px">Geograficky optimalizovaný plán – každý den jedna oblast / trasa. Schůzky zadejte do Nextis CRM ručně.</p>
   <div class="week-grid" id="week-grid"></div>
 </div>
 
-<!-- TAB: ZÁPISKY -->
 <div id="zapisky" class="tab">
   <div class="notes-toolbar">
-    <input type="text" id="notes-search" placeholder="Hledat zápisky..." oninput="filterNotes()">
-    <select id="notes-filter" onchange="filterNotes()">
-      <option value="">Všichni zákazníci</option>
-    </select>
+    <input type="text" id="notes-search" placeholder="🔍  Hledat zápisky…" oninput="filterNotes()">
+    <select id="notes-filter" onchange="filterNotes()"><option value="">Všichni zákazníci</option></select>
     <button onclick="loadNotes()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
       Obnovit
     </button>
   </div>
-  <div class="status-bar">
-    <span class="status-dot" id="notes-status-dot"></span>
-    <span id="notes-status-text">Načítám zápisky ze Google Sheets...</span>
-  </div>
-  <div class="notes-grid" id="notes-grid">
-    <div class="notes-empty">
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-      <p class="loading-dots">Načítám zápisky</p>
-    </div>
-  </div>
+  <div class="status-bar"><span class="status-dot" id="notes-status-dot"></span><span id="notes-status-text">Načítám…</span></div>
+  <div class="notes-grid" id="notes-grid"><div class="notes-empty"><p class="loading-dots">Načítám zápisky</p></div></div>
 </div>
 
-<!-- DETAIL MODAL -->
-<div class="modal-bg" id="modal" onclick="closeModal(event)">
+<div class="modal-bg" id="modal" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <button class="close" onclick="document.getElementById('modal').classList.remove('open')">×</button>
-    <h2 id="modal-name"></h2>
-    <div style="font-size:12px;color:#888;margin-bottom:14px" id="modal-sub"></div>
-    <div id="modal-body"></div>
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <h2 id="modal-name"></h2>
+      <div class="msub" id="modal-sub"></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-addr-box" id="modal-addr-box"></div>
+      <div id="modal-rows"></div>
+    </div>
     <div class="modal-actions">
-      <button class="btn btn-outline" onclick="document.getElementById('modal').classList.remove('open')">Zavřít</button>
+      <button class="btn btn-maps" id="btn-maps">📍 Otevřít v Mapách</button>
+      <button class="btn btn-outline" onclick="closeModal()">Zavřít</button>
     </div>
   </div>
 </div>
 
 <script>
-const SHEET_ID = '12rKG3kLopCDSIwZaqWYvQNmPDsFAXeioP5QGQvW6N0w';
+const SHEET_ID='12rKG3kLopCDSIwZaqWYvQNmPDsFAXeioP5QGQvW6N0w';
+const FREQ={A:'každé 1–2 týdny',B:'1× měsíčně',C:'1× za 6–8 týdnů'};
+const AREA_LABEL={cb:'ČB centrum',jih:'Jih',zapad:'Západ',vychod:'Východ',ostatni:'Ostatní'};
+const AREA_CLS={cb:'area-cb',jih:'area-jih',zapad:'area-zapad',vychod:'area-vychod',ostatni:'area-ostatni'};
 
-const CUSTOMERS = [
-  {id:15814,name:'Autodíly Bemar s.r.o.',obrat:840215,avg:210054,cnt:4,priority:'A'},
-  {id:33302,name:'Michaela Bílková',obrat:557720,avg:139430,cnt:4,priority:'A'},
-  {id:33336,name:'Martin Havlík',obrat:517143,avg:129286,cnt:4,priority:'A'},
-  {id:14140,name:'HB automateriál spol. s r.o.',obrat:513977,avg:128494,cnt:4,priority:'A'},
-  {id:35170,name:'Oleksandr Babiichuk',obrat:500390,avg:125098,cnt:4,priority:'A'},
-  {id:33303,name:'Ladislav Hovorka',obrat:472634,avg:118159,cnt:4,priority:'A'},
-  {id:34337,name:'MOGUL AUTO-PLUS s.r.o.',obrat:415594,avg:103899,cnt:4,priority:'A'},
-  {id:34673,name:'Jan Nezbeda',obrat:372959,avg:93240,cnt:4,priority:'A'},
-  {id:34200,name:'Maloobchod České Budějovice',obrat:321368,avg:80342,cnt:4,priority:'A'},
-  {id:37789,name:'AUTOSERVIS NA ROZCESTÍ s.r.o.',obrat:241000,avg:60250,cnt:4,priority:'A'},
-  {id:32769,name:'BestDrive Czech Republic s.r.o.',obrat:215649,avg:53912,cnt:4,priority:'B'},
-  {id:35427,name:'Tomáš Ryba',obrat:140906,avg:35227,cnt:4,priority:'B'},
-  {id:33316,name:'Roman Čížek',obrat:130906,avg:32727,cnt:4,priority:'B'},
-  {id:33328,name:'Libor Miška',obrat:108579,avg:27145,cnt:4,priority:'B'},
-  {id:33544,name:'Auto HR s.r.o.',obrat:102148,avg:25537,cnt:4,priority:'B'},
-  {id:33456,name:'Petr Erhart',obrat:90752,avg:22688,cnt:4,priority:'B'},
-  {id:33358,name:'Autoservis Vítovec s.r.o.',obrat:84722,avg:21181,cnt:4,priority:'B'},
-  {id:35509,name:'Autoservis Koprna s.r.o.',obrat:76075,avg:19019,cnt:4,priority:'B'},
-  {id:33309,name:'Milan Ruschak',obrat:73150,avg:18288,cnt:4,priority:'B'},
-  {id:35679,name:'Bohumil Šober',obrat:72340,avg:18085,cnt:4,priority:'B'},
-  {id:33398,name:'AUTO FUTURE s.r.o.',obrat:66624,avg:16656,cnt:4,priority:'B'},
-  {id:34490,name:'D.A.K.Ř.',obrat:65003,avg:16251,cnt:4,priority:'B'},
-  {id:35483,name:'DAŇHEL AGRO a.s.',obrat:63956,avg:15989,cnt:4,priority:'B'},
-  {id:38313,name:'POSEIDON JH, spol. s r.o.',obrat:62227,avg:15557,cnt:4,priority:'B'},
-  {id:38080,name:'AUTOPROFI, s.r.o.',obrat:43430,avg:14477,cnt:3,priority:'B'},
-  {id:33350,name:'Pavel Klestil',obrat:43041,avg:10760,cnt:4,priority:'C'},
-  {id:35388,name:'AlphaCARS, s.r.o.',obrat:42647,avg:10662,cnt:4,priority:'C'},
-  {id:38207,name:'MP AUTOSERVIS MP s.r.o.',obrat:38347,avg:12782,cnt:3,priority:'C'},
-  {id:33339,name:'Kubal',obrat:37233,avg:9308,cnt:4,priority:'C'},
-  {id:33404,name:'EU Autoservis s.r.o.',obrat:35926,avg:8982,cnt:4,priority:'C'},
-  {id:33499,name:'AUTOMA Car spol. s r.o.',obrat:28179,avg:7045,cnt:4,priority:'C'},
-  {id:36680,name:'Auto Balkar s.r.o.',obrat:26974,avg:8991,cnt:3,priority:'C'},
-  {id:33447,name:'Marek Martinovský',obrat:25543,avg:6386,cnt:4,priority:'C'},
-  {id:31857,name:'Provozovna České Budějovice',obrat:23109,avg:5777,cnt:4,priority:'C'},
-  {id:33403,name:'TRIO ložiska spol. s r.o.',obrat:20767,avg:5192,cnt:4,priority:'C'},
-  {id:33373,name:'Jan Kroupa',obrat:19621,avg:4905,cnt:4,priority:'C'},
-  {id:43968,name:'Ladislav Beňo',obrat:19333,avg:9667,cnt:2,priority:'C'},
-  {id:33322,name:'Martin Nečas',obrat:18722,avg:6241,cnt:3,priority:'C'},
-  {id:44506,name:'t.o.s.l',obrat:18139,avg:18139,cnt:1,priority:'C'},
-  {id:19972,name:'DM SERVIS CB s.r.o.',obrat:18019,avg:6006,cnt:3,priority:'C'},
-  {id:37594,name:'AUTODÍLY - CARGO s.r.o.',obrat:17711,avg:8856,cnt:2,priority:'C'},
-  {id:33364,name:'Otakar Šobr',obrat:17361,avg:4340,cnt:4,priority:'C'},
-  {id:33338,name:'Marcel Lichtenberg',obrat:15745,avg:3936,cnt:4,priority:'C'},
-  {id:33401,name:'Brůžek Lubomír',obrat:14530,avg:4843,cnt:3,priority:'C'},
-  {id:34875,name:'Tomáš Albrecht',obrat:12217,avg:3054,cnt:4,priority:'C'},
-  {id:35119,name:'Jan Tisoň',obrat:11937,avg:2984,cnt:4,priority:'C'},
-  {id:34208,name:'J.A.S.I.X',obrat:11762,avg:2941,cnt:4,priority:'C'},
-  {id:38322,name:'Vopravil & Buško, v.o.s.',obrat:11226,avg:2807,cnt:4,priority:'C'},
-  {id:33357,name:'Radek Lorenc',obrat:10426,avg:5213,cnt:2,priority:'C'},
-  {id:33315,name:'OPRAV MOTOR s.r.o.',obrat:10412,avg:2603,cnt:4,priority:'C'},
-  {id:37860,name:'Jakub Čedík',obrat:10196,avg:3399,cnt:3,priority:'C'},
+// ─── ZÁKAZNÍCI S ADRESAMI ────────────────────────────────────────────────────
+// Zdroj: Adresář zákazníků celá ČR.xlsx (filtrováno ČB středisko) + Obraty ČB
+const C=[
+  {id:15814,name:'Autodíly Bemar s.r.o.',street:'–',psc:'37001',city:'České Budějovice',obrat:840215,avg:210053,cnt:4,priority:'A',area:'cb'},
+  {id:33302,name:'Michaela Bílková',street:'Na Sadech 147',psc:'38292',city:'Rožmitál na Šumavě',obrat:557720,avg:139430,cnt:4,priority:'A',area:'zapad'},
+  {id:33336,name:'Martin Havlík',street:'Vidovská 1333/29',psc:'37008',city:'České Budějovice',obrat:517143,avg:129285,cnt:4,priority:'A',area:'cb'},
+  {id:14140,name:'HB automateriál spol. s r.o.',street:'Novohradská 749/9',psc:'37001',city:'České Budějovice',obrat:513977,avg:128494,cnt:4,priority:'A',area:'zapad'},
+  {id:35170,name:'Oleksandr Babiichuk',street:'Chelčického 96/13',psc:'37001',city:'České Budějovice',obrat:500390,avg:125097,cnt:4,priority:'A',area:'cb'},
+  {id:33303,name:'Ladislav Hovorka',street:'Vyšenská 130',psc:'38101',city:'Český Krumlov',obrat:472634,avg:118158,cnt:4,priority:'A',area:'jih'},
+  {id:34337,name:'MOGUL AUTO-PLUS s.r.o.',street:'Sokolská 193/14',psc:'37005',city:'České Budějovice',obrat:415594,avg:103898,cnt:4,priority:'A',area:'cb'},
+  {id:34673,name:'Jan Nezbeda',street:'Na Kopečku 1182',psc:'37901',city:'Třeboň',obrat:372959,avg:93239,cnt:4,priority:'A',area:'vychod'},
+  {id:34200,name:'Maloobchod České Budějovice',street:'–',psc:'37001',city:'České Budějovice',obrat:321368,avg:80342,cnt:4,priority:'A',area:'cb'},
+  {id:37789,name:'AUTOSERVIS NA ROZCESTÍ s.r.o.',street:'Zavadilka 2095',psc:'37005',city:'České Budějovice',obrat:241000,avg:60250,cnt:4,priority:'A',area:'cb'},
+  {id:32769,name:'BestDrive Czech Republic s.r.o.',street:'Objízdná 1628',psc:'37005',city:'České Budějovice',obrat:215649,avg:53912,cnt:4,priority:'B',area:'cb'},
+  {id:35427,name:'Tomáš Ryba',street:'Lipová 87/18',psc:'37371',city:'Rudolfov',obrat:140906,avg:35226,cnt:4,priority:'B',area:'vychod'},
+  {id:33316,name:'Roman Čížek',street:'Dvorská 209',psc:'38221',city:'Kájov',obrat:130906,avg:32726,cnt:4,priority:'B',area:'jih'},
+  {id:33328,name:'Libor Miška',street:'Střítež 11',psc:'38241',city:'Střítež',obrat:108579,avg:27144,cnt:4,priority:'B',area:'jih'},
+  {id:33544,name:'Auto HR s.r.o.',street:'Čechova 395/59',psc:'37001',city:'České Budějovice',obrat:102148,avg:25537,cnt:4,priority:'B',area:'cb'},
+  {id:33456,name:'Petr Erhart',street:'Dlouhá 1133/33',psc:'37011',city:'České Budějovice',obrat:90752,avg:22688,cnt:4,priority:'B',area:'cb'},
+  {id:33358,name:'Autoservis Vítovec s.r.o.',street:'Jiráskova 250',psc:'37341',city:'Hluboká nad Vltavou',obrat:84722,avg:21180,cnt:4,priority:'B',area:'zapad'},
+  {id:35509,name:'Autoservis Koprna s.r.o.',street:'Křemže 102',psc:'38203',city:'Křemže',obrat:76075,avg:19018,cnt:4,priority:'B',area:'zapad'},
+  {id:33309,name:'Milan Ruschak',street:'Chvalšiny 189',psc:'38208',city:'Chvalšiny',obrat:73150,avg:18287,cnt:4,priority:'B',area:'jih'},
+  {id:35679,name:'Bohumil Šober',street:'Květná 469/11',psc:'37004',city:'České Budějovice',obrat:72340,avg:18085,cnt:4,priority:'B',area:'cb'},
+  {id:33398,name:'AUTO FUTURE s.r.o.',street:'Okružní 595',psc:'37007',city:'České Budějovice',obrat:66624,avg:16656,cnt:4,priority:'B',area:'cb'},
+  {id:34490,name:'D.A.K.Ř.',street:'Markvartice 8',psc:'38232',city:'Zubčice / Markvartice',obrat:65003,avg:16250,cnt:4,priority:'B',area:'jih'},
+  {id:35483,name:'DAŇHEL AGRO a.s.',street:'Divišov 43',psc:'25726',city:'Divišov',obrat:63956,avg:15989,cnt:4,priority:'B',area:'ostatni'},
+  {id:38313,name:'POSEIDON JH, spol. s r.o.',street:'nám. Emy Destinnové 27',psc:'37802',city:'Stráž nad Nežárkou',obrat:62227,avg:15556,cnt:4,priority:'B',area:'vychod'},
+  {id:38080,name:'AUTOPROFI, s.r.o.',street:'Husova tř. 1420',psc:'37005',city:'České Budějovice',obrat:43430,avg:14476,cnt:3,priority:'B',area:'cb'},
+  {id:33350,name:'Pavel Klestil',street:'Palmová 1529/5',psc:'37008',city:'České Budějovice',obrat:43041,avg:10760,cnt:4,priority:'C',area:'cb'},
+  {id:35388,name:'AlphaCARS, s.r.o.',street:'Žerotínova 555/7',psc:'37004',city:'České Budějovice',obrat:42647,avg:10661,cnt:4,priority:'C',area:'cb'},
+  {id:38207,name:'MP AUTOSERVIS MP s.r.o.',street:'Slévárenská 671',psc:'37001',city:'České Budějovice',obrat:38347,avg:12782,cnt:3,priority:'C',area:'cb'},
+  {id:33339,name:'Kubal',street:'–',psc:'–',city:'–',obrat:37233,avg:9308,cnt:4,priority:'C',area:'cb'},
+  {id:33404,name:'EU Autoservis s.r.o.',street:'Nemanická 444/4',psc:'37010',city:'České Budějovice',obrat:35926,avg:8981,cnt:4,priority:'C',area:'cb'},
+  {id:33499,name:'AUTOMA Car spol. s r.o.',street:'Rudolfovská tř. 552',psc:'37001',city:'České Budějovice',obrat:28179,avg:7044,cnt:4,priority:'C',area:'cb'},
+  {id:36680,name:'Auto Balkar s.r.o.',street:'Novohradská 1043/70',psc:'37008',city:'České Budějovice',obrat:26974,avg:8991,cnt:3,priority:'C',area:'cb'},
+  {id:33447,name:'Marek Martinovský',street:'Lipenská 1407/50',psc:'37001',city:'České Budějovice',obrat:25543,avg:6385,cnt:4,priority:'C',area:'cb'},
+  {id:31857,name:'Provozovna České Budějovice',street:'–',psc:'37001',city:'České Budějovice',obrat:23109,avg:5777,cnt:4,priority:'C',area:'cb'},
+  {id:33403,name:'TRIO ložiska spol. s r.o.',street:'K. Světlé 2780/1',psc:'37004',city:'České Budějovice',obrat:20767,avg:5191,cnt:4,priority:'C',area:'cb'},
+  {id:33373,name:'Jan Kroupa',street:'Branišovská 801/11',psc:'37005',city:'České Budějovice',obrat:19621,avg:4905,cnt:4,priority:'C',area:'cb'},
+  {id:34195,name:'DUHA RV s.r.o.',street:'Vodní 233/3',psc:'37001',city:'České Budějovice',obrat:19562,avg:9781,cnt:2,priority:'C',area:'cb'},
+  {id:43968,name:'Ladislav Beňo',street:'Jáchymovská 341',psc:'37344',city:'Zliv',obrat:19333,avg:9666,cnt:2,priority:'C',area:'zapad'},
+  {id:33322,name:'Martin Nečas',street:'Přesecká 26',psc:'37901',city:'Břilice / Třeboň',obrat:18722,avg:6240,cnt:3,priority:'C',area:'vychod'},
+  {id:19972,name:'DM SERVIS CB s.r.o.',street:'Dobrovodská 2284',psc:'37006',city:'České Budějovice',obrat:18019,avg:6006,cnt:3,priority:'C',area:'cb'},
+  {id:37594,name:'AUTODÍLY - CARGO s.r.o.',street:'Dobrovodská 735/1',psc:'37001',city:'České Budějovice',obrat:17711,avg:8855,cnt:2,priority:'C',area:'cb'},
+  {id:33364,name:'Otakar Šobr',street:'Tyršova 215',psc:'37816',city:'Lomnice nad Lužnicí',obrat:17361,avg:4340,cnt:4,priority:'C',area:'vychod'},
+  {id:33338,name:'Marcel Lichtenberg',street:'Čakov 53',psc:'37384',city:'Čakov',obrat:15745,avg:3936,cnt:4,priority:'C',area:'zapad'},
+  {id:44428,name:'Petr Pešek',street:'Plzeňská 617/56',psc:'37004',city:'České Budějovice',obrat:14555,avg:14555,cnt:1,priority:'C',area:'cb'},
+  {id:33401,name:'Brůžek Lubomír',street:'Jílovice 106',psc:'37332',city:'Jílovice u Trhových Svin',obrat:14530,avg:4843,cnt:3,priority:'C',area:'vychod'},
+  {id:34875,name:'Tomáš Albrecht',street:'Zavadilka 2733',psc:'37005',city:'České Budějovice',obrat:12217,avg:3054,cnt:4,priority:'C',area:'cb'},
+  {id:35119,name:'Jan Tisoň',street:'Okružní 828',psc:'37401',city:'Trhové Sviny',obrat:11937,avg:2984,cnt:4,priority:'C',area:'vychod'},
+  {id:34208,name:'J.A.S.I.X',street:'U Trojice',psc:'38101',city:'Český Krumlov',obrat:11762,avg:2940,cnt:4,priority:'C',area:'jih'},
+  {id:35204,name:'Robert Bosch, spol. s r.o.',street:'Roberta Bosche 2678',psc:'37004',city:'České Budějovice',obrat:11568,avg:5784,cnt:2,priority:'C',area:'cb'},
+  {id:38322,name:'Vopravil & Buško, v.o.s.',street:'Dlouhá 423/2',psc:'37005',city:'České Budějovice',obrat:11226,avg:2806,cnt:4,priority:'C',area:'cb'},
+  {id:33357,name:'Radek Lorenc',street:'Hrdějovice 40',psc:'37341',city:'Hrdějovice',obrat:10426,avg:5213,cnt:2,priority:'C',area:'zapad'},
+  {id:33315,name:'OPRAV MOTOR s.r.o.',street:'Hlincová Hora 47',psc:'37371',city:'Hlincová Hora',obrat:10412,avg:2603,cnt:4,priority:'C',area:'vychod'},
+  {id:37860,name:'Jakub Čedík',street:'–',psc:'–',city:'–',obrat:10196,avg:3398,cnt:3,priority:'C',area:'cb'},
+  {id:38057,name:'Aleš Preisler',street:'Komařice 53',psc:'37314',city:'Komařice',obrat:10007,avg:5003,cnt:2,priority:'C',area:'zapad'},
+  {id:35173,name:'Roman Kunc',street:'Pod vodárnou 325',psc:'37367',city:'Borek',obrat:9590,avg:3196,cnt:3,priority:'C',area:'zapad'},
+  {id:33389,name:'Jaroslav Sixl',street:'U Trojice 206',psc:'38101',city:'Český Krumlov',obrat:9518,avg:3172,cnt:3,priority:'C',area:'jih'},
+  {id:34388,name:'Tomáš Kučera',street:'Nákří 78',psc:'37348',city:'Nákří',obrat:9186,avg:4593,cnt:2,priority:'C',area:'zapad'},
+  {id:33406,name:'Bazsó Petr',street:'Hubenov 22',psc:'38242',city:'Kaplice',obrat:8494,avg:2123,cnt:4,priority:'C',area:'jih'},
+  {id:35331,name:'Jiří Seiml',street:'Třebotovice 2481',psc:'37006',city:'České Budějovice',obrat:7392,avg:2464,cnt:3,priority:'C',area:'cb'},
+  {id:11492,name:'Janoušek Motorsport s.r.o.',street:'Přísečná 29',psc:'38101',city:'Přísečná',obrat:7286,avg:2428,cnt:3,priority:'C',area:'jih'},
+  {id:44662,name:'Luboš Kijac',street:'Sídliště 376',psc:'38232',city:'Velešín',obrat:7163,avg:7163,cnt:1,priority:'C',area:'jih'},
+  {id:33387,name:'Karel Prchal',street:'–',psc:'37901',city:'Třeboň',obrat:6975,avg:3487,cnt:2,priority:'C',area:'vychod'},
+  {id:44490,name:'Mts motors s.r.o.',street:'Vrbenská 2710/58',psc:'37006',city:'České Budějovice',obrat:6755,avg:6755,cnt:1,priority:'C',area:'cb'},
+  {id:33421,name:'Matěj Horčic',street:'Třeboňská 479',psc:'37312',city:'Borovany',obrat:6050,avg:6050,cnt:1,priority:'C',area:'vychod'},
+  {id:33462,name:'SVOBODA Trade s.r.o.',street:'Jabloňová 2122/26',psc:'37006',city:'České Budějovice',obrat:5979,avg:1993,cnt:3,priority:'C',area:'cb'},
+  {id:33384,name:'Jan Vávra',street:'Jižní 2367/10',psc:'37010',city:'České Budějovice',obrat:5920,avg:1973,cnt:3,priority:'C',area:'cb'},
+  {id:35678,name:'KAMION SERVIS LIŠOV s.r.o.',street:'Lazna 839/18',psc:'37372',city:'Lišov',obrat:5695,avg:2847,cnt:2,priority:'C',area:'zapad'},
+  {id:33353,name:'Budějovický BUDVAR, n.p.',street:'Karoliny Světlé 4',psc:'37004',city:'České Budějovice',obrat:5456,avg:1364,cnt:4,priority:'C',area:'cb'},
+  {id:33347,name:'AutoservisHP s.r.o.',street:'Jubilejní 38/48',psc:'37010',city:'České Budějovice',obrat:5375,avg:1343,cnt:4,priority:'C',area:'cb'},
+  {id:38233,name:'FM auto s.r.o.',street:'Vitín 160',psc:'37363',city:'Vitín',obrat:5283,avg:2641,cnt:2,priority:'C',area:'zapad'},
+  {id:33329,name:'Vladimír Frantál',street:'Přívorka 366/24',psc:'37372',city:'Lišov',obrat:4883,avg:1220,cnt:4,priority:'C',area:'zapad'},
+  {id:35577,name:'Radoslav Havlík',street:'Na Parcelách 347',psc:'37381',city:'Kamenný Újezd',obrat:4575,avg:4575,cnt:1,priority:'C',area:'zapad'},
+  {id:35248,name:'Milan Bláha',street:'U Pilota 1177',psc:'37006',city:'Srubec',obrat:4532,avg:1510,cnt:3,priority:'C',area:'cb'},
+  {id:33436,name:'Stanislav Matějka',street:'Dunajovická 8',psc:'37901',city:'Třeboň',obrat:4405,avg:4405,cnt:1,priority:'C',area:'vychod'},
+  {id:44609,name:'Vojtěch Weisfeit',street:'Žižkovo nám. 24',psc:'37312',city:'Borovany',obrat:4298,avg:4298,cnt:1,priority:'C',area:'vychod'},
+  {id:34285,name:'Marek Toufar',street:'Dlouhá 341',psc:'37361',city:'Hrdějovice',obrat:4023,avg:2011,cnt:2,priority:'C',area:'zapad'},
+  {id:38335,name:'AUTOHAKLÁK servis s.r.o.',street:'El. Krásnohorské 1867/3',psc:'37006',city:'České Budějovice',obrat:3708,avg:1236,cnt:3,priority:'C',area:'cb'},
+  {id:33331,name:'Miroslav Klimeš',street:'Sokolovského 421',psc:'37382',city:'Včelná',obrat:3702,avg:1234,cnt:3,priority:'C',area:'zapad'},
+  {id:33378,name:'MG import cars s.r.o.',street:'Vidov 27',psc:'37007',city:'Vidov',obrat:3498,avg:1749,cnt:2,priority:'C',area:'cb'},
+  {id:33426,name:'TOMODO s.r.o.',street:'K. Světlé 2238/2',psc:'37004',city:'České Budějovice',obrat:3294,avg:1098,cnt:3,priority:'C',area:'cb'},
+  {id:33313,name:'Jaroslav Masopust',street:'Na Kopečku 732',psc:'37901',city:'Třeboň',obrat:2924,avg:974,cnt:3,priority:'C',area:'vychod'},
+  {id:35292,name:'Richard Poláček',street:'Za Plevnem 242',psc:'38101',city:'Český Krumlov',obrat:2873,avg:2873,cnt:1,priority:'C',area:'jih'},
+  {id:33392,name:'Ing. Jan Kačerovský K+K',street:'Přesecká 164',psc:'37901',city:'Třeboň',obrat:2321,avg:580,cnt:4,priority:'C',area:'vychod'},
+  {id:33362,name:'Hopík',street:'Kaplice',psc:'38200',city:'Kaplice',obrat:2189,avg:1094,cnt:2,priority:'C',area:'jih'},
 ];
 
-const FREQ = {A:'1–2 týdny',B:'1× měsíčně',C:'6–8 týdnů'};
+// ─── PLÁN – geograficky optimalizovaný, 8 schůzek/den ───────────────────────
+function gc(id){return C.find(x=>x.id===id)||{id,name:'?',street:'–',psc:'–',city:'–',obrat:0,avg:0,cnt:0,priority:'C',area:'cb'};}
+const N=(id,name,street,psc,city,area,note)=>({id,name,street,psc,city,obrat:0,avg:0,cnt:0,priority:'N',area,note});
 
-function fmt(n){return n.toLocaleString('cs-CZ');}
+const GEO_PLAN={
+  po:{label:'Pondělí',area:'České Budějovice centrum (do 5 km)',icon:'🏙️',route:'ČB centrum – Suché Vrbné – Čtyři Dvory',customers:[
+    gc(15814),gc(33336),gc(35170),gc(34337),gc(33544),gc(33456),
+    N(99901,'Autoservis ZEKA s.r.o.','–','37001','České Budějovice','cb','ČB – akvizice'),
+    N(99902,'Tomáš Beránek AUTO FRANCE','Krumlovská 1827/10','37007','České Budějovice','cb','ČB Krumlovská – akvizice'),
+  ]},
+  ut:{label:'Úterý',area:'Jih – Český Krumlov / Kájov / Chvalšiny / Kaplice',icon:'🏔️',route:'ČB → Kájov → Křemže → Č. Krumlov → Chvalšiny → Kaplice',customers:[
+    gc(33303),gc(33316),gc(33328),gc(33309),gc(34490),gc(34208),
+    N(99903,'Luboš Kijac','Sídliště 376','38232','Velešín','jih','Velešín – na trase CK–Kaplice'),
+    N(99904,'CHROMÝ CARS s.r.o.','–','38200','Kaplice','jih','Kaplice – akvizice'),
+  ]},
+  st:{label:'Středa',area:'Západ – Hluboká / Křemže / Rožmitál / Šumava',icon:'🌲',route:'ČB → Hluboká → Zliv → Křemže → Rožmitál na Šumavě',customers:[
+    gc(33302),gc(14140),gc(33358),gc(35509),gc(43968),gc(33338),gc(33357),
+    N(99905,'Radoslav Havlík','Na Parcelách 347','37381','Kamenný Újezd','zapad','Kamenný Újezd – akvizice'),
+  ]},
+  ct:{label:'Čtvrtek',area:'Východ – Rudolfov / Třeboň / Stráž / Trhové Sviny',icon:'🏞️',route:'ČB → Rudolfov → Třeboň → Stráž n. Nežárkou → Trhové Sviny',customers:[
+    gc(34673),gc(35427),gc(38313),gc(33322),gc(33364),gc(33401),gc(35119),
+    N(99906,'Pneuservis Třeboň s.r.o.','–','37901','Třeboň','vychod','Třeboň – akvizice'),
+  ]},
+  pa:{label:'Pátek',area:'ČB centrum + okolí do 15 km',icon:'🔄',route:'ČB centrum – Zavadilka – Suché Vrbné – Husova – Palmová',customers:[
+    gc(34200),gc(37789),gc(32769),gc(35679),gc(33398),gc(38080),gc(33350),
+    N(99907,'Nový zákazník CB okolí','–','37001','České Budějovice','cb','ČB okolí – akvizice'),
+  ]},
+};
 
-function priority(c){
-  if(c.priority==='A') return {label:'A',cls:'a'};
-  if(c.priority==='B') return {label:'B',cls:'b'};
-  return {label:'C',cls:'c'};
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function fmt(n){return Math.round(n).toLocaleString('cs-CZ');}
+function fmtAddr(c){
+  const s=c.street&&c.street!=='–'?c.street:'';
+  const ci=c.city&&c.city!=='–'?c.city:'';
+  if(s&&ci) return s+', '+ci;
+  return ci||s||'–';
+}
+function mapsUrl(c){
+  const q=encodeURIComponent((c.street&&c.street!=='–'?c.street+' ':'')+
+    (c.city&&c.city!=='–'?c.city+' ':'')+'Česká republika');
+  return 'https://www.google.com/maps/search/?api=1&query='+q;
+}
+function pri(c){return c.priority==='A'?{l:'A',cls:'a'}:c.priority==='B'?{l:'B',cls:'b'}:{l:'C',cls:'c'};}
+function areaTag(c){
+  return `<span class="area-tag ${AREA_CLS[c.area]||'area-cb'}">${AREA_LABEL[c.area]||c.area}</span>`;
 }
 
-function trend(c){
-  if(c.cnt<2) return '<span class="trend-eq">–</span>';
-  const t=Math.round(Math.random()*3-1);
-  if(t>0) return '<span class="trend-up">▲</span>';
-  if(t<0) return '<span class="trend-dn">▼</span>';
-  return '<span class="trend-eq">→</span>';
+// ─── MODAL ───────────────────────────────────────────────────────────────────
+function openModal(c){
+  const isNew=c.priority==='N';
+  const p=pri(c);
+  document.getElementById('modal-name').textContent=c.name;
+  document.getElementById('modal-sub').textContent='ID '+c.id+(isNew?' · Nový zákazník / akvizice':' · Priorita '+p.l+' · '+FREQ[c.priority]);
+  const addr=fmtAddr(c);
+  document.getElementById('modal-addr-box').innerHTML=
+    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3949ab" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+     <div class="modal-addr-text">
+       <strong>${addr}</strong>${c.psc&&c.psc!=='–'?' · PSČ '+c.psc:''}<br>
+       <a href="${mapsUrl(c)}" target="_blank">Otevřít v Google Mapách →</a>
+     </div>`;
+  document.getElementById('modal-rows').innerHTML=`
+    <div class="modal-row"><span class="k">Město</span><span class="v">${c.city&&c.city!=='–'?c.city:'–'}</span></div>
+    <div class="modal-row"><span class="k">Oblast / Trasa</span><span class="v">${areaTag(c)}</span></div>
+    ${!isNew?`
+    <div class="modal-row"><span class="k">Obrat 4M</span><span class="v obrat">${fmt(c.obrat)} Kč</span></div>
+    <div class="modal-row"><span class="k">Průměr / měsíc</span><span class="v obrat">${fmt(c.avg)} Kč</span></div>
+    <div class="modal-row"><span class="k">Aktivní měsíce</span><span class="v">${c.cnt} / 4</span></div>
+    <div class="modal-row"><span class="k">Frekvence návštěv</span><span class="v">${FREQ[c.priority]}</span></div>`:''}
+    ${c.note?`<div class="modal-row"><span class="k">Poznámka</span><span class="v" style="color:#7c3aed">${c.note}</span></div>`:''}
+  `;
+  document.getElementById('btn-maps').onclick=()=>window.open(mapsUrl(c),'_blank');
+  document.getElementById('modal').classList.add('open');
 }
-
+function closeModal(){document.getElementById('modal').classList.remove('open');}
 function showTab(id,btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  if(btn) btn.classList.add('active');
-  if(id==='zapisky' && !notesLoaded) loadNotes();
+  if(btn)btn.classList.add('active');
+  if(id==='zapisky'&&!notesLoaded)loadNotes();
 }
 
-function openModal(c){
-  const p=priority(c);
-  document.getElementById('modal-name').textContent=c.name;
-  document.getElementById('modal-sub').textContent='ID: '+c.id+' | Priorita '+p.label;
-  document.getElementById('modal-body').innerHTML=`
-    <div class="modal-row"><span class="k">Obrat 4M</span><span class="v">${fmt(c.obrat)} Kč</span></div>
-    <div class="modal-row"><span class="k">Průměr/měsíc</span><span class="v">${fmt(c.avg)} Kč</span></div>
-    <div class="modal-row"><span class="k">Priorita</span><span class="v"><span class="pri pri-${p.cls}">${p.label}</span></span></div>
-    <div class="modal-row"><span class="k">Frekvence návštěv</span><span class="v">${FREQ[c.priority]}</span></div>
-    <div class="modal-row"><span class="k">Měsíce s obratem</span><span class="v">${c.cnt}/4</span></div>
-  `;
-  document.getElementById('modal').classList.add('open');
-}
-
-function closeModal(e){
-  if(e.target===document.getElementById('modal')) document.getElementById('modal').classList.remove('open');
-}
-
-// PŘEHLED
+// ─── PŘEHLED ─────────────────────────────────────────────────────────────────
 function initOverview(){
-  const a=CUSTOMERS.filter(c=>c.priority==='A');
-  const b=CUSTOMERS.filter(c=>c.priority==='B');
-  const cc=CUSTOMERS.filter(c=>c.priority==='C');
-  const active=CUSTOMERS.filter(c=>c.obrat>0);
-  document.getElementById('cnt-a').textContent=a.length;
-  document.getElementById('cnt-b').textContent=b.length;
-  document.getElementById('cnt-c').textContent=cc.length;
-  document.getElementById('cnt-total').textContent=active.length;
-  const tot=CUSTOMERS.reduce((s,c)=>s+c.obrat,0);
-  document.getElementById('total-obrat').textContent=fmt(tot);
-
-  const top=CUSTOMERS.slice(0,10);
-  const tbody=document.getElementById('top10-body');
-  tbody.innerHTML=top.map((c,i)=>{
-    const p=priority(c);
+  const act=C.filter(c=>c.obrat>0);
+  document.getElementById('cnt-a').textContent=act.filter(c=>c.priority==='A').length;
+  document.getElementById('cnt-b').textContent=act.filter(c=>c.priority==='B').length;
+  document.getElementById('cnt-c').textContent=act.filter(c=>c.priority==='C').length;
+  document.getElementById('cnt-total').textContent=act.length;
+  document.getElementById('total-obrat').textContent=fmt(act.reduce((s,c)=>s+c.obrat,0));
+  document.getElementById('top10-body').innerHTML=act.slice(0,10).map((c,i)=>{
+    const p=pri(c);
     return `<tr>
       <td style="color:#aaa;font-size:12px">${i+1}</td>
-      <td><span class="customer-name" onclick="openModal(${JSON.stringify(c).replace(/"/g,'&quot;')})">${c.name}</span></td>
-      <td><span class="pri pri-${p.cls}">${p.label}</span></td>
+      <td><span class="customer-name" onclick='openModal(${JSON.stringify(c)})'>${c.name}</span></td>
+      <td class="addr-cell" title="${c.street}">${c.street&&c.street!=='–'?c.street:'<em style="color:#ccc">–</em>'}</td>
+      <td><span class="city-pill">${c.city&&c.city!=='–'?c.city:'–'}</span></td>
+      <td>${areaTag(c)}</td>
+      <td><span class="pri pri-${p.cls}">${p.l}</span></td>
       <td class="obrat">${fmt(c.obrat)} Kč</td>
       <td class="obrat" style="color:#888">${fmt(c.avg)} Kč</td>
     </tr>`;
   }).join('');
-
-  const alerts=document.getElementById('alerts');
-  const warn=[
-    {icon:'⚠️',txt:'<b>Autodíly Bemar s.r.o.</b> (A) – největší zákazník, zajistit návštěvu v nejbližších dnech.',col:'#fff8e1',brd:'#f9a825'},
-    {icon:'📈',txt:'<b>Oleksandr Babiichuk</b> (A) – vysoký obrat v březnu (160k Kč), zkontrolovat spokojenost.',col:'#e8f5e9',brd:'#388e3c'},
-    {icon:'📉',txt:'<b>BestDrive Czech Republic</b> (B) – obrat výrazně proměnlivý, doporučena pravidelná schůzka.',col:'#fff3e0',brd:'#e65100'},
-  ];
-  alerts.innerHTML=warn.map(w=>`
-    <div style="background:${w.col};border-left:3px solid ${w.brd};border-radius:6px;padding:10px 14px;margin-bottom:8px;font-size:13px">
-      ${w.icon} ${w.txt}
-    </div>`).join('');
+  document.getElementById('alerts').innerHTML=[
+    {i:'⚠️',t:'<b>Autodíly Bemar s.r.o.</b> (A, ČB) – adresa v systému chybí, ověřit při návštěvě.',c:'#fff8e1',b:'#f9a825'},
+    {i:'📈',t:'<b>Oleksandr Babiichuk</b> (A) – Chelčického 96/13, ČB. Obrat top 5, ověřit plán rozvoje.',c:'#e8f5e9',b:'#388e3c'},
+    {i:'🛣️',t:'<b>Středa (Západ)</b> – trasa ČB → Hluboká → Křemže → Rožmitál. Michaela Bílková + Koprna v jednom jízdě.',c:'#e8f0fe',b:'#1a73e8'},
+  ].map(w=>`<div style="background:${w.c};border-left:3px solid ${w.b};border-radius:7px;padding:10px 14px;margin-bottom:8px;font-size:13px">${w.i} ${w.t}</div>`).join('');
 }
 
-// ZÁKAZNÍCI
+// ─── ZÁKAZNÍCI TABULKA ───────────────────────────────────────────────────────
+let sortCol='obrat',sortDir=-1;
+function setSort(col){
+  document.getElementById('sort-by').value=col;
+  if(sortCol===col)sortDir*=-1;else{sortCol=col;sortDir=['name','city','street','area'].includes(col)?1:-1;}
+  renderTable();
+}
 function renderTable(){
   const q=document.getElementById('search').value.toLowerCase();
   const fp=document.getElementById('filter-pri').value;
-  const sort=document.getElementById('sort-by').value;
-  let data=[...CUSTOMERS].filter(c=>c.obrat>0);
-  if(q) data=data.filter(c=>c.name.toLowerCase().includes(q)||String(c.id).includes(q));
+  const fa=document.getElementById('filter-area').value;
+  let data=C.filter(c=>c.obrat>0);
+  if(q) data=data.filter(c=>[c.name,c.street,c.city,c.psc,String(c.id)].join(' ').toLowerCase().includes(q));
   if(fp) data=data.filter(c=>c.priority===fp);
-  if(sort==='name') data.sort((a,b)=>a.name.localeCompare(b.name,'cs'));
-  const tbody=document.getElementById('customer-body');
-  tbody.innerHTML=data.map(c=>{
-    const p=priority(c);
+  if(fa) data=data.filter(c=>c.area===fa);
+  data.sort((a,b)=>{
+    const av=a[sortCol]??'',bv=b[sortCol]??'';
+    return typeof av==='string'?av.localeCompare(bv,'cs')*sortDir:(av-bv)*sortDir;
+  });
+  document.getElementById('customer-body').innerHTML=data.map(c=>{
+    const p=pri(c);
     return `<tr>
-      <td><span class="pri pri-${p.cls}">${p.label}</span></td>
-      <td><span class="customer-name" onclick="openModal(${JSON.stringify(c).replace(/"/g,'&quot;')})">${c.name}</span></td>
-      <td style="color:#aaa;font-size:12px">${c.id}</td>
+      <td><span class="pri pri-${p.cls}">${p.l}</span></td>
+      <td><span class="customer-name" onclick='openModal(${JSON.stringify(c)})'>${c.name}</span></td>
+      <td class="addr-cell" title="${c.street}">${c.street&&c.street!=='–'?c.street:'<span style="color:#ccc">–</span>'}</td>
+      <td><span class="city-pill">${c.city&&c.city!=='–'?c.city:'–'}</span></td>
+      <td>${areaTag(c)}</td>
       <td class="obrat">${fmt(c.obrat)} Kč</td>
       <td class="obrat" style="color:#888">${fmt(c.avg)} Kč</td>
-      <td>${trend(c)}</td>
-      <td style="font-size:12px;color:#666">${FREQ[c.priority]}</td>
+      <td style="font-size:12px;color:#777;white-space:nowrap">${FREQ[c.priority]}</td>
     </tr>`;
   }).join('');
 }
 
-// ── GEOGRAFICKY STRUKTUROVANÝ PLÁN ──────────────────────────────────────────
-// Každý zákazník má přiřazenou oblast podle adresy
-// Oblasti: cb | jih | zapad | vychod
-
-const GEO_PLAN = {
-  // PONDĚLÍ – CB centrum (do 5 km), 6 stávajících + 2 noví CB
-  po: {
-    label:'Pondělí', area:'České Budějovice centrum', icon:'🏙️',
-    customers:[
-      {id:15814,name:'Autodíly Bemar s.r.o.',city:'ČB – centrum',obrat:840215,avg:210054,cnt:4,priority:'A'},
-      {id:33336,name:'Martin Havlík',city:'ČB – Čtyři Dvory',obrat:517143,avg:129286,cnt:4,priority:'A'},
-      {id:35170,name:'Oleksandr Babiichuk',city:'ČB – centrum',obrat:500390,avg:125098,cnt:4,priority:'A'},
-      {id:34337,name:'MOGUL AUTO-PLUS s.r.o.',city:'ČB – Suché Vrbné',obrat:415594,avg:103899,cnt:4,priority:'A'},
-      {id:33544,name:'Auto HR s.r.o.',city:'ČB – centrum',obrat:102148,avg:25537,cnt:4,priority:'B'},
-      {id:33456,name:'Petr Erhart',city:'ČB – Rožnov',obrat:90752,avg:22688,cnt:4,priority:'B'},
-      {id:33316,name:'Roman Čížek – NOVÝ',city:'ČB oblast – akvizice',obrat:0,avg:0,cnt:0,priority:'N',note:'Kájov – blízko ČB'},
-      {id:35509,name:'Autoservis ZEKA s.r.o.',city:'ČB – akvizice',obrat:0,avg:0,cnt:0,priority:'N',note:'Nový zákazník ČB'},
-    ]
-  },
-  // ÚTERÝ – Jih: Kaplice, Český Krumlov, Větřní, Chvalšiny, Střítež, D.A.K.Ř.
-  ut: {
-    label:'Úterý', area:'Jih – Kaplice / Český Krumlov / Chvalšiny', icon:'🏔️',
-    customers:[
-      {id:33303,name:'Ladislav Hovorka',city:'Český Krumlov',obrat:472634,avg:118159,cnt:4,priority:'A'},
-      {id:33316,name:'Roman Čížek',city:'Kájov',obrat:130906,avg:32727,cnt:4,priority:'B'},
-      {id:33328,name:'Libor Miška',city:'Střítež',obrat:108579,avg:27145,cnt:4,priority:'B'},
-      {id:33309,name:'Milan Ruschak',city:'Chvalšiny',obrat:73150,avg:18288,cnt:4,priority:'B'},
-      {id:34490,name:'D.A.K.Ř.',city:'Markvartice / Zubčice',obrat:65003,avg:16251,cnt:4,priority:'B'},
-      {id:34208,name:'J.A.S.I.X',city:'Český Krumlov',obrat:11762,avg:2941,cnt:4,priority:'C'},
-      {id:44662,name:'Luboš Kijac – NOVÝ',city:'Velešín (akvizice)',obrat:0,avg:0,cnt:0,priority:'N',note:'Na trase CK–Kaplice'},
-      {id:33362,name:'CHROMÝ CARS s.r.o. – NOVÝ',city:'Kaplice (akvizice)',obrat:0,avg:0,cnt:0,priority:'N',note:'Nový zákazník Kaplice'},
-    ]
-  },
-  // STŘEDA – Západ: Rožmitál, Hluboká, Křemže, Neplachov, Hrdějovice, Zliv, Lišov
-  st: {
-    label:'Středa', area:'Západ – Šumava / Hluboká / Rožmitál', icon:'🌲',
-    customers:[
-      {id:33302,name:'Michaela Bílková',city:'Rožmitál na Šumavě',obrat:557720,avg:139430,cnt:4,priority:'A'},
-      {id:14140,name:'HB automateriál spol. s r.o.',city:'ČB – Novohradská (západ. trasa)',obrat:513977,avg:128494,cnt:4,priority:'A'},
-      {id:33358,name:'Autoservis Vítovec s.r.o.',city:'Hluboká nad Vltavou',obrat:84722,avg:21181,cnt:4,priority:'B'},
-      {id:35509,name:'Autoservis Koprna s.r.o.',city:'Křemže',obrat:76075,avg:19019,cnt:4,priority:'B'},
-      {id:43968,name:'Ladislav Beňo',city:'Zliv',obrat:19333,avg:9667,cnt:2,priority:'C'},
-      {id:33338,name:'Marcel Lichtenberg',city:'Čakov',obrat:15745,avg:3936,cnt:4,priority:'C'},
-      {id:33354,name:'Radek Lorenc',city:'Hrdějovice',obrat:10426,avg:5213,cnt:2,priority:'C'},
-      {id:35577,name:'Radoslav Havlík – NOVÝ',city:'Kamenný Újezd (akvizice)',obrat:0,avg:0,cnt:0,priority:'N',note:'Na trase západ'},
-    ]
-  },
-  // ČTVRTEK – Východ: Třeboň, Rudolfov, J.Hradec, Stráž, Borovany, Trhové Sviny, Lomnice
-  ct: {
-    label:'Čtvrtek', area:'Východ – Třeboň / Rudolfov / Jindřichův Hradec', icon:'🏞️',
-    customers:[
-      {id:34673,name:'Jan Nezbeda',city:'Třeboň',obrat:372959,avg:93240,cnt:4,priority:'A'},
-      {id:35427,name:'Tomáš Ryba',city:'Rudolfov',obrat:140906,avg:35227,cnt:4,priority:'B'},
-      {id:38313,name:'POSEIDON JH, spol. s r.o.',city:'Stráž nad Nežárkou',obrat:62227,avg:15557,cnt:4,priority:'B'},
-      {id:33322,name:'Martin Nečas',city:'Břilice / Třeboň',obrat:18722,avg:6241,cnt:3,priority:'C'},
-      {id:33364,name:'Otakar Šobr',city:'Lomnice nad Lužnicí',obrat:17361,avg:4340,cnt:4,priority:'C'},
-      {id:33401,name:'Brůžek Lubomír',city:'Jílovice / Trhové Sviny',obrat:14530,avg:4843,cnt:3,priority:'C'},
-      {id:35119,name:'Jan Tisoň',city:'Trhové Sviny',obrat:11937,avg:2984,cnt:4,priority:'C'},
-      {id:35757,name:'Pneuservis Třeboň – NOVÝ',city:'Třeboň (akvizice)',obrat:0,avg:0,cnt:0,priority:'N',note:'Nový zákazník Třeboň'},
-    ]
-  },
-  // PÁTEK – CB centrum + okolí do 15 km: Rudolfov, Lišov, Srubec, Hrdějovice, Borek, Ševětín
-  pa: {
-    label:'Pátek', area:'České Budějovice + okolí do 15 km', icon:'🔄',
-    customers:[
-      {id:34200,name:'Maloobchod České Budějovice',city:'ČB – centrum',obrat:321368,avg:80342,cnt:4,priority:'A'},
-      {id:37789,name:'AUTOSERVIS NA ROZCESTÍ s.r.o.',city:'ČB – Zavadilka',obrat:241000,avg:60250,cnt:4,priority:'A'},
-      {id:32769,name:'BestDrive Czech Republic s.r.o.',city:'ČB – Objízdná',obrat:215649,avg:53912,cnt:4,priority:'B'},
-      {id:35679,name:'Bohumil Šober',city:'ČB – centrum',obrat:72340,avg:18085,cnt:4,priority:'B'},
-      {id:33398,name:'AUTO FUTURE s.r.o.',city:'ČB – Okružní',obrat:66624,avg:16656,cnt:4,priority:'B'},
-      {id:38080,name:'AUTOPROFI, s.r.o.',city:'ČB – Husova',obrat:43430,avg:14477,cnt:3,priority:'B'},
-      {id:33350,name:'Pavel Klestil',city:'ČB – Palmová',obrat:43041,avg:10760,cnt:4,priority:'C'},
-      {id:37502,name:'Tomáš Beránek AUTO FRANCE – NOVÝ',city:'ČB – Krumlovská (akvizice)',obrat:0,avg:0,cnt:0,priority:'N',note:'Nový zákazník okolí ČB'},
-    ]
-  }
-};
-
-// PLÁN TÝDNE – geograficky optimalizovaný, 8 schůzek/den
+// ─── PLÁN TÝDNE ──────────────────────────────────────────────────────────────
 function initPlan(){
-  const today=new Date();
-  const days=['po','ut','st','ct','pa'];
-  const dates=[];
-  let d=new Date(today);
-  const dow=d.getDay();
-  const toMon=dow===1?0:dow===0?1:(8-dow);
-  d.setDate(d.getDate()+toMon);
-  for(let i=0;i<5;i++){
-    const nd=new Date(d);
-    nd.setDate(d.getDate()+i);
-    dates.push(nd);
-  }
-
-  const grid=document.getElementById('week-grid');
-  grid.innerHTML=days.map((key,i)=>{
+  const keys=['po','ut','st','ct','pa'];
+  const d=new Date(),dow=d.getDay();
+  d.setDate(d.getDate()+(dow===1?0:dow===0?1:8-dow));
+  const dates=keys.map((_,i)=>{const nd=new Date(d);nd.setDate(d.getDate()+i);return nd;});
+  document.getElementById('week-grid').innerHTML=keys.map((key,i)=>{
     const dp=GEO_PLAN[key];
-    const dt=dates[i];
-    const ds=dt.toLocaleDateString('cs-CZ',{day:'numeric',month:'numeric'});
-    const items=dp.customers;
+    const ds=dates[i].toLocaleDateString('cs-CZ',{day:'numeric',month:'numeric'});
     return `<div class="day-card">
       <div class="day-head">
-        <span>${dp.label} ${ds}</span>
-        <span style="float:right;font-size:11px;opacity:.75">${items.length} schůzek</span>
-        <div style="font-size:11px;opacity:.8;margin-top:2px">${dp.icon} ${dp.area}</div>
+        <div class="day-head-top"><span>${dp.label} ${ds}</span><span style="opacity:.7;font-size:11px">${dp.customers.length} schůzek</span></div>
+        <div class="day-head-sub">${dp.icon} ${dp.area}</div>
+        <div class="day-head-route">🛣 ${dp.route}</div>
       </div>
-      <div class="day-body">
-        ${items.map(c=>{
-          const isNew=c.priority==='N';
-          const borderCls=isNew?'pri-n-border':('pri-'+priority(c).cls+'-border');
-          const priLabel=isNew?'NOVÝ':('Priorita '+priority(c).label);
-          const meta=isNew
-            ? `🆕 Akvizice – ${c.note||'nový zákazník'}`
-            : `${priLabel} · ${c.city} · ${c.avg?fmt(Math.round(c.avg/1000))+'k/m':'–'}`;
-          const cData=JSON.stringify({...c,name:c.name.replace(/ – NOVÝ$/,'')}).replace(/"/g,'&quot;');
-          const displayName=c.name.replace(/ – NOVÝ$/,'');
-          return `<div class="visit-item ${borderCls}" onclick="openModal(${cData})">
-            <div class="visit-name">${displayName}${isNew?'<span class="tag new-tag">NOVÝ</span>':''}</div>
-            <div class="visit-meta">${meta}</div>
-          </div>`;
-        }).join('')}
-      </div>
+      <div class="day-body">${dp.customers.map(c=>{
+        if(!c)return '';
+        const isNew=c.priority==='N';
+        const bc=isNew?'pri-n-border':'pri-'+pri(c).cls+'-border';
+        const addr=fmtAddr(c);
+        const meta=isNew?`🆕 ${c.note||'Akvizice'}`:`Priorita ${pri(c).l} · ${fmt(c.avg)}k/m`;
+        return `<div class="visit-item ${bc}" onclick='openModal(${JSON.stringify(c)})'>
+          <div class="visit-name">${c.name}${isNew?'<span class="tag new-tag">NOVÝ</span>':''}</div>
+          <div class="visit-addr">📍 ${addr}</div>
+          <div class="visit-meta">${meta}</div>
+        </div>`;
+      }).join('')}</div>
     </div>`;
   }).join('');
 }
 
-// ZÁPISKY – Google Sheets
-let notesLoaded=false;
-let allNotes=[];
-
+// ─── ZÁPISKY ─────────────────────────────────────────────────────────────────
+let notesLoaded=false,allNotes=[];
 async function loadNotes(){
   const dot=document.getElementById('notes-status-dot');
-  const txt=document.getElementById('notes-status-text');
+  const stxt=document.getElementById('notes-status-text');
   const grid=document.getElementById('notes-grid');
   dot.className='status-dot loading';
-  txt.textContent='Načítám zápisky ze Google Sheets...';
+  stxt.textContent='Načítám zápisky ze Google Sheets…';
   grid.innerHTML='<div class="notes-empty"><p class="loading-dots">Načítám</p></div>';
-
   try{
-    const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Sheet1`;
-    const res=await fetch(url);
-    const raw=await res.text();
+    const raw=await(await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Sheet1`)).text();
     const json=JSON.parse(raw.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
-    const rows=json.table.rows||[];
     const cols=json.table.cols.map(c=>c.label);
-
-    allNotes=rows.map(r=>{
-      const vals=r.c.map(cell=>cell?cell.v||cell.f||'':'');
-      const obj={};
-      cols.forEach((col,i)=>obj[col]=vals[i]||'');
-      return obj;
+    allNotes=(json.table.rows||[]).map(r=>{
+      const o={};cols.forEach((col,i)=>o[col]=r.c[i]?r.c[i].v||r.c[i].f||'':'');return o;
     }).filter(r=>r['Zákazník']||r['Datum']);
-
     notesLoaded=true;
     dot.className='status-dot';
-    txt.textContent=`Načteno ${allNotes.length} zápisků`;
-
-    // populate filter
-    const fil=document.getElementById('notes-filter');
+    stxt.textContent=`Načteno ${allNotes.length} zápisků`;
     const names=[...new Set(allNotes.map(n=>n['Zákazník']).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'cs'));
-    fil.innerHTML='<option value="">Všichni zákazníci</option>'+names.map(n=>`<option>${n}</option>`).join('');
-
+    document.getElementById('notes-filter').innerHTML='<option value="">Všichni zákazníci</option>'+names.map(n=>`<option>${n}</option>`).join('');
     renderNotes(allNotes);
   }catch(e){
     dot.className='status-dot error';
-    txt.textContent='Chyba při načítání – zkontrolujte sdílení Google Sheets (veřejný přístup pro čtení)';
-    grid.innerHTML=`<div class="notes-empty">
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#e63329" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <p style="color:#e63329;margin-top:8px;font-size:13px">${e.message||'Nelze načíst data'}</p>
-      <p style="color:#aaa;font-size:12px;margin-top:4px">Ujistěte se, že sheet je veřejně dostupný (Sdílet → Kdokoli s odkazem → Prohlížitel)</p>
-    </div>`;
+    stxt.textContent='Chyba při načítání – ověřte sdílení Google Sheets';
+    grid.innerHTML=`<div class="notes-empty"><p style="color:#e63329">${e.message}</p><p style="font-size:12px;color:#aaa;margin-top:4px">Sdílet → Kdokoli s odkazem → Prohlížitel</p></div>`;
   }
 }
-
 function renderNotes(notes){
   const grid=document.getElementById('notes-grid');
-  if(!notes.length){
-    grid.innerHTML='<div class="notes-empty"><p style="color:#aaa">Žádné zápisky nenalezeny</p></div>';
-    return;
-  }
-  grid.innerHTML=notes.map(n=>{
-    const datum=n['Datum']||'';
-    const zakaznik=n['Zákazník']||'';
-    const cil=n['Cíl schůzky']||'';
-    const shrnuti=n['Shrnutí']||'';
-    const ukoly=n['Úkoly']||'';
-    const pristi=n['Plán příští schůzky']||'';
-    return `<div class="note-card">
-      <div class="note-header">
-        <div>
-          <div class="note-customer">${zakaznik}</div>
-        </div>
-        <div class="note-date">${datum}</div>
-      </div>
-      <div class="note-fields">
-        ${cil?`<div class="note-field"><div class="note-field-label">Cíl schůzky</div><div class="note-field-val">${cil}</div></div>`:''}
-        ${shrnuti?`<div class="note-field"><div class="note-field-label">Shrnutí</div><div class="note-field-val">${shrnuti}</div></div>`:''}
-        ${ukoly?`<div class="note-field"><div class="note-field-label">Úkoly</div><div class="note-field-val">${ukoly}</div></div>`:''}
-        ${pristi?`<div class="note-field"><div class="note-field-label">Plán příští schůzky</div><div class="note-field-val">${pristi}</div></div>`:''}
-      </div>
-    </div>`;
-  }).join('');
+  if(!notes.length){grid.innerHTML='<div class="notes-empty"><p>Žádné zápisky nenalezeny</p></div>';return;}
+  grid.innerHTML=notes.map(n=>`<div class="note-card">
+    <div class="note-header">
+      <div class="note-customer">${n['Zákazník']||'–'}</div>
+      <div class="note-date">${n['Datum']||''}</div>
+    </div>
+    <div class="note-fields">
+      ${[['Cíl schůzky'],['Shrnutí'],['Úkoly'],['Plán příští schůzky']].map(([k])=>n[k]?`<div class="note-field"><div class="note-field-label">${k}</div><div class="note-field-val">${n[k]}</div></div>`:'').join('')}
+    </div>
+  </div>`).join('');
 }
-
 function filterNotes(){
   const q=document.getElementById('notes-search').value.toLowerCase();
-  const cust=document.getElementById('notes-filter').value;
-  let filtered=allNotes;
-  if(cust) filtered=filtered.filter(n=>n['Zákazník']===cust);
-  if(q) filtered=filtered.filter(n=>Object.values(n).join(' ').toLowerCase().includes(q));
-  renderNotes(filtered);
+  const cu=document.getElementById('notes-filter').value;
+  renderNotes(allNotes.filter(n=>(!cu||n['Zákazník']===cu)&&(!q||Object.values(n).join(' ').toLowerCase().includes(q))));
 }
 
-initOverview();
-renderTable();
-initPlan();
-loadNotes();
+initOverview();renderTable();initPlan();loadNotes();
 </script>
 </body>
 </html>
