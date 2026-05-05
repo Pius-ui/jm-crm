@@ -143,6 +143,35 @@ tr:hover td{background:#fafbfc}
 .save-status{font-size:13px;font-weight:500}
 .save-status.ok{color:#16a34a}
 .save-status.err{color:#e63329}
+
+/* ── AI DIKTOVÁNÍ ─────────────────────────────────────── */
+.dictation-box{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);border-radius:12px;padding:16px;margin-bottom:16px;color:#fff}
+.dictation-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap}
+.dictation-title{font-size:13px;font-weight:700;letter-spacing:.3px;opacity:.9}
+.dictation-api-row{display:flex;gap:6px;align-items:center;flex:1;min-width:200px}
+.dictation-api-row input{flex:1;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:5px 10px;font-size:12px;color:#fff;min-width:0}
+.dictation-api-row input::placeholder{color:rgba(255,255,255,.4)}
+.dictation-api-row input:focus{outline:none;border-color:rgba(255,255,255,.6)}
+.api-saved-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;flex-shrink:0;display:none}
+.api-saved-dot.visible{display:inline-block}
+.mic-area{display:flex;flex-direction:column;align-items:center;gap:10px;margin:4px 0 8px}
+.mic-btn{width:70px;height:70px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:28px;transition:all .2s}
+.mic-btn.idle{background:rgba(255,255,255,.15)}
+.mic-btn.idle:hover{background:rgba(255,255,255,.25)}
+.mic-btn.recording{background:#e63329;animation:mic-pulse 1.4s ease-out infinite}
+.mic-btn.processing{background:rgba(250,204,21,.2);cursor:not-allowed}
+@keyframes mic-pulse{0%{box-shadow:0 0 0 0 rgba(230,51,41,.6)}70%{box-shadow:0 0 0 16px rgba(230,51,41,0)}100%{box-shadow:0 0 0 0 rgba(230,51,41,0)}}
+.mic-label{font-size:12px;opacity:.7;text-align:center}
+.transcript-box{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:10px 12px;font-size:13px;color:#e2e8f0;min-height:56px;max-height:110px;overflow-y:auto;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.transcript-box.empty{color:rgba(255,255,255,.3);font-style:italic}
+.ai-btn{background:linear-gradient(90deg,#7c3aed,#4f46e5);color:#fff;border:none;border-radius:7px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
+.ai-btn:hover{filter:brightness(1.12)}
+.ai-btn:disabled{filter:grayscale(1);cursor:not-allowed;opacity:.55}
+.ai-spinner-el{width:14px;height:14px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.ai-status{font-size:12px;opacity:.85;min-height:18px}
+.dictation-or{display:flex;align-items:center;gap:8px;margin:14px 0 2px;color:rgba(255,255,255,.35);font-size:12px}
+.dictation-or::before,.dictation-or::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.12)}
+
 </style>
 </head>
 <body>
@@ -234,32 +263,8 @@ tr:hover td{background:#fafbfc}
       Obnovit
     </button>
   </div>
-  <div class="status-bar"><span class="status-dot" id="notes-status-dot"></span><span id="notes-status-text">Načítám…</span></div>
-  <div id="apps-script-setup" style="background:#fffbeb;border:1px solid #fcd34d;border-radius:9px;padding:14px 16px;margin-bottom:14px;font-size:13px;line-height:1.7">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
-      <strong>⚙️ Propojení s Google Sheets – nastavení URL</strong>
-      <button onclick="toggleSetup()" style="font-size:12px;background:#fef3c7;border:1px solid #fcd34d;border-radius:5px;padding:3px 9px;cursor:pointer;color:#92400e">Zobrazit návod</button>
-    </div>
-    <div id="setup-detail" style="display:none;margin-top:10px;border-top:1px solid #fde68a;padding-top:10px">
-      <b>Krok 1</b> – Otevři <a href="https://script.google.com" target="_blank" style="color:#b45309;font-weight:600">script.google.com</a> → Nový projekt a vlož kód:<br>
-      <code style="display:block;background:#fef3c7;padding:8px 10px;border-radius:6px;margin:7px 0;font-size:11px;white-space:pre;border:1px solid #fde68a">function doGet(e){
-  var p=e.parameter;
-  var ss=SpreadsheetApp.openById('12rKG3kLopCDSIwZaqWYvQNmPDsFAXeioP5QGQvW6N0w');
-  var sh=ss.getSheets()[0];
-  if(sh.getLastRow()===0) sh.appendRow(['Datum','Zákazník','Cíl schůzky','Shrnutí','Úkoly','Plán příští schůzky']);
-  sh.appendRow([p.datum,p.zakaznik,p.cil,p.shrnuti,p.ukoly,p.pristi]);
-  return ContentService.createTextOutput(JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);
-}</code>
-      <b>Krok 2</b> – Nasadit → Nové nasazení → Typ: <em>Webová aplikace</em> → Spustit jako: <em>Já</em> → Přístup: <em>Kdokoli</em><br>
-      <b>Krok 3</b> – Zkopíruj URL nasazení a vlož do pole níže.
-    </div>
-    <div style="display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap">
-      <input type="text" id="asurl-input" placeholder="Vlož URL Apps Script (https://script.google.com/macros/s/…/exec)"
-        style="flex:1;min-width:200px;border:1.5px solid #fcd34d;border-radius:7px;padding:8px 12px;font-size:13px;background:#fff;color:#1a2744"
-        oninput="saveAppsScriptUrl(this.value)">
-      <span id="asurl-status" style="font-size:12px;font-weight:500;white-space:nowrap"></span>
-    </div>
-  </div>
+  <div class="status-bar"><span class="status-dot" id="notes-status-dot"></span><span id="notes-status-text">Načítám zápisky…</span></div>
+  <p style="font-size:12px;color:#aaa;margin-bottom:10px">Zápisky se načítají přímo z Google Sheets. Aby byly viditelné, musí být sheet nastaven jako <strong>veřejný pro čtení</strong> (Sdílet → Kdokoli s odkazem → Prohlížitel).</p>
   <div class="notes-grid" id="notes-grid"><div class="notes-empty"><p class="loading-dots">Načítám zápisky</p></div></div>
 </div>
 
@@ -292,32 +297,59 @@ tr:hover td{background:#fafbfc}
     </div>
     <div class="form-modal-body">
       <div class="form-date-row">
-        <label>📅 Datum schůzky:</label>
+        <label>Datum:</label>
         <input type="date" id="fm-datum">
       </div>
+
+      <div class="dictation-box">
+        <div class="dictation-top">
+          <span class="dictation-title">&#127908; AI Diktovani</span>
+          <div class="dictation-api-row">
+            <input type="password" id="api-key-input" placeholder="Anthropic API klic (sk-ant-...)" oninput="saveApiKey(this.value)">
+            <span class="api-saved-dot" id="api-saved-dot" title="API klic ulozen"></span>
+          </div>
+        </div>
+        <div class="mic-area">
+          <button class="mic-btn idle" id="mic-btn" onclick="toggleRecording()">&#127908;</button>
+          <div class="mic-label" id="mic-label">Stiskni pro zahajeni diktovani</div>
+        </div>
+        <div style="margin-bottom:10px">
+          <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">Prepis hlasu</div>
+          <div class="transcript-box empty" id="transcript-box">Zde se zobrazi prepis vasecho diktovani...</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+          <button class="ai-btn" id="ai-parse-btn" onclick="parseWithClaude()" disabled>
+            <span class="ai-spinner-el" id="ai-spinner"></span>
+            &#10024; Zpracovat pomoci Claude
+          </button>
+          <div class="ai-status" id="ai-status"></div>
+        </div>
+        <div class="dictation-or">nebo vyplnte rucne</div>
+      </div>
+
       <div class="form-field">
-        <label>Cíl schůzky</label>
-        <textarea id="fm-cil" rows="2" placeholder="S čím jsem tam šel – co jsem chtěl projednat…"></textarea>
+        <label>Cil schuzky</label>
+        <textarea id="fm-cil" rows="2" placeholder="S cim jsem tam sel - co jsem chtel projednat..."></textarea>
       </div>
       <div class="form-field">
-        <label>Shrnutí</label>
-        <textarea id="fm-shrnuti" rows="3" placeholder="Co se řešilo, jak schůzka proběhla…"></textarea>
+        <label>Shrnuti</label>
+        <textarea id="fm-shrnuti" rows="3" placeholder="Co se resilo, jak schuzka probehla..."></textarea>
       </div>
       <div class="form-field">
-        <label>Úkoly</label>
-        <textarea id="fm-ukoly" rows="2" placeholder="Konkrétní kroky – co udělat po schůzce…"></textarea>
+        <label>Ukoly</label>
+        <textarea id="fm-ukoly" rows="2" placeholder="Konkretni kroky - co udelat po schuzce..."></textarea>
       </div>
       <div class="form-field">
-        <label>Plán příští schůzky</label>
-        <textarea id="fm-pristi" rows="2" placeholder="Co příště řešit, kdy se vrátit…"></textarea>
+        <label>Plan pristi schuzky</label>
+        <textarea id="fm-pristi" rows="2" placeholder="Co priste resit, kdy se vratit..."></textarea>
       </div>
     </div>
     <div class="form-modal-actions">
       <button class="btn-save" id="btn-save" onclick="saveToSheets()">
         <span class="save-spinner" id="save-spinner"></span>
-        💾 Uložit do Google Sheets
+        Ulozit do Google Sheets
       </button>
-      <button class="btn btn-outline" onclick="closeFormModal()">Zrušit</button>
+      <button class="btn btn-outline" onclick="closeFormModal()">Zrusit</button>
       <span class="save-status" id="save-status"></span>
     </div>
   </div>
@@ -329,41 +361,143 @@ const FREQ={A:'každé 1–2 týdny',B:'1× měsíčně',C:'1× za 6–8 týdnů
 const AREA_LABEL={cb:'ČB centrum',jih:'Jih',zapad:'Západ',vychod:'Východ',ostatni:'Ostatní'};
 const AREA_CLS={cb:'area-cb',jih:'area-jih',zapad:'area-zapad',vychod:'area-vychod',ostatni:'area-ostatni'};
 
-// ─── FORMULÁŘ ZÁPISU SCHŮZKY ─────────────────────────────────────────────────
-// Nastavte APPS_SCRIPT_URL po nasazení Google Apps Script (viz instrukce níže)
-// Apps Script URL – uložená v localStorage pro trvalost
+// === KONFIGURACE ===
 let APPS_SCRIPT_URL = localStorage.getItem('crm_apps_script_url') || '';
+let ANTHROPIC_API_KEY = localStorage.getItem('crm_api_key') || '';
 
-function toggleSetup(){
-  const d=document.getElementById('setup-detail');
-  d.style.display=d.style.display==='none'?'block':'none';
+
+function saveApiKey(val){
+  ANTHROPIC_API_KEY=val.trim();
+  localStorage.setItem('crm_api_key',ANTHROPIC_API_KEY);
+  const dot=document.getElementById('api-saved-dot');
+  if(dot) dot.classList.toggle('visible', ANTHROPIC_API_KEY.startsWith('sk-ant-'));
 }
 
-function saveAppsScriptUrl(val){
-  APPS_SCRIPT_URL = val.trim();
-  localStorage.setItem('crm_apps_script_url', APPS_SCRIPT_URL);
-  const st=document.getElementById('asurl-status');
-  if(APPS_SCRIPT_URL && APPS_SCRIPT_URL.includes('script.google.com')){
-    st.textContent='✅ URL uložena';st.style.color='#16a34a';
-  } else if(APPS_SCRIPT_URL){
-    st.textContent='⚠️ Zkontroluj URL formát';st.style.color='#b45309';
-  } else {
-    st.textContent='';
-  }
-}
-
-// Načti uloženou URL při startu
 window.addEventListener('DOMContentLoaded',()=>{
-  const stored=localStorage.getItem('crm_apps_script_url');
-  if(stored){
-    const inp=document.getElementById('asurl-input');
-    if(inp) inp.value=stored;
-    APPS_SCRIPT_URL=stored;
-    const st=document.getElementById('asurl-status');
-    if(st&&stored.includes('script.google.com')){st.textContent='✅ URL uložena';st.style.color='#16a34a';}
-  }
+  // Restore API key indicator
+  if(ANTHROPIC_API_KEY){const dot=document.getElementById('api-saved-dot');if(dot&&ANTHROPIC_API_KEY.startsWith('sk-ant-'))dot.classList.add('visible');}
 });
 
+// === AI DIKTOVANI ===
+let mediaRecorder=null, audioChunks=[], isRecording=false, transcriptText='';
+
+async function toggleRecording(){
+  if(isRecording) stopRecording();
+  else await startRecording();
+}
+
+async function startRecording(){
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+    const mimeType=['audio/webm;codecs=opus','audio/webm','audio/ogg','audio/mp4',''].find(m=>!m||MediaRecorder.isTypeSupported(m));
+    mediaRecorder=new MediaRecorder(stream,mimeType?{mimeType}:{});
+    audioChunks=[];
+    mediaRecorder.ondataavailable=e=>{if(e.data&&e.data.size>0)audioChunks.push(e.data);};
+    mediaRecorder.onstop=()=>{stream.getTracks().forEach(t=>t.stop());handleAudioReady();};
+    mediaRecorder.start(250);
+    isRecording=true;
+    setMicState('recording');
+    setAiStatus('Nahravam...', 'rgba(255,255,255,.8)');
+  }catch(e){
+    setAiStatus('Mikrofon nedostupny: '+e.message,'#f87171');
+  }
+}
+
+function stopRecording(){
+  if(mediaRecorder&&mediaRecorder.state!=='inactive') mediaRecorder.stop();
+  isRecording=false;
+  setMicState('processing');
+}
+
+function setMicState(state){
+  const btn=document.getElementById('mic-btn');
+  const lbl=document.getElementById('mic-label');
+  if(!btn) return;
+  if(state==='idle'){btn.className='mic-btn idle';btn.innerHTML='&#127908;';lbl.textContent='Stiskni pro zahajeni diktovani';}
+  else if(state==='recording'){btn.className='mic-btn recording';btn.innerHTML='&#9209;';lbl.textContent='Nahravam... stiskni pro zastaveni';}
+  else if(state==='processing'){btn.className='mic-btn processing';btn.innerHTML='&#8987;';lbl.textContent='Prepisuji zvuk...';}
+}
+
+async function handleAudioReady(){
+  if(!ANTHROPIC_API_KEY||!ANTHROPIC_API_KEY.startsWith('sk-ant-')){
+    setAiStatus('Zadej Anthropic API klic vyse (sk-ant-...)','#fbbf24');
+    setMicState('idle');return;
+  }
+  if(audioChunks.length===0){setAiStatus('Zadny zvuk nezaznamenan','#f87171');setMicState('idle');return;}
+  const blob=new Blob(audioChunks,{type:mediaRecorder.mimeType||'audio/webm'});
+  setAiStatus('Prepisuji zvuk pomoci Claude...','#a5b4fc');
+  const reader=new FileReader();
+  reader.onloadend=async()=>{
+    const b64=reader.result.split(',')[1];
+    const mt=(mediaRecorder.mimeType||'audio/webm').split(';')[0];
+    try{
+      const resp=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':ANTHROPIC_API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1024,messages:[{role:'user',content:[
+          {type:'text',text:'Prepis tento zvukovy zaznam do textu. Vrat pouze samotny prepis, bez uvodu a bez komentare. Jazyk: cestina.'},
+          {type:'document',source:{type:'base64',media_type:mt,data:b64}}
+        ]}]})
+      });
+      if(!resp.ok){const err=await resp.json().catch(()=>({}));throw new Error(err.error?.message||('HTTP '+resp.status));}
+      const data=await resp.json();
+      transcriptText=data.content[0].text.trim();
+      const box=document.getElementById('transcript-box');
+      box.textContent=transcriptText;
+      box.classList.remove('empty');
+      document.getElementById('ai-parse-btn').disabled=false;
+      setAiStatus('Prepis hotov - stiskni Zpracovat pomoci Claude','#4ade80');
+    }catch(e){
+      setAiStatus('Chyba prepisu: '+e.message,'#f87171');
+    }
+    setMicState('idle');
+  };
+  reader.readAsDataURL(blob);
+}
+
+async function parseWithClaude(){
+  if(!transcriptText){setAiStatus('Nejprve nadiktuj text','#fbbf24');return;}
+  if(!ANTHROPIC_API_KEY||!ANTHROPIC_API_KEY.startsWith('sk-ant-')){setAiStatus('Zadej Anthropic API klic','#fbbf24');return;}
+  const btn=document.getElementById('ai-parse-btn');
+  const spinner=document.getElementById('ai-spinner');
+  btn.disabled=true; if(spinner) spinner.style.display='inline-block';
+  setAiStatus('Claude zpracovava zaznam...','#a5b4fc');
+  const cName=currentVisitCustomer?.name||'zakaznik';
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':ANTHROPIC_API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:
+        'Jsi CRM asistent obchodniho zastupce JM Autodily. Zakaznik: '+cName+'.\n\n'+
+        'Nize je prepis diktovaneho zaznamu ze schuzky. Rozdel ho do 4 poli CRM systemu.\n'+
+        'Odpovez POUZE platnym JSON objektem bez markdown, bez komentaru:\n\n'+
+        '{"cil":"Cil schuzky","shrnuti":"Shrnuti prubehu","ukoly":"Konkretni ukoly","pristi":"Plan pristi schuzky"}\n\n'+
+        'Kazde pole prepis do spisovne cestiny, strucne a vecne. Pokud informace chybi, nechej pole prazdne.\n\n'+
+        'PREPIS:\n'+transcriptText
+      }]})
+    });
+    if(!resp.ok){const err=await resp.json().catch(()=>({}));throw new Error(err.error?.message||('HTTP '+resp.status));}
+    const data=await resp.json();
+    let raw=data.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
+    const parsed=JSON.parse(raw);
+    ['cil','shrnuti','ukoly','pristi'].forEach(k=>{
+      const el=document.getElementById('fm-'+k);
+      if(el&&parsed[k]!==undefined) el.value=parsed[k]||'';
+    });
+    setAiStatus('Pole vyplnena - zkontroluj a uloz','#4ade80');
+  }catch(e){
+    setAiStatus('Chyba Claude: '+e.message,'#f87171');
+    btn.disabled=false;
+  }
+  if(spinner) spinner.style.display='none';
+}
+
+function setAiStatus(msg,color){
+  const el=document.getElementById('ai-status');
+  if(el){el.textContent=msg;el.style.color=color||'rgba(255,255,255,.8)';}
+}
+
+// === FORMULAR SCHUZKY ===
 let currentVisitCustomer=null;
 const doneSessions=new Set();
 
