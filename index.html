@@ -561,8 +561,8 @@ function closeModal(){document.getElementById('modal').classList.remove('open');
 function openRecFromDetail(){if(!_detailCust)return;closeModal();openRec(_detailCust);}
 
 // ── ZÁPIS – DIKTOVACÍ FLOW ────────────────────────────────────────────────────
-let recCust=null, mediaRecorder=null, audioChunks=[], isRecording=false;
-let transcriptText='', parsedData=null;
+let recCust=null, recognition=null, isRecording=false;
+let transcriptText='', parsedData=null, interimText='';
 const doneSessions=new Set();
 
 // Fáze: 'idle' | 'recording' | 'transcribing' | 'parsed' | 'saving' | 'saved'
@@ -573,7 +573,7 @@ function openRec(c,evt){
     return;
   }
   recCust=c;
-  transcriptText=''; parsedData=null; audioChunks=[];
+  transcriptText=''; parsedData=null; interimText='';
   document.getElementById('rec-customer-name').textContent=c.name+(c.city&&c.city!=='–'?' · '+c.city:'');
   document.getElementById('rec-datum').value=new Date().toISOString().split('T')[0];
   document.getElementById('rec-transcript').textContent='Zde se zobrazí přepis vašeho diktování…';
@@ -608,13 +608,13 @@ function setRecPhase(phase){
     ring.className='rec-mic-ring recording'; ring.innerHTML='⏹️'; ring.onclick=()=>stopRecording(true);
     if(lbl) lbl.textContent='Nahrávám… stiskni pro zastavení';
     wave.classList.add('active');
-    setRecStatus('Mluvte přirozeně – popište cíl, průběh, úkoly a co příště…','rgba(255,255,255,.8)');
+    setRecStatus('🎤 Mluvte přirozeně – přepis probíhá živě v prohlížeči','rgba(255,255,255,.8)');
     actions.innerHTML=`<button class="rec-btn-primary" onclick="stopRecording(true)" style="background:linear-gradient(90deg,#dc2626,#b91c1c)">⏹️ Zastavit nahrávání</button><button class="rec-btn-secondary" onclick="closeRec()">Zrušit</button>`;
   } else if(phase==='transcribing'){
     ring.className='rec-mic-ring processing'; ring.innerHTML='⌛'; ring.onclick=null;
-    if(lbl) lbl.textContent='Přepisuji zvuk…';
+    if(lbl) lbl.textContent='Zpracovávám…';
     wave.classList.remove('active');
-    setRecStatus('Přepisuji zvuk pomocí Claude…','#a5b4fc');
+    setRecStatus('Zpracovávám přepis…','#a5b4fc');
     actions.innerHTML=`<button class="rec-btn-secondary" onclick="closeRec()">Zrušit</button>`;
   } else if(phase==='parsing'){
     ring.className='rec-mic-ring processing'; ring.innerHTML='✨'; ring.onclick=null;
@@ -646,94 +646,129 @@ function setRecStatus(msg,color){
 }
 
 async function startRecording(){
-  try{
-    const stream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
-    const mimeType=['audio/webm;codecs=opus','audio/webm','audio/ogg','audio/mp4',''].find(m=>!m||MediaRecorder.isTypeSupported(m));
-    mediaRecorder=new MediaRecorder(stream,mimeType?{mimeType}:{});
-    audioChunks=[];
-    mediaRecorder.ondataavailable=e=>{if(e.data&&e.data.size>0)audioChunks.push(e.data);};
-    mediaRecorder.onstop=()=>{stream.getTracks().forEach(t=>t.stop());processAudio();};
-    mediaRecorder.start(200);
+  // Zkontroluj podporu Web Speech API
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SpeechRec){
+    setRecStatus('❌ Váš prohlížeč nepodporuje rozpoznávání hlasu. Použijte Chrome nebo Edge.','#f87171');
+    setRecPhase('idle'); return;
+  }
+  transcriptText=''; interimText='';
+  const trBox=document.getElementById('rec-transcript');
+  trBox.textContent=''; trBox.classList.remove('empty');
+
+  recognition = new SpeechRec();
+  recognition.lang='cs-CZ';
+  recognition.continuous=true;
+  recognition.interimResults=true;
+  recognition.maxAlternatives=1;
+
+  recognition.onstart=()=>{
     isRecording=true;
     setRecPhase('recording');
+  };
+
+  recognition.onresult=(e)=>{
+    let interim='', final='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      const t=e.results[i][0].transcript;
+      if(e.results[i].isFinal) final+=t+' ';
+      else interim+=t;
+    }
+    if(final) transcriptText+=final;
+    interimText=interim;
+    // Zobraz finální + interim text živě
+    trBox.textContent=(transcriptText+interimText).trim()||'…';
+    trBox.classList.remove('empty');
+  };
+
+  recognition.onerror=(e)=>{
+    if(e.error==='aborted') return; // normální zastavení
+    const msgs={
+      'not-allowed':'Přístup k mikrofonu zamítnut – povol v nastavení prohlížeče.',
+      'no-speech':'Nebyl zachycen žádný hlas – zkus znovu.',
+      'network':'Chyba sítě – zkontroluj připojení.',
+      'audio-capture':'Mikrofon není dostupný.',
+    };
+    setRecStatus('❌ '+(msgs[e.error]||'Chyba: '+e.error),'#f87171');
+    isRecording=false; setRecPhase('idle');
+  };
+
+  recognition.onend=()=>{
+    // Pokud ještě isRecording (nebylo voláno stopRecording), restartuj pro kontinuální nahrávání
+    if(isRecording){
+      try{ recognition.start(); }catch(e){}
+    }
+  };
+
+  try{
+    recognition.start();
   }catch(e){
-    setRecStatus('❌ Mikrofon nedostupný: '+e.message,'#f87171');
+    setRecStatus('❌ Nelze spustit mikrofon: '+e.message,'#f87171');
     setRecPhase('idle');
   }
 }
 
 function stopRecording(process=true){
-  if(mediaRecorder&&mediaRecorder.state!=='inactive') mediaRecorder.stop();
   isRecording=false;
-  if(process) setRecPhase('transcribing');
+  if(recognition){ try{ recognition.stop(); }catch(e){} recognition=null; }
+  // Přidej interim text pokud zbyl
+  if(interimText){ transcriptText+=' '+interimText; interimText=''; }
+  transcriptText=transcriptText.trim();
+  if(process && transcriptText){
+    setRecPhase('parsing');
+    parseTranscript();
+  } else if(process){
+    setRecStatus('Žádný text nebyl zachycen – zkus znovu.','#fbbf24');
+    setRecPhase('idle');
+  }
 }
 
 function retryRec(){
-  transcriptText=''; parsedData=null; audioChunks=[];
-  document.getElementById('rec-transcript').textContent='Zde se zobrazí přepis vašeho diktování…';
-  document.getElementById('rec-transcript').classList.add('empty');
+  transcriptText=''; parsedData=null; interimText='';
+  const trBox=document.getElementById('rec-transcript');
+  trBox.textContent='Zde se zobrazí přepis vašeho diktování…';
+  trBox.classList.add('empty');
   document.getElementById('rec-result').classList.remove('visible');
   setRecPhase('idle');
   setTimeout(startRecording, 200);
 }
 
-async function processAudio(){
-  if(!audioChunks.length){setRecStatus('Žádný zvuk – zkus znovu','#f87171');setRecPhase('idle');return;}
-  const blob=new Blob(audioChunks,{type:mediaRecorder?.mimeType||'audio/webm'});
-  const reader=new FileReader();
-  reader.onloadend=async()=>{
-    const b64=reader.result.split(',')[1];
-    const mt=(mediaRecorder?.mimeType||'audio/webm').split(';')[0];
-    // STEP 1: Transcribe
-    try{
-      const r1=await fetch('https://api.anthropic.com/v1/messages',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:[
-          {type:'text',text:'Přepiš tento zvukový záznam přesně do textu. Vrať pouze přepis, bez úvodu, bez komentáře. Zachovej přirozený mluvený projev. Jazyk: čeština.'},
-          {type:'document',source:{type:'base64',media_type:mt,data:b64}}
-        ]}]})
-      });
-      if(!r1.ok){const e=await r1.json().catch(()=>({}));throw new Error(e.error?.message||'HTTP '+r1.status);}
-      const d1=await r1.json();
-      transcriptText=d1.content[0].text.trim();
-      const trBox=document.getElementById('rec-transcript');
-      trBox.textContent=transcriptText; trBox.classList.remove('empty');
-    }catch(e){
-      setRecStatus('❌ Chyba přepisu: '+e.message,'#f87171');
-      setRecPhase('idle'); return;
-    }
-    // STEP 2: Parse with Claude
-    setRecPhase('parsing');
-    const cName=recCust?.name||'zákazník';
-    try{
-      const r2=await fetch('https://api.anthropic.com/v1/messages',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:
-          `Jsi CRM asistent obchodního zástupce JM Autodíly. Zákazník: ${cName}.\n\n`+
-          `Níže je přepis diktovaného záznamu ze schůzky. Rozděl ho do 4 polí CRM systému.\n`+
-          `Odpověz POUZE platným JSON objektem bez markdown:\n\n`+
-          `{"cil":"Cíl schůzky – s čím tam šel, co chtěl projednat","shrnuti":"Shrnutí – co se řešilo, jak schůzka dopadla","ukoly":"Úkoly – konkrétní kroky po schůzce","pristi":"Plán příští schůzky – kdy a co řešit"}\n\n`+
-          `Každé pole uprav do spisovné češtiny, stručně a věcně. Pokud info chybí, nechej prázdné.\n\nPŘEPIS:\n${transcriptText}`
-        }]})
-      });
-      if(!r2.ok){const e=await r2.json().catch(()=>({}));throw new Error(e.error?.message||'HTTP '+r2.status);}
-      const d2=await r2.json();
-      let raw=d2.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
-      parsedData=JSON.parse(raw);
-      document.getElementById('rv-cil').textContent=parsedData.cil||'–';
-      document.getElementById('rv-shrnuti').textContent=parsedData.shrnuti||'–';
-      document.getElementById('rv-ukoly').textContent=parsedData.ukoly||'–';
-      document.getElementById('rv-pristi').textContent=parsedData.pristi||'–';
-      document.getElementById('rec-result').classList.add('visible');
-      setRecPhase('parsed');
-    }catch(e){
-      setRecStatus('❌ Chyba Claude: '+e.message,'#f87171');
-      setRecPhase('idle');
-    }
-  };
-  reader.readAsDataURL(blob);
+async function parseTranscript(){
+  if(!transcriptText.trim()){
+    setRecStatus('Prázdný přepis – zkus znovu.','#fbbf24');
+    setRecPhase('idle'); return;
+  }
+  // Zobraz přepis
+  const trBox=document.getElementById('rec-transcript');
+  trBox.textContent=transcriptText; trBox.classList.remove('empty');
+
+  const cName=recCust?.name||'zákazník';
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:
+        `Jsi CRM asistent obchodního zástupce JM Autodíly. Zákazník: ${cName}.\n\n`+
+        `Níže je přepis diktovaného záznamu ze schůzky. Rozděl ho do 4 polí CRM systému.\n`+
+        `Odpověz POUZE platným JSON objektem bez markdown, bez komentářů:\n\n`+
+        `{"cil":"Cíl schůzky – s čím tam šel, co chtěl projednat","shrnuti":"Shrnutí – co se řešilo, jak schůzka dopadla","ukoly":"Úkoly – konkrétní kroky po schůzce","pristi":"Plán příští schůzky – kdy a co řešit"}\n\n`+
+        `Každé pole uprav do spisovné češtiny, stručně a věcně. Pokud info chybí, nechej prázdné.\n\nPŘEPIS:\n${transcriptText}`
+      }]})
+    });
+    if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error?.message||'HTTP '+r.status);}
+    const d=await r.json();
+    let raw=d.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
+    parsedData=JSON.parse(raw);
+    document.getElementById('rv-cil').textContent=parsedData.cil||'–';
+    document.getElementById('rv-shrnuti').textContent=parsedData.shrnuti||'–';
+    document.getElementById('rv-ukoly').textContent=parsedData.ukoly||'–';
+    document.getElementById('rv-pristi').textContent=parsedData.pristi||'–';
+    document.getElementById('rec-result').classList.add('visible');
+    setRecPhase('parsed');
+  }catch(e){
+    setRecStatus('❌ Chyba Claude: '+e.message,'#f87171');
+    setRecPhase('idle');
+  }
 }
 
 async function saveToSheets(){
