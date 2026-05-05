@@ -7,32 +7,40 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:15px}
-header{background:#1a2744;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.18)}
-header .logo{background:#e63329;border-radius:6px;padding:4px 9px;font-weight:700;font-size:13px;letter-spacing:.5px}
-header h1{font-size:16px;font-weight:500}
-header .sub{font-size:12px;opacity:.6;margin-left:auto}
+
+/* ── HEADER & NAV ─────────────────────────────────────────────────────────── */
+header{background:#1a2744;color:#fff;padding:13px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+header .logo{background:#e63329;border-radius:6px;padding:4px 8px;font-weight:700;font-size:13px;letter-spacing:.5px;flex-shrink:0}
+header h1{font-size:15px;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.api-corner-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:8px;color:#fff;font-size:12px;padding:5px 10px;cursor:pointer;display:flex;align-items:center;gap:5px;flex-shrink:0;transition:.15s}
+.api-corner-btn:hover{background:rgba(255,255,255,.22)}
+.api-corner-dot{width:7px;height:7px;border-radius:50%;background:#6b7280;flex-shrink:0}
+.api-corner-dot.ok{background:#4ade80}
 nav{background:#fff;border-bottom:1px solid #e0e0e0;display:flex;overflow-x:auto;position:sticky;top:49px;z-index:99}
-nav button{background:none;border:none;padding:12px 18px;font-size:14px;color:#555;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:.15s}
+nav button{background:none;border:none;padding:11px 16px;font-size:14px;color:#555;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:.15s}
 nav button.active{color:#1a2744;border-bottom-color:#e63329;font-weight:600}
 nav button:hover:not(.active){background:#f9f9f9}
-.tab{display:none;padding:16px}
-.tab.active{display:block}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
-.stat{background:#fff;border-radius:10px;padding:14px 16px;border:.5px solid #e0e0e0}
-.stat .num{font-size:26px;font-weight:700;color:#1a2744}
+.tab{display:none;padding:16px}.tab.active{display:block}
+
+/* ── STATS ────────────────────────────────────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px;margin-bottom:18px}
+.stat{background:#fff;border-radius:10px;padding:13px 15px;border:.5px solid #e0e0e0}
+.stat .num{font-size:25px;font-weight:700;color:#1a2744}
 .stat .lbl{font-size:12px;color:#888;margin-top:2px}
-.stat .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;margin-top:4px}
+.stat .badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;margin-top:3px}
 .badge-a{background:#fff0f0;color:#c0392b}.badge-b{background:#fff8e1;color:#b7770d}.badge-c{background:#e8f5e9;color:#2e7d32}
-.section-title{font-size:13px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.5px;margin:0 0 10px}
-.toolbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
-.toolbar input,.toolbar select{border:1px solid #ddd;border-radius:7px;padding:8px 12px;font-size:14px;background:#fff}
-.toolbar input{flex:1;min-width:160px}
+.section-title{font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin:0 0 10px}
+
+/* ── TABLE ────────────────────────────────────────────────────────────────── */
+.toolbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.toolbar input,.toolbar select{border:1px solid #ddd;border-radius:7px;padding:8px 11px;font-size:13px;background:#fff}
+.toolbar input{flex:1;min-width:150px}
 .tbl-wrap{overflow-x:auto;border-radius:10px;border:.5px solid #e0e0e0}
 table{width:100%;border-collapse:collapse;background:#fff;font-size:13px}
 thead{background:#f8f9fb}
-th{padding:10px 12px;text-align:left;font-weight:500;color:#555;border-bottom:1px solid #eee;white-space:nowrap;cursor:pointer;user-select:none}
+th{padding:9px 11px;text-align:left;font-weight:500;color:#666;border-bottom:1px solid #eee;white-space:nowrap;cursor:pointer;user-select:none}
 th:hover{background:#f0f2f5}
-td{padding:8px 12px;border-bottom:.5px solid #f0f0f0;vertical-align:middle}
+td{padding:8px 11px;border-bottom:.5px solid #f0f0f0;vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#fafbfc}
 .pri{display:inline-block;width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;font-size:11px;font-weight:700;color:#fff}
@@ -40,38 +48,45 @@ tr:hover td{background:#fafbfc}
 .obrat{font-variant-numeric:tabular-nums;font-weight:600;color:#1a2744}
 .customer-name{font-weight:500;cursor:pointer;color:#1a2744}
 .customer-name:hover{color:#e63329;text-decoration:underline}
-.addr-cell{color:#555;font-size:12px;max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.addr-cell{color:#555;font-size:12px;max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .city-pill{display:inline-block;background:#f0f4ff;color:#3949ab;font-size:11px;padding:2px 8px;border-radius:10px;white-space:nowrap}
 .tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;background:#eef2ff;color:#3949ab;margin-left:4px}
 .new-tag{background:#ede9fe;color:#5b21b6}
 .area-tag{font-size:11px;padding:2px 7px;border-radius:8px;display:inline-block;white-space:nowrap}
-.area-cb{background:#e8f0fe;color:#1a73e8}
-.area-jih{background:#fce8e6;color:#c62828}
-.area-zapad{background:#e6f4ea;color:#2e7d32}
-.area-vychod{background:#fff3e0;color:#e65100}
+.area-cb{background:#e8f0fe;color:#1a73e8}.area-jih{background:#fce8e6;color:#c62828}
+.area-zapad{background:#e6f4ea;color:#2e7d32}.area-vychod{background:#fff3e0;color:#e65100}
 .area-ostatni{background:#f3e8ff;color:#7c3aed}
+
+/* ── PLÁN ─────────────────────────────────────────────────────────────────── */
 .week-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
 .day-card{background:#fff;border-radius:10px;border:.5px solid #e0e0e0;overflow:hidden}
 .day-head{background:#1a2744;color:#fff;padding:10px 12px;line-height:1.5}
 .day-head-top{display:flex;justify-content:space-between;font-size:13px;font-weight:600}
 .day-head-sub{font-size:11px;opacity:.8;margin-top:2px}
-.day-head-route{font-size:10px;opacity:.58;margin-top:2px}
+.day-head-route{font-size:10px;opacity:.55;margin-top:2px}
 .day-body{padding:8px}
-.visit-item{border-left:3px solid #ccc;padding:6px 8px;margin-bottom:5px;border-radius:0 6px 6px 0;cursor:pointer;transition:.1s}
+.visit-item{border-left:3px solid #ccc;padding:6px 8px;margin-bottom:5px;border-radius:0 6px 6px 0;transition:.1s}
 .visit-item:last-child{margin-bottom:0}
-.visit-item:hover{filter:brightness(.96)}
 .visit-item.pri-a-border{border-left-color:#c0392b;background:#fff8f8}
 .visit-item.pri-b-border{border-left-color:#e67e22;background:#fffdf5}
 .visit-item.pri-c-border{border-left-color:#27ae60;background:#f6fff7}
 .visit-item.pri-n-border{border-left-color:#7c3aed;background:#f5f3ff}
+.visit-item.done{opacity:.6;background:#f0fdf4!important;border-left-color:#16a34a!important}
+.visit-item.done .visit-name::after{content:' ✓';color:#16a34a;font-size:11px}
 .visit-name{font-size:12.5px;font-weight:600;color:#1a2744;line-height:1.3}
 .visit-addr{font-size:11px;color:#666;margin-top:1px}
 .visit-meta{font-size:11px;color:#999;margin-top:2px}
-.notes-toolbar{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap}
-.notes-toolbar input,.notes-toolbar select{border:1px solid #ddd;border-radius:7px;padding:8px 12px;font-size:14px;background:#fff}
-.notes-toolbar input{flex:1;min-width:150px}
+.visit-row{display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
+.visit-info{flex:1;min-width:0;cursor:pointer}
+.visit-info:hover .visit-name{color:#e63329}
+.btn-zapisat{background:#16a34a;color:#fff;font-size:10px;padding:4px 8px;border-radius:5px;border:none;cursor:pointer;white-space:nowrap;font-weight:600;margin-top:3px;display:flex;align-items:center;gap:3px;flex-shrink:0}
+.btn-zapisat:hover{background:#15803d}
+
+/* ── ZÁPISKY ─────────────────────────────────────────────────────────────── */
+.notes-toolbar{display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap}
+.notes-toolbar input,.notes-toolbar select{border:1px solid #ddd;border-radius:7px;padding:8px 11px;font-size:13px;background:#fff}
+.notes-toolbar input{flex:1;min-width:140px}
 .notes-toolbar button{border:none;border-radius:7px;padding:8px 14px;font-size:13px;background:#1a2744;color:#fff;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap}
-.notes-toolbar button:hover{background:#243460}
 .notes-grid{display:grid;gap:12px}
 .note-card{background:#fff;border-radius:10px;border:.5px solid #e0e0e0;padding:14px 16px}
 .note-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:8px}
@@ -83,186 +98,184 @@ tr:hover td{background:#fafbfc}
 .note-field-label{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
 .note-field-val{font-size:13px;color:#1a2744;line-height:1.5}
 .notes-empty{text-align:center;padding:40px 20px;color:#aaa}
-.loading-dots::after{content:'...';animation:dots 1.2s steps(4,end) infinite}
-@keyframes dots{0%,20%{content:'.'}40%{content:'..'}60%,100%{content:'...'}}
-.status-bar{font-size:12px;color:#888;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.status-bar{font-size:12px;color:#888;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .status-dot{width:8px;height:8px;border-radius:50%;background:#27ae60;display:inline-block}
 .status-dot.loading{background:#e67e22;animation:pulse 1s ease-in-out infinite}
 .status-dot.error{background:#c0392b}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.loading-dots::after{content:'...';animation:dots 1.2s steps(4,end) infinite}
+@keyframes dots{0%,20%{content:'.'}40%{content:'..'}60%,100%{content:'...'}}
+
+/* ── MODALS (detail zákazníka) ────────────────────────────────────────────── */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center;padding:16px}
 .modal-bg.open{display:flex}
-.modal{background:#fff;border-radius:14px;width:min(520px,100%);max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25)}
-.modal-header{background:#1a2744;color:#fff;padding:18px 20px;border-radius:14px 14px 0 0;position:relative}
-.modal-header h2{font-size:16px;font-weight:600;padding-right:30px;line-height:1.4}
+.modal{background:#fff;border-radius:14px;width:min(500px,100%);max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.modal-header{background:#1a2744;color:#fff;padding:16px 18px;border-radius:14px 14px 0 0;position:relative}
+.modal-header h2{font-size:15px;font-weight:600;padding-right:28px;line-height:1.4}
 .modal-header .msub{font-size:12px;opacity:.7;margin-top:3px}
-.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:#fff;font-size:22px;cursor:pointer;opacity:.7;line-height:1}
+.modal-close{position:absolute;top:12px;right:14px;background:none;border:none;color:#fff;font-size:22px;cursor:pointer;opacity:.7;line-height:1}
 .modal-close:hover{opacity:1}
-.modal-body{padding:16px 20px}
-.modal-addr-box{background:#f0f4ff;border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px;font-size:13px}
-.modal-addr-box svg{flex-shrink:0;margin-top:1px;color:#3949ab}
+.modal-body{padding:14px 18px}
+.modal-addr-box{background:#f0f4ff;border-radius:8px;padding:10px 13px;margin-bottom:12px;display:flex;align-items:flex-start;gap:9px;font-size:13px}
 .modal-addr-text{line-height:1.5}
 .modal-addr-text a{color:#3949ab;text-decoration:none;font-weight:500;font-size:12px}
-.modal-addr-text a:hover{text-decoration:underline}
-.modal-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:.5px solid #f0f0f0;font-size:14px;gap:8px}
+.modal-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:.5px solid #f0f0f0;font-size:13px;gap:8px}
 .modal-row:last-child{border-bottom:none}
-.modal-row .k{color:#888;font-size:13px;flex-shrink:0}
+.modal-row .k{color:#888;flex-shrink:0}
 .modal-row .v{font-weight:500;text-align:right}
-.modal-actions{padding:0 20px 18px;display:flex;gap:8px;flex-wrap:wrap}
-.btn{border-radius:7px;padding:8px 16px;font-size:13px;cursor:pointer;border:none;font-weight:500}
-.btn-primary{background:#1a2744;color:#fff}.btn-primary:hover{background:#243460}
+.modal-actions{padding:0 18px 16px;display:flex;gap:8px;flex-wrap:wrap}
+.btn{border-radius:7px;padding:8px 14px;font-size:13px;cursor:pointer;border:none;font-weight:500}
 .btn-maps{background:#4285f4;color:#fff}.btn-maps:hover{background:#3367d6}
+.btn-green{background:#16a34a;color:#fff}.btn-green:hover{background:#15803d}
 .btn-outline{background:#f4f5f7;color:#1a2744;border:1px solid #ddd}.btn-outline:hover{background:#e9eaec}
-.btn-zapisat{background:#16a34a;color:#fff;font-size:11px;padding:4px 9px;border-radius:5px;border:none;cursor:pointer;margin-top:5px;display:inline-flex;align-items:center;gap:4px;font-weight:600}
-.btn-zapisat:hover{background:#15803d}
-.visit-item.done{opacity:.65;background:#f0fdf4!important;border-left-color:#16a34a!important}
-.visit-item.done .visit-name::after{content:' ✓';color:#16a34a;font-size:11px}
-.form-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;align-items:center;justify-content:center;padding:16px}
-.form-modal-bg.open{display:flex}
-.form-modal{background:#fff;border-radius:14px;width:min(560px,100%);max-height:92vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.3)}
-.form-modal-header{background:#16a34a;color:#fff;padding:18px 20px;border-radius:14px 14px 0 0;position:relative}
-.form-modal-header h2{font-size:15px;font-weight:600;padding-right:32px;line-height:1.4}
-.form-modal-header .fmsub{font-size:12px;opacity:.8;margin-top:3px}
-.form-modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:#fff;font-size:22px;cursor:pointer;opacity:.7;line-height:1}
-.form-modal-close:hover{opacity:1}
-.form-modal-body{padding:18px 20px}
-.form-date-row{display:flex;gap:10px;align-items:center;margin-bottom:16px;background:#f0fdf4;border-radius:8px;padding:10px 14px;flex-wrap:wrap}
-.form-date-row label{font-size:13px;color:#166534;font-weight:600}
-.form-date-row input[type=date]{border:1px solid #bbf7d0;border-radius:6px;padding:6px 10px;font-size:13px;background:#fff;color:#1a2744}
-.form-field{margin-bottom:14px}
-.form-field label{display:block;font-size:12px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
-.form-field textarea{width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:10px 12px;font-size:13px;font-family:inherit;resize:vertical;min-height:72px;color:#1a2744;transition:border .15s;line-height:1.5}
-.form-field textarea:focus{outline:none;border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.1)}
-.form-field textarea::placeholder{color:#ccc}
-.form-modal-actions{padding:4px 20px 18px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.btn-save{background:#16a34a;color:#fff;padding:10px 22px;font-size:14px;font-weight:600;border-radius:7px;border:none;cursor:pointer}
-.btn-save:hover{background:#15803d}
-.btn-save:disabled{background:#9ca3af;cursor:not-allowed}
-.save-spinner{display:none;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.save-status{font-size:13px;font-weight:500}
-.save-status.ok{color:#16a34a}
-.save-status.err{color:#e63329}
 
-/* ── DIKTOVÁNÍ OVERLAY ──────────────────────────────────────────── */
-.dictation-overlay{display:none;position:fixed;inset:0;background:rgba(10,15,30,.92);z-index:500;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px)}
-.dictation-overlay.open{display:flex}
-.dictation-panel{background:linear-gradient(160deg,#0f172a 0%,#1e3a5f 100%);border-radius:20px;padding:28px 24px;width:min(420px,100%);color:#fff;box-shadow:0 32px 80px rgba(0,0,0,.5);text-align:center}
-.dictation-panel h3{font-size:16px;font-weight:700;margin-bottom:4px}
-.dictation-panel .dp-sub{font-size:12px;opacity:.6;margin-bottom:24px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.mic-ring{width:96px;height:96px;border-radius:50%;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 16px;cursor:pointer;transition:all .2s;user-select:none}
-.mic-ring:hover{background:rgba(255,255,255,.18)}
-.mic-ring.recording{background:#e63329;border-color:#e63329;animation:mic-pulse 1.4s ease-out infinite;box-shadow:0 0 0 0 rgba(230,51,41,.6)}
-.mic-ring.processing{background:rgba(250,204,21,.2);border-color:rgba(250,204,21,.4);cursor:default}
-@keyframes mic-pulse{0%{box-shadow:0 0 0 0 rgba(230,51,41,.5)}70%{box-shadow:0 0 0 20px rgba(230,51,41,0)}100%{box-shadow:0 0 0 0 rgba(230,51,41,0)}}
-.mic-ring-label{font-size:13px;opacity:.75;margin-bottom:18px;min-height:20px}
-.dictation-wave{display:flex;align-items:center;justify-content:center;gap:4px;height:28px;margin-bottom:18px}
-.dictation-wave span{display:inline-block;width:4px;border-radius:2px;background:rgba(255,255,255,.35);height:6px}
-.dictation-wave.active span{animation:wave 1.1s ease-in-out infinite}
-.dictation-wave.active span:nth-child(2){animation-delay:.15s}
-.dictation-wave.active span:nth-child(3){animation-delay:.3s}
-.dictation-wave.active span:nth-child(4){animation-delay:.45s}
-.dictation-wave.active span:nth-child(5){animation-delay:.6s}
-@keyframes wave{0%,100%{height:6px;opacity:.35}50%{height:22px;opacity:1}}
-.transcript-preview{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:12px 14px;font-size:13px;color:#cbd5e1;min-height:52px;max-height:100px;overflow-y:auto;text-align:left;line-height:1.5;white-space:pre-wrap;word-break:break-word;margin-bottom:16px}
-.transcript-preview.empty{color:rgba(255,255,255,.3);font-style:italic}
-.dp-status{font-size:12px;min-height:18px;margin-bottom:14px}
-.dp-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.dp-btn-process{background:linear-gradient(90deg,#7c3aed,#4f46e5);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
-.dp-btn-process:hover{filter:brightness(1.12)}
-.dp-btn-process:disabled{opacity:.45;cursor:not-allowed;filter:none}
-.dp-btn-cancel{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer}
-.dp-btn-cancel:hover{background:rgba(255,255,255,.18)}
-.dp-spinner{width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
-/* Tlačítko Nadiktovat vše ve formuláři */
-.btn-diktovat{background:linear-gradient(90deg,#1a2744,#243460);color:#fff;border:none;border-radius:8px;padding:11px 18px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;width:100%;justify-content:center;margin-bottom:16px;transition:.15s}
-.btn-diktovat:hover{filter:brightness(1.12)}
-.btn-diktovat .mic-icon{font-size:18px}
-/* Nastavení tab */
-.settings-card{background:#fff;border-radius:12px;border:.5px solid #e0e0e0;padding:20px;margin-bottom:16px}
-.settings-card h3{font-size:14px;font-weight:700;color:#1a2744;margin-bottom:4px}
-.settings-card p{font-size:13px;color:#888;margin-bottom:14px;line-height:1.5}
-.settings-input-row{display:flex;gap:8px;align-items:center}
-.settings-input-row input{flex:1;border:1.5px solid #e0e0e0;border-radius:8px;padding:9px 12px;font-size:14px;color:#1a2744;transition:.15s}
-.settings-input-row input:focus{outline:none;border-color:#1a2744}
-.settings-save-btn{background:#1a2744;color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
-.settings-save-btn:hover{background:#243460}
-.api-status-badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;padding:6px 12px;border-radius:8px;margin-top:10px}
-.api-status-badge.ok{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
-.api-status-badge.err{background:#fff0f0;color:#c0392b;border:1px solid #fecaca}
-.api-status-badge.none{background:#f8f9fb;color:#888;border:1px solid #e0e0e0}
+/* ── DIKTOVACÍ MODAL (ZÁPIS) ─────────────────────────────────────────────── */
+.rec-modal-bg{display:none;position:fixed;inset:0;background:rgba(8,12,24,.95);z-index:400;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.rec-modal-bg.open{display:flex}
+.rec-panel{background:linear-gradient(150deg,#0f172a 0%,#162040 50%,#1a2744 100%);border-radius:22px;width:min(440px,100%);color:#fff;box-shadow:0 40px 100px rgba(0,0,0,.6);overflow:hidden}
+.rec-header{padding:20px 22px 0;text-align:center}
+.rec-header h2{font-size:16px;font-weight:700;margin-bottom:2px}
+.rec-customer{font-size:12px;color:rgba(255,255,255,.55);margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rec-date-row{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.rec-date-row input[type=date]{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:4px 9px;font-size:12px;color:#fff;cursor:pointer}
+.rec-date-row input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1);opacity:.7}
 
+/* Mikrofon a vlnka */
+.rec-mic-area{display:flex;flex-direction:column;align-items:center;padding:4px 0 8px}
+.rec-mic-ring{width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:42px;cursor:pointer;transition:all .2s;user-select:none;position:relative}
+.rec-mic-ring:hover{background:rgba(255,255,255,.18)}
+.rec-mic-ring.recording{background:#dc2626;border-color:#dc2626;animation:mpulse 1.5s ease-out infinite}
+.rec-mic-ring.processing{background:rgba(250,204,21,.15);border-color:rgba(250,204,21,.35);cursor:default;font-size:36px}
+@keyframes mpulse{0%{box-shadow:0 0 0 0 rgba(220,38,38,.55)}70%{box-shadow:0 0 0 22px rgba(220,38,38,0)}100%{box-shadow:0 0 0 0 rgba(220,38,38,0)}}
+.rec-mic-label{font-size:13px;color:rgba(255,255,255,.7);margin-top:10px;min-height:20px;text-align:center}
+.rec-wave{display:flex;align-items:center;justify-content:center;gap:4px;height:32px;margin-top:6px}
+.rec-wave span{display:inline-block;width:4px;border-radius:2px;background:rgba(255,255,255,.3);height:5px;transition:.2s}
+.rec-wave.active span{animation:rwave 1s ease-in-out infinite}
+.rec-wave.active span:nth-child(2){animation-delay:.1s}
+.rec-wave.active span:nth-child(3){animation-delay:.2s}
+.rec-wave.active span:nth-child(4){animation-delay:.3s}
+.rec-wave.active span:nth-child(5){animation-delay:.4s}
+.rec-wave.active span:nth-child(6){animation-delay:.5s}
+.rec-wave.active span:nth-child(7){animation-delay:.4s}
+.rec-wave.active span:nth-child(8){animation-delay:.3s}
+.rec-wave.active span:nth-child(9){animation-delay:.2s}
+@keyframes rwave{0%,100%{height:5px;opacity:.3}50%{height:26px;opacity:1}}
+
+/* Status & přepis */
+.rec-body{padding:0 20px 16px}
+.rec-status{font-size:12px;min-height:18px;text-align:center;margin-bottom:10px;font-weight:500}
+.rec-transcript-wrap{margin-bottom:12px}
+.rec-transcript-label{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.rec-transcript{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:10px 13px;font-size:13px;color:#cbd5e1;min-height:54px;max-height:90px;overflow-y:auto;text-align:left;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.rec-transcript.empty{color:rgba(255,255,255,.28);font-style:italic}
+
+/* Výsledek Claude */
+.rec-result{display:none;margin-bottom:12px}
+.rec-result.visible{display:block}
+.rec-result-label{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.rec-field{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:12px}
+.rec-field:last-child{margin-bottom:0}
+.rec-field-name{font-size:10px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.rec-field-val{color:#e2e8f0;line-height:1.45;white-space:pre-wrap;word-break:break-word}
+
+/* Akce */
+.rec-actions{display:flex;gap:8px;flex-wrap:wrap;padding:0 20px 20px}
+.rec-btn-primary{flex:1;background:linear-gradient(90deg,#16a34a,#15803d);color:#fff;border:none;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;min-width:120px}
+.rec-btn-primary:hover{filter:brightness(1.08)}
+.rec-btn-primary:disabled{background:#374151;cursor:not-allowed;filter:none}
+.rec-btn-secondary{background:rgba(255,255,255,.09);color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:9px;padding:11px 16px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.rec-btn-secondary:hover{background:rgba(255,255,255,.16)}
+.rec-btn-claude{flex:1;background:linear-gradient(90deg,#6d28d9,#4f46e5);color:#fff;border:none;border-radius:9px;padding:11px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px}
+.rec-btn-claude:hover{filter:brightness(1.1)}
+.rec-btn-claude:disabled{opacity:.4;cursor:not-allowed;filter:none}
+.rec-spinner{width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;flex-shrink:0}
+
+/* ── API KLÍČ DIALOG ─────────────────────────────────────────────────────── */
+.apikey-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:16px}
+.apikey-modal-bg.open{display:flex}
+.apikey-panel{background:#fff;border-radius:14px;width:min(420px,100%);padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.apikey-panel h3{font-size:16px;font-weight:700;color:#1a2744;margin-bottom:6px}
+.apikey-panel p{font-size:13px;color:#666;margin-bottom:16px;line-height:1.5}
+.apikey-input-row{display:flex;gap:8px;margin-bottom:10px}
+.apikey-input-row input{flex:1;border:1.5px solid #e0e0e0;border-radius:8px;padding:9px 12px;font-size:14px;color:#1a2744;transition:.15s}
+.apikey-input-row input:focus{outline:none;border-color:#1a2744}
+.apikey-save-btn{background:#1a2744;color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.apikey-save-btn:hover{background:#243460}
+.apikey-badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;padding:6px 12px;border-radius:8px;margin-top:4px}
+.apikey-badge.ok{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
+.apikey-badge.err{background:#fff0f0;color:#c0392b;border:1px solid #fecaca}
+.apikey-badge.none{background:#f8f9fb;color:#888;border:1px solid #e0e0e0}
+.apikey-also{font-size:12px;color:#999;margin-top:12px;line-height:1.5}
+.apikey-also input{border:1px solid #e0e0e0;border-radius:6px;padding:5px 9px;font-size:12px;width:100%;margin-top:4px;color:#1a2744}
+.apikey-also-badge{font-size:11px;color:#999;margin-top:3px}
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
   <span class="logo">JM</span>
-  <h1>CRM Agent &ndash; České Budějovice</h1>
-  <span class="sub">Jaroslav Pech &bull; Autodíly</span>
+  <h1>CRM Agent – České Budějovice</h1>
+  <button class="api-corner-btn" onclick="openApiKeyModal()" title="Nastavení API klíče">
+    <span class="api-corner-dot" id="api-corner-dot"></span>
+    API klíč
+  </button>
 </header>
 
+<!-- NAV -->
 <nav>
   <button class="active" onclick="showTab('prehled',this)">Přehled</button>
   <button onclick="showTab('zakaznici',this)">Zákazníci</button>
   <button onclick="showTab('plan',this)">Plán týdne</button>
   <button onclick="showTab('zapisky',this)">Zápisky</button>
-  <button onclick="showTab('nastaveni',this)">Nastaveni</button>
 </nav>
 
+<!-- TAB: PŘEHLED -->
 <div id="prehled" class="tab active">
   <div class="stats">
-    <div class="stat"><div class="num" id="cnt-a">–</div><div class="lbl">Priorita A</div><span class="badge badge-a">každé 1–2 týdny</span></div>
+    <div class="stat"><div class="num" id="cnt-a">–</div><div class="lbl">Priorita A</div><span class="badge badge-a">1–2 týdny</span></div>
     <div class="stat"><div class="num" id="cnt-b">–</div><div class="lbl">Priorita B</div><span class="badge badge-b">1× měsíčně</span></div>
-    <div class="stat"><div class="num" id="cnt-c">–</div><div class="lbl">Priorita C</div><span class="badge badge-c">1× za 6–8 týdnů</span></div>
+    <div class="stat"><div class="num" id="cnt-c">–</div><div class="lbl">Priorita C</div><span class="badge badge-c">6–8 týdnů</span></div>
     <div class="stat"><div class="num" id="cnt-total">–</div><div class="lbl">Aktivní zákazníci</div></div>
     <div class="stat"><div class="num" id="total-obrat">–</div><div class="lbl">Obrat 4M (Kč)</div></div>
   </div>
-  <p class="section-title" style="margin-bottom:10px">Top 10 zákazníků – obrat 4 měsíce</p>
+  <p class="section-title">Top 10 zákazníků – obrat 4 měsíce</p>
   <div class="tbl-wrap" style="margin-bottom:20px">
     <table>
       <thead><tr><th>#</th><th>Zákazník</th><th>Adresa</th><th>Město</th><th>Oblast</th><th>P</th><th>Obrat 4M</th><th>Prům./měs.</th></tr></thead>
       <tbody id="top10-body"></tbody>
     </table>
   </div>
-  <p class="section-title" style="margin-bottom:10px">Upozornění</p>
+  <p class="section-title">Upozornění</p>
   <div id="alerts"></div>
 </div>
 
+<!-- TAB: ZÁKAZNÍCI -->
 <div id="zakaznici" class="tab">
   <div class="toolbar">
-    <input type="text" id="search" placeholder="🔍  Hledat zákazníka, ulici, město…" oninput="renderTable()">
+    <input type="text" id="search" placeholder="🔍 Hledat zákazníka, ulici, město…" oninput="renderTable()">
     <select id="filter-pri" onchange="renderTable()">
       <option value="">Všechny priority</option>
-      <option value="A">Priorita A</option>
-      <option value="B">Priorita B</option>
-      <option value="C">Priorita C</option>
+      <option value="A">Priorita A</option><option value="B">Priorita B</option><option value="C">Priorita C</option>
     </select>
     <select id="filter-area" onchange="renderTable()">
       <option value="">Všechny oblasti</option>
-      <option value="cb">ČB centrum</option>
-      <option value="jih">Jih</option>
-      <option value="zapad">Západ</option>
-      <option value="vychod">Východ</option>
-      <option value="ostatni">Ostatní</option>
+      <option value="cb">ČB centrum</option><option value="jih">Jih</option>
+      <option value="zapad">Západ</option><option value="vychod">Východ</option><option value="ostatni">Ostatní</option>
     </select>
     <select id="sort-by" onchange="setSort(this.value)">
-      <option value="obrat">Obrat ↓</option>
-      <option value="name">Název A–Z</option>
-      <option value="city">Město A–Z</option>
-      <option value="street">Ulice A–Z</option>
+      <option value="obrat">Obrat ↓</option><option value="name">Název A–Z</option>
+      <option value="city">Město A–Z</option><option value="street">Ulice A–Z</option>
     </select>
   </div>
   <div class="tbl-wrap">
     <table>
       <thead><tr>
-        <th>P</th>
-        <th onclick="setSort('name')">Zákazník ↕</th>
-        <th onclick="setSort('street')">Ulice ↕</th>
-        <th onclick="setSort('city')">Město ↕</th>
+        <th>P</th><th onclick="setSort('name')">Zákazník ↕</th>
+        <th onclick="setSort('street')">Ulice ↕</th><th onclick="setSort('city')">Město ↕</th>
         <th onclick="setSort('area')">Oblast ↕</th>
-        <th onclick="setSort('obrat')">Obrat 4M ↕</th>
-        <th onclick="setSort('avg')">Prům./měs. ↕</th>
+        <th onclick="setSort('obrat')">Obrat 4M ↕</th><th onclick="setSort('avg')">Prům./měs. ↕</th>
         <th>Frekvence</th>
       </tr></thead>
       <tbody id="customer-body"></tbody>
@@ -270,55 +283,28 @@ tr:hover td{background:#fafbfc}
   </div>
 </div>
 
+<!-- TAB: PLÁN TÝDNE -->
 <div id="plan" class="tab">
-  <p style="font-size:13px;color:#888;margin-bottom:14px">Geograficky optimalizovaný plán – každý den jedna oblast / trasa. Schůzky zadejte do Nextis CRM ručně.</p>
+  <p style="font-size:13px;color:#888;margin-bottom:14px">Geograficky optimalizovaný plán – každý den jedna oblast. Schůzky zadejte do Nextis CRM ručně.</p>
   <div class="week-grid" id="week-grid"></div>
 </div>
 
+<!-- TAB: ZÁPISKY -->
 <div id="zapisky" class="tab">
   <div class="notes-toolbar">
-    <input type="text" id="notes-search" placeholder="🔍  Hledat zápisky…" oninput="filterNotes()">
+    <input type="text" id="notes-search" placeholder="🔍 Hledat zápisky…" oninput="filterNotes()">
     <select id="notes-filter" onchange="filterNotes()"><option value="">Všichni zákazníci</option></select>
     <button onclick="loadNotes()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
       Obnovit
     </button>
   </div>
-  <div class="status-bar"><span class="status-dot" id="notes-status-dot"></span><span id="notes-status-text">Načítám zápisky…</span></div>
-  <p style="font-size:12px;color:#aaa;margin-bottom:10px">Zápisky se načítají přímo z Google Sheets. Aby byly viditelné, musí být sheet nastaven jako <strong>veřejný pro čtení</strong> (Sdílet → Kdokoli s odkazem → Prohlížitel).</p>
+  <div class="status-bar"><span class="status-dot" id="notes-dot"></span><span id="notes-txt">Načítám…</span></div>
+  <p style="font-size:12px;color:#aaa;margin-bottom:12px">Zápisky se načítají přímo ze Google Sheets. Sheet musí být nastaven jako <strong>veřejný pro čtení</strong>.</p>
   <div class="notes-grid" id="notes-grid"><div class="notes-empty"><p class="loading-dots">Načítám zápisky</p></div></div>
 </div>
 
-<div id="nastaveni" class="tab">
-  <div class="settings-card">
-    <h3>&#128273; Anthropic API kl&#237;&#269;</h3>
-    <p>Klic je potreba pro AI diktovani. Ulozi se pouze do vaseho prohlizece (localStorage). Ziskate ho na <a href="https://console.anthropic.com" target="_blank" style="color:#3949ab">console.anthropic.com</a>.</p>
-    <div class="settings-input-row">
-      <input type="password" id="settings-api-key" placeholder="sk-ant-api03-..." autocomplete="off">
-      <button class="settings-save-btn" onclick="saveApiKeyFromSettings()">Ulozit</button>
-    </div>
-    <div id="api-key-badge" class="api-status-badge none">Klic neni nastaven</div>
-  </div>
-  <div class="settings-card">
-    <h3>&#128202; Google Apps Script URL</h3>
-    <p>Pro zapis zapisku do Google Sheets. Zapis vyzaduje Apps Script, nacteni ze Sheets funguje bez nej.</p>
-    <div class="settings-input-row">
-      <input type="text" id="settings-apps-url" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off">
-      <button class="settings-save-btn" onclick="saveAppsUrlFromSettings()">Ulozit</button>
-    </div>
-    <div id="apps-url-badge" class="api-status-badge none">URL neni nastavena</div>
-    <details style="margin-top:14px">
-      <summary style="font-size:13px;color:#555;cursor:pointer;font-weight:500">Jak nastavit Apps Script</summary>
-      <div style="margin-top:10px;font-size:13px;color:#555;line-height:1.7;background:#f8f9fb;border-radius:8px;padding:12px">
-        1. Otevri <a href="https://script.google.com" target="_blank" style="color:#3949ab">script.google.com</a> a vloz novy projekt<br>
-        2. Vloz kod funkce doGet ktera zapise radek do Sheets<br>
-        3. Nasad jako webovou aplikaci - pristup: Kdokoli<br>
-        4. Zkopiruj URL nasazeni a vloz vyse
-      </div>
-    </details>
-  </div>
-</div>
-
+<!-- DETAIL ZÁKAZNÍKA MODAL -->
 <div class="modal-bg" id="modal" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="modal-header">
@@ -331,97 +317,70 @@ tr:hover td{background:#fafbfc}
       <div id="modal-rows"></div>
     </div>
     <div class="modal-actions">
-      <button class="btn btn-maps" id="btn-maps">📍 Otevřít v Mapách</button>
-      <button class="btn btn-primary" id="btn-modal-zapisat" style="background:#16a34a" onclick="openFormModalFromDetail()">✏️ Zapsat schůzku</button>
+      <button class="btn btn-maps" id="btn-maps">📍 Mapy</button>
+      <button class="btn btn-green" onclick="openRecFromDetail()">🎙️ Zapsat schůzku</button>
       <button class="btn btn-outline" onclick="closeModal()">Zavřít</button>
     </div>
   </div>
 </div>
 
-<!-- DIKTOVACÍ OVERLAY -->
-<div class="dictation-overlay" id="dictation-overlay">
-  <div class="dictation-panel">
-    <h3>🎙️ Nadiktovat průběh schůzky</h3>
-    <div class="dp-sub" id="dp-customer-name">–</div>
-    <div class="mic-ring idle" id="dp-mic-ring" onclick="toggleRecording()">🎙️</div>
-    <div class="mic-ring-label" id="dp-mic-label">Stiskni pro zahájení nahrávání</div>
-    <div class="dictation-wave" id="dp-wave">
-      <span></span><span></span><span></span><span></span><span></span>
+<!-- DIKTOVACÍ MODAL (ZÁPIS ZE SCHŮZKY) -->
+<div class="rec-modal-bg" id="rec-modal" onclick="if(event.target===this)closeRec()">
+  <div class="rec-panel">
+    <div class="rec-header">
+      <h2>🎙️ Zápis ze schůzky</h2>
+      <div class="rec-customer" id="rec-customer-name">–</div>
+      <div class="rec-date-row">
+        <span>📅 Datum:</span>
+        <input type="date" id="rec-datum">
+      </div>
     </div>
-    <div class="transcript-preview empty" id="dp-transcript">Zde se zobrazí přepis vašeho diktování…</div>
-    <div class="dp-status" id="dp-status"></div>
-    <div class="dp-actions">
-      <button class="dp-btn-process" id="dp-process-btn" onclick="parseWithClaude()" disabled>
-        <span class="dp-spinner" id="dp-spinner"></span>
-        ✨ Zpracovat pomocí Claude
-      </button>
-      <button class="dp-btn-cancel" onclick="closeDictation()">Zavřít</button>
+    <div class="rec-mic-area">
+      <div class="rec-mic-ring idle" id="rec-mic-ring" onclick="toggleRecording()">🎙️</div>
+      <div class="rec-mic-label" id="rec-mic-label">Stiskni a začni mluvit</div>
+      <div class="rec-wave" id="rec-wave">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="rec-body">
+      <div class="rec-status" id="rec-status"></div>
+      <div class="rec-transcript-wrap" id="rec-transcript-wrap">
+        <div class="rec-transcript-label">Přepis</div>
+        <div class="rec-transcript empty" id="rec-transcript">Zde se zobrazí přepis vašeho diktování…</div>
+      </div>
+      <div class="rec-result" id="rec-result">
+        <div class="rec-result-label">✨ Claude zpracoval – zkontroluj a ulož</div>
+        <div class="rec-field"><div class="rec-field-name">Cíl schůzky</div><div class="rec-field-val" id="rv-cil"></div></div>
+        <div class="rec-field"><div class="rec-field-name">Shrnutí</div><div class="rec-field-val" id="rv-shrnuti"></div></div>
+        <div class="rec-field"><div class="rec-field-name">Úkoly</div><div class="rec-field-val" id="rv-ukoly"></div></div>
+        <div class="rec-field"><div class="rec-field-name">Plán příští schůzky</div><div class="rec-field-val" id="rv-pristi"></div></div>
+      </div>
+    </div>
+    <div class="rec-actions" id="rec-actions">
+      <!-- Buttons rendered dynamically by setRecPhase() -->
     </div>
   </div>
 </div>
 
-<!-- DIKTOVATICI OVERLAY -->
-<div class="dictation-overlay" id="dictation-overlay" onclick="if(event.target===this)closeDictation()">
-  <div class="dictation-panel">
-    <h3>Nadiktovat prubeh schuzky</h3>
-    <div class="dp-sub" id="dp-customer-name">zakaznik</div>
-    <div class="mic-ring idle" id="dp-mic-ring" onclick="toggleRecording()" style="font-size:36px;line-height:96px">&#127908;</div>
-    <div class="mic-ring-label" id="dp-mic-label">Stiskni pro zahajeni nahravani</div>
-    <div class="dictation-wave" id="dp-wave">
-      <span></span><span></span><span></span><span></span><span></span>
+<!-- API KLÍČ MODAL -->
+<div class="apikey-modal-bg" id="apikey-modal" onclick="if(event.target===this)closeApiKeyModal()">
+  <div class="apikey-panel">
+    <h3>🔑 Nastavení API klíče</h3>
+    <p>Anthropic API klíč je potřeba pro AI přepis a zpracování diktování. Uloží se pouze do vašeho prohlížeče.</p>
+    <div class="apikey-input-row">
+      <input type="password" id="apikey-input" placeholder="sk-ant-api03-…" autocomplete="off">
+      <button class="apikey-save-btn" onclick="saveApiKey()">Uložit</button>
     </div>
-    <div class="transcript-preview empty" id="dp-transcript">Zde se zobrazi prepis vaseho diktovani...</div>
-    <div class="dp-status" id="dp-status"></div>
-    <div class="dp-actions">
-      <button class="dp-btn-process" id="dp-process-btn" onclick="parseWithClaude()" disabled>
-        <span class="dp-spinner" id="dp-spinner"></span>
-        Zpracovat pomoci Claude
-      </button>
-      <button class="dp-btn-cancel" onclick="closeDictation()">Zavrit</button>
+    <div id="apikey-badge" class="apikey-badge none">Klíč není nastaven</div>
+    <div class="apikey-also">
+      <strong>Apps Script URL</strong> (pro zápis do Google Sheets):
+      <input type="text" id="appsurl-input" placeholder="https://script.google.com/macros/s/…/exec">
+      <div id="appsurl-badge" class="apikey-also-badge"></div>
     </div>
-  </div>
-</div>
-
-<!-- FORMULÁŘ ZÁPISU SCHŮZKY -->
-<div class="form-modal-bg" id="form-modal" onclick="if(event.target===this)closeFormModal()">
-  <div class="form-modal">
-    <div class="form-modal-header">
-      <button class="form-modal-close" onclick="closeFormModal()">×</button>
-      <h2 id="fm-title">✏️ Zápis ze schůzky</h2>
-      <div class="fmsub" id="fm-sub"></div>
-    </div>
-    <div class="form-modal-body">
-      <div class="form-date-row">
-        <label>📅 Datum:</label>
-        <input type="date" id="fm-datum">
-      </div>
-      <button class="btn-diktovat" onclick="openDictation()">
-        <span class="mic-icon">🎙️</span> Nadiktovat vše – Claude vyplní pole automaticky
-      </button>
-      <div class="form-field">
-        <label>Cíl schůzky</label>
-        <textarea id="fm-cil" rows="2" placeholder="S čím jsem tam šel – co jsem chtěl projednat…"></textarea>
-      </div>
-      <div class="form-field">
-        <label>Shrnutí</label>
-        <textarea id="fm-shrnuti" rows="3" placeholder="Co se řešilo, jak schůzka proběhla…"></textarea>
-      </div>
-      <div class="form-field">
-        <label>Úkoly</label>
-        <textarea id="fm-ukoly" rows="2" placeholder="Konkrétní kroky – co udělat po schůzce…"></textarea>
-      </div>
-      <div class="form-field">
-        <label>Plán příští schůzky</label>
-        <textarea id="fm-pristi" rows="2" placeholder="Co příště řešit, kdy se vrátit…"></textarea>
-      </div>
-    </div>
-    <div class="form-modal-actions">
-      <button class="btn-save" id="btn-save" onclick="saveToSheets()">
-        <span class="save-spinner" id="save-spinner"></span>
-        💾 Uložit do Google Sheets
-      </button>
-      <button class="btn btn-outline" onclick="closeFormModal()">Zrušit</button>
-      <span class="save-status" id="save-status"></span>
+    <div style="margin-top:14px;display:flex;gap:8px">
+      <button class="apikey-save-btn" onclick="saveAllSettings()">Uložit vše</button>
+      <button class="btn btn-outline" onclick="closeApiKeyModal()" style="font-size:13px">Zavřít</button>
     </div>
   </div>
 </div>
@@ -432,248 +391,47 @@ const FREQ={A:'každé 1–2 týdny',B:'1× měsíčně',C:'1× za 6–8 týdnů
 const AREA_LABEL={cb:'ČB centrum',jih:'Jih',zapad:'Západ',vychod:'Východ',ostatni:'Ostatní'};
 const AREA_CLS={cb:'area-cb',jih:'area-jih',zapad:'area-zapad',vychod:'area-vychod',ostatni:'area-ostatni'};
 
-// === KONFIGURACE ===
-let APPS_SCRIPT_URL = localStorage.getItem('crm_apps_script_url') || '';
-let ANTHROPIC_API_KEY = localStorage.getItem('crm_api_key') || '';
+// ── KONFIGURACE ───────────────────────────────────────────────────────────────
+let API_KEY = localStorage.getItem('crm_api_key') || '';
+let APPS_URL = localStorage.getItem('crm_apps_url') || '';
 
-function saveApiKeyFromSettings(){
-  const val=(document.getElementById('settings-api-key').value||'').trim();
-  ANTHROPIC_API_KEY=val;localStorage.setItem('crm_api_key',val);updateSettingsBadges();
+function saveApiKey(){
+  const v=(document.getElementById('apikey-input').value||'').trim();
+  API_KEY=v; localStorage.setItem('crm_api_key',v);
+  refreshApiBadge(); updateCornerDot();
 }
-function saveAppsUrlFromSettings(){
-  const val=(document.getElementById('settings-apps-url').value||'').trim();
-  APPS_SCRIPT_URL=val;localStorage.setItem('crm_apps_script_url',val);updateSettingsBadges();
+function saveAllSettings(){
+  saveApiKey();
+  const v2=(document.getElementById('appsurl-input').value||'').trim();
+  APPS_URL=v2; localStorage.setItem('crm_apps_url',v2);
+  refreshAppsUrlBadge();
+  setTimeout(closeApiKeyModal,400);
 }
-function updateSettingsBadges(){
-  const ab=document.getElementById('api-key-badge');
-  const ub=document.getElementById('apps-url-badge');
-  if(ab){
-    if(ANTHROPIC_API_KEY&&ANTHROPIC_API_KEY.startsWith('sk-ant-')){ab.className='api-status-badge ok';ab.textContent='OK - API klic ulozen';}
-    else if(ANTHROPIC_API_KEY){ab.className='api-status-badge err';ab.textContent='Neplatny format klice';}
-    else{ab.className='api-status-badge none';ab.textContent='Klic neni nastaven';}
-  }
-  if(ub){
-    if(APPS_SCRIPT_URL&&APPS_SCRIPT_URL.includes('script.google.com')){ub.className='api-status-badge ok';ub.textContent='OK - Apps Script URL ulozena';}
-    else if(APPS_SCRIPT_URL){ub.className='api-status-badge err';ub.textContent='Neplatny format URL';}
-    else{ub.className='api-status-badge none';ub.textContent='URL neni nastavena';}
-  }
+function openApiKeyModal(){
+  document.getElementById('apikey-input').value=API_KEY;
+  document.getElementById('appsurl-input').value=APPS_URL;
+  refreshApiBadge(); refreshAppsUrlBadge();
+  document.getElementById('apikey-modal').classList.add('open');
 }
-
-window.addEventListener('DOMContentLoaded',()=>{
-  const ai=document.getElementById('settings-api-key');
-  const au=document.getElementById('settings-apps-url');
-  if(ai&&ANTHROPIC_API_KEY) ai.value=ANTHROPIC_API_KEY;
-  if(au&&APPS_SCRIPT_URL) au.value=APPS_SCRIPT_URL;
-  updateSettingsBadges();
-});
-
-// === AI DIKTOVANI - OVERLAY ===
-let mediaRecorder=null,audioChunks=[],isRecording=false,transcriptText='';
-
-function openDictation(){
-  if(!ANTHROPIC_API_KEY||!ANTHROPIC_API_KEY.startsWith('sk-ant-')){
-    alert('Nejprve nastav Anthropic API klic v zalozce Nastaveni.');return;
-  }
-  transcriptText='';audioChunks=[];
-  const tr=document.getElementById('dp-transcript');
-  if(tr){tr.classList.add('empty');}
-  setDpStatus('','');
-  const pb=document.getElementById('dp-process-btn');
-  if(pb) pb.disabled=true;
-  const cn=document.getElementById('dp-customer-name');
-  if(cn) cn.textContent=currentVisitCustomer?.name||'zakaznik';
-  setMicState('idle');
-  document.getElementById('dictation-overlay').classList.add('open');
+function closeApiKeyModal(){document.getElementById('apikey-modal').classList.remove('open');}
+function refreshApiBadge(){
+  const el=document.getElementById('apikey-badge');
+  if(!el) return;
+  if(API_KEY.startsWith('sk-ant-')){el.className='apikey-badge ok';el.textContent='✓ API klíč nastaven';}
+  else if(API_KEY){el.className='apikey-badge err';el.textContent='⚠ Neplatný formát';}
+  else{el.className='apikey-badge none';el.textContent='Klíč není nastaven';}
 }
-function closeDictation(){
-  if(isRecording) stopRecording();
-  document.getElementById('dictation-overlay').classList.remove('open');
+function refreshAppsUrlBadge(){
+  const el=document.getElementById('appsurl-badge');
+  if(!el) return;
+  el.textContent=APPS_URL.includes('script.google.com')?'✓ URL nastavena':'URL není nastavena';
 }
-async function toggleRecording(){
-  if(isRecording) stopRecording(); else await startRecording();
-}
-async function startRecording(){
-  try{
-    const stream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
-    const mimeType=['audio/webm;codecs=opus','audio/webm','audio/ogg','audio/mp4',''].find(m=>!m||MediaRecorder.isTypeSupported(m));
-    mediaRecorder=new MediaRecorder(stream,mimeType?{mimeType}:{});
-    audioChunks=[];
-    mediaRecorder.ondataavailable=e=>{if(e.data&&e.data.size>0)audioChunks.push(e.data);};
-    mediaRecorder.onstop=()=>{stream.getTracks().forEach(t=>t.stop());handleAudioReady();};
-    mediaRecorder.start(250);
-    isRecording=true;setMicState('recording');
-    setDpStatus('Nahravani... mluvte prirozene o prubehu schuzky','rgba(255,255,255,.8)');
-  }catch(e){setDpStatus('Mikrofon nedostupny: '+e.message,'#f87171');}
-}
-function stopRecording(){
-  if(mediaRecorder&&mediaRecorder.state!=='inactive') mediaRecorder.stop();
-  isRecording=false;setMicState('processing');
-}
-function setMicState(state){
-  const ring=document.getElementById('dp-mic-ring');
-  const lbl=document.getElementById('dp-mic-label');
-  const wave=document.getElementById('dp-wave');
-  if(!ring) return;
-  if(state==='idle'){ring.className='mic-ring idle';ring.innerHTML='&#127908;';if(lbl)lbl.textContent='Stiskni pro zahajeni nahravani';if(wave)wave.classList.remove('active');}
-  else if(state==='recording'){ring.className='mic-ring recording';ring.innerHTML='&#9209;';if(lbl)lbl.textContent='Nahravani... stiskni pro zastaveni';if(wave)wave.classList.add('active');}
-  else if(state==='processing'){ring.className='mic-ring processing';ring.innerHTML='&#8987;';if(lbl)lbl.textContent='Prepisuji zvuk pomoci Claude...';if(wave)wave.classList.remove('active');}
-}
-async function handleAudioReady(){
-  if(!ANTHROPIC_API_KEY||!ANTHROPIC_API_KEY.startsWith('sk-ant-')){setDpStatus('Zadej API klic v Nastaveni.','#fbbf24');setMicState('idle');return;}
-  if(!audioChunks.length){setDpStatus('Zadny zvuk - zkus znovu.','#f87171');setMicState('idle');return;}
-  const blob=new Blob(audioChunks,{type:mediaRecorder?.mimeType||'audio/webm'});
-  setDpStatus('Prepisuji zvuk...','#a5b4fc');
-  const reader=new FileReader();
-  reader.onloadend=async()=>{
-    const b64=reader.result.split(',')[1];
-    const mt=(mediaRecorder?.mimeType||'audio/webm').split(';')[0];
-    try{
-      const resp=await fetch('https://api.anthropic.com/v1/messages',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':ANTHROPIC_API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1024,messages:[{role:'user',content:[
-          {type:'text',text:'Prepis tento zvukovy zaznam presne do textu. Vrat pouze prepis bez uvodu. Jazyk: cestina.'},
-          {type:'document',source:{type:'base64',media_type:mt,data:b64}}
-        ]}]})
-      });
-      if(!resp.ok){const err=await resp.json().catch(()=>({}));throw new Error(err.error?.message||'HTTP '+resp.status);}
-      const data=await resp.json();
-      transcriptText=data.content[0].text.trim();
-      const box=document.getElementById('dp-transcript');
-      if(box){box.textContent=transcriptText;box.classList.remove('empty');}
-      const pb=document.getElementById('dp-process-btn');if(pb)pb.disabled=false;
-      setDpStatus('Prepis hotov - stiskni Zpracovat pomoci Claude','#4ade80');
-    }catch(e){setDpStatus('Chyba prepisu: '+e.message,'#f87171');}
-    setMicState('idle');
-  };
-  reader.readAsDataURL(blob);
-}
-async function parseWithClaude(){
-  if(!transcriptText){setDpStatus('Nejprve nadiktuj text.','#fbbf24');return;}
-  if(!ANTHROPIC_API_KEY||!ANTHROPIC_API_KEY.startsWith('sk-ant-')){setDpStatus('Zadej API klic v Nastaveni.','#fbbf24');return;}
-  const pb=document.getElementById('dp-process-btn');
-  const sp=document.getElementById('dp-spinner');
-  if(pb)pb.disabled=true;if(sp)sp.style.display='inline-block';
-  setDpStatus('Claude zpracovava zaznam...','#a5b4fc');
-  const cName=currentVisitCustomer?.name||'zakaznik';
-  try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':ANTHROPIC_API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:
-        'Jsi CRM asistent obchodniho zastupce JM Autodily. Zakaznik: '+cName+'.\n'+
-        'Prepis diktovaneho zaznamu ze schuzky. Rozdel do 4 poli.\n'+
-        'Odpovez POUZE platnym JSON bez markdown:\n'+
-        '{"cil":"Cil schuzky","shrnuti":"Shrnuti prubehu","ukoly":"Konkretni ukoly","pristi":"Plan pristi schuzky"}\n'+
-        'Kazde pole uprav do spisovne cestiny. Pokud info chybi, nechej prazdne.\n\n'+
-        'PREPIS:\n'+transcriptText
-      }]})
-    });
-    if(!resp.ok){const err=await resp.json().catch(()=>({}));throw new Error(err.error?.message||'HTTP '+resp.status);}
-    const data=await resp.json();
-    let raw=data.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
-    const parsed=JSON.parse(raw);
-    ['cil','shrnuti','ukoly','pristi'].forEach(k=>{
-      const el=document.getElementById('fm-'+k);
-      if(el&&parsed[k]!==undefined) el.value=parsed[k]||'';
-    });
-    setDpStatus('Pole vyplnena - zkontroluj a uloz do Sheets','#4ade80');
-    if(sp)sp.style.display='none';
-    setTimeout(()=>closeDictation(),1600);
-  }catch(e){
-    setDpStatus('Chyba Claude: '+e.message,'#f87171');
-    if(pb)pb.disabled=false;if(sp)sp.style.display='none';
-  }
-}
-function setDpStatus(msg,color){
-  const el=document.getElementById('dp-status');
-  if(el){el.textContent=msg;el.style.color=color||'rgba(255,255,255,.8)';}
+function updateCornerDot(){
+  const dot=document.getElementById('api-corner-dot');
+  if(dot) dot.className='api-corner-dot'+(API_KEY.startsWith('sk-ant-')?' ok':'');
 }
 
-// === FORMULAR SCHUZKY ===
-
-let currentVisitCustomer=null;
-const doneSessions=new Set();
-
-function openFormModal(c,evt){
-  if(evt) evt.stopPropagation();
-  currentVisitCustomer=c;
-  document.getElementById('fm-datum').value=new Date().toISOString().split('T')[0];
-  ['fm-cil','fm-shrnuti','fm-ukoly','fm-pristi'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('fm-title').textContent='✏️ Zápis ze schůzky';
-  document.getElementById('fm-sub').textContent=c.name+(c.city&&c.city!=='–'?' · '+c.city:'')+(c.street&&c.street!=='–'?' · '+c.street:'');
-  document.getElementById('save-status').textContent='';
-  document.getElementById('save-status').className='save-status';
-  document.getElementById('btn-save').disabled=false;
-  document.getElementById('save-spinner').style.display='none';
-  document.getElementById('form-modal').classList.add('open');
-}
-
-function closeFormModal(){
-  document.getElementById('form-modal').classList.remove('open');
-  currentVisitCustomer=null;
-}
-
-async function saveToSheets(){
-  const c=currentVisitCustomer;
-  if(!c) return;
-  const datum=document.getElementById('fm-datum').value;
-  const cil=document.getElementById('fm-cil').value.trim();
-  const shrnuti=document.getElementById('fm-shrnuti').value.trim();
-  const ukoly=document.getElementById('fm-ukoly').value.trim();
-  const pristi=document.getElementById('fm-pristi').value.trim();
-  const btn=document.getElementById('btn-save');
-  const spinner=document.getElementById('save-spinner');
-  const status=document.getElementById('save-status');
-
-  if(!cil&&!shrnuti){
-    status.textContent='⚠️ Vyplňte alespoň Cíl nebo Shrnutí.';
-    status.className='save-status err';
-    return;
-  }
-
-  const datumCZ=datum?new Date(datum+'T12:00:00').toLocaleDateString('cs-CZ'):new Date().toLocaleDateString('cs-CZ');
-
-  btn.disabled=true;
-  spinner.style.display='inline-block';
-  status.textContent='Ukládám…';
-  status.className='save-status';
-
-  // Pokud není nastaven Apps Script URL, použij přímý zápis přes gviz (read-only)
-  // a zobraz instrukce
-  if(!APPS_SCRIPT_URL || !APPS_SCRIPT_URL.includes('script.google.com')){
-    spinner.style.display='none';
-    btn.disabled=false;
-    status.innerHTML='⚠️ Nejprve vlož URL Apps Script v záložce <b>Zápisky</b>.';
-    status.className='save-status err';
-    return;
-  }
-
-  try{
-    const params=new URLSearchParams({
-      datum:datumCZ, zakaznik:c.name, cil, shrnuti, ukoly, pristi
-    });
-    await fetch(APPS_SCRIPT_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'});
-    spinner.style.display='none';
-    btn.disabled=false;
-    status.textContent='✅ Uloženo do Google Sheets!';
-    status.className='save-status ok';
-    doneSessions.add(String(c.id));
-    document.querySelectorAll(`.visit-item[data-cid="${c.id}"]`).forEach(el=>el.classList.add('done'));
-    setTimeout(()=>{
-      closeFormModal();
-      notesLoaded=false; // force reload next time
-    },1600);
-  }catch(e){
-    spinner.style.display='none';
-    btn.disabled=false;
-    status.textContent='❌ Chyba připojení – zkontrolujte Apps Script URL.';
-    status.className='save-status err';
-  }
-}
-
-// ─── ZÁKAZNÍCI S ADRESAMI ────────────────────────────────────────────────────
-// Zdroj: Adresář zákazníků celá ČR.xlsx (filtrováno ČB středisko) + Obraty ČB
+// ── ZÁKAZNÍCI S ADRESAMI ──────────────────────────────────────────────────────
 const C=[
   {id:15814,name:'Autodíly Bemar s.r.o.',street:'–',psc:'37001',city:'České Budějovice',obrat:840215,avg:210053,cnt:4,priority:'A',area:'cb'},
   {id:33302,name:'Michaela Bílková',street:'Na Sadech 147',psc:'38292',city:'Rožmitál na Šumavě',obrat:557720,avg:139430,cnt:4,priority:'A',area:'zapad'},
@@ -761,96 +519,260 @@ const C=[
   {id:33362,name:'Hopík',street:'Kaplice',psc:'38200',city:'Kaplice',obrat:2189,avg:1094,cnt:2,priority:'C',area:'jih'},
 ];
 
-// ─── PLÁN – geograficky optimalizovaný, 8 schůzek/den ───────────────────────
+// ── GEO PLÁN ─────────────────────────────────────────────────────────────────
 function gc(id){return C.find(x=>x.id===id)||{id,name:'?',street:'–',psc:'–',city:'–',obrat:0,avg:0,cnt:0,priority:'C',area:'cb'};}
 const N=(id,name,street,psc,city,area,note)=>({id,name,street,psc,city,obrat:0,avg:0,cnt:0,priority:'N',area,note});
-
 const GEO_PLAN={
-  po:{label:'Pondělí',area:'České Budějovice centrum (do 5 km)',icon:'🏙️',route:'ČB centrum – Suché Vrbné – Čtyři Dvory',customers:[
-    gc(15814),gc(33336),gc(35170),gc(34337),gc(33544),gc(33456),
-    N(99901,'Autoservis ZEKA s.r.o.','–','37001','České Budějovice','cb','ČB – akvizice'),
-    N(99902,'Tomáš Beránek AUTO FRANCE','Krumlovská 1827/10','37007','České Budějovice','cb','ČB Krumlovská – akvizice'),
-  ]},
-  ut:{label:'Úterý',area:'Jih – Český Krumlov / Kájov / Chvalšiny / Kaplice',icon:'🏔️',route:'ČB → Kájov → Křemže → Č. Krumlov → Chvalšiny → Kaplice',customers:[
-    gc(33303),gc(33316),gc(33328),gc(33309),gc(34490),gc(34208),
-    N(99903,'Luboš Kijac','Sídliště 376','38232','Velešín','jih','Velešín – na trase CK–Kaplice'),
-    N(99904,'CHROMÝ CARS s.r.o.','–','38200','Kaplice','jih','Kaplice – akvizice'),
-  ]},
-  st:{label:'Středa',area:'Západ – Hluboká / Křemže / Rožmitál / Šumava',icon:'🌲',route:'ČB → Hluboká → Zliv → Křemže → Rožmitál na Šumavě',customers:[
-    gc(33302),gc(14140),gc(33358),gc(35509),gc(43968),gc(33338),gc(33357),
-    N(99905,'Radoslav Havlík','Na Parcelách 347','37381','Kamenný Újezd','zapad','Kamenný Újezd – akvizice'),
-  ]},
-  ct:{label:'Čtvrtek',area:'Východ – Rudolfov / Třeboň / Stráž / Trhové Sviny',icon:'🏞️',route:'ČB → Rudolfov → Třeboň → Stráž n. Nežárkou → Trhové Sviny',customers:[
-    gc(34673),gc(35427),gc(38313),gc(33322),gc(33364),gc(33401),gc(35119),
-    N(99906,'Pneuservis Třeboň s.r.o.','–','37901','Třeboň','vychod','Třeboň – akvizice'),
-  ]},
-  pa:{label:'Pátek',area:'ČB centrum + okolí do 15 km',icon:'🔄',route:'ČB centrum – Zavadilka – Suché Vrbné – Husova – Palmová',customers:[
-    gc(34200),gc(37789),gc(32769),gc(35679),gc(33398),gc(38080),gc(33350),
-    N(99907,'Nový zákazník CB okolí','–','37001','České Budějovice','cb','ČB okolí – akvizice'),
-  ]},
+  po:{label:'Pondělí',area:'České Budějovice centrum (do 5 km)',icon:'🏙️',route:'ČB centrum – Suché Vrbné – Čtyři Dvory',customers:[gc(15814),gc(33336),gc(35170),gc(34337),gc(33544),gc(33456),N(99901,'Autoservis ZEKA s.r.o.','–','37001','České Budějovice','cb','ČB – akvizice'),N(99902,'Tomáš Beránek AUTO FRANCE','Krumlovská 1827/10','37007','České Budějovice','cb','ČB – akvizice')]},
+  ut:{label:'Úterý',area:'Jih – Český Krumlov / Kájov / Chvalšiny / Kaplice',icon:'🏔️',route:'ČB → Kájov → CK → Chvalšiny → Kaplice',customers:[gc(33303),gc(33316),gc(33328),gc(33309),gc(34490),gc(34208),N(99903,'Luboš Kijac','Sídliště 376','38232','Velešín','jih','Na trase CK–Kaplice'),N(99904,'CHROMÝ CARS s.r.o.','–','38200','Kaplice','jih','Kaplice – akvizice')]},
+  st:{label:'Středa',area:'Západ – Hluboká / Křemže / Rožmitál / Šumava',icon:'🌲',route:'ČB → Hluboká → Zliv → Křemže → Rožmitál',customers:[gc(33302),gc(14140),gc(33358),gc(35509),gc(43968),gc(33338),gc(33357),N(99905,'Radoslav Havlík','Na Parcelách 347','37381','Kamenný Újezd','zapad','Kamenný Újezd – akvizice')]},
+  ct:{label:'Čtvrtek',area:'Východ – Rudolfov / Třeboň / Stráž / Trhové Sviny',icon:'🏞️',route:'ČB → Rudolfov → Třeboň → Stráž → Trhové Sviny',customers:[gc(34673),gc(35427),gc(38313),gc(33322),gc(33364),gc(33401),gc(35119),N(99906,'Pneuservis Třeboň','–','37901','Třeboň','vychod','Třeboň – akvizice')]},
+  pa:{label:'Pátek',area:'ČB centrum + okolí do 15 km',icon:'🔄',route:'ČB centrum – Zavadilka – Husova – Palmová',customers:[gc(34200),gc(37789),gc(32769),gc(35679),gc(33398),gc(38080),gc(33350),N(99907,'Nový zákazník CB okolí','–','37001','České Budějovice','cb','ČB okolí – akvizice')]},
 };
 
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
+// ── HELPERS ───────────────────────────────────────────────────────────────────
 function fmt(n){return Math.round(n).toLocaleString('cs-CZ');}
-function fmtAddr(c){
-  const s=c.street&&c.street!=='–'?c.street:'';
-  const ci=c.city&&c.city!=='–'?c.city:'';
-  if(s&&ci) return s+', '+ci;
-  return ci||s||'–';
-}
-function mapsUrl(c){
-  const q=encodeURIComponent((c.street&&c.street!=='–'?c.street+' ':'')+
-    (c.city&&c.city!=='–'?c.city+' ':'')+'Česká republika');
-  return 'https://www.google.com/maps/search/?api=1&query='+q;
-}
+function fmtAddr(c){const s=c.street&&c.street!=='–'?c.street:'';const ci=c.city&&c.city!=='–'?c.city:'';return s&&ci?s+', '+ci:ci||s||'–';}
+function mapsUrl(c){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent((c.street&&c.street!=='–'?c.street+' ':'')+(c.city&&c.city!=='–'?c.city:'')+'  Česká republika');}
 function pri(c){return c.priority==='A'?{l:'A',cls:'a'}:c.priority==='B'?{l:'B',cls:'b'}:{l:'C',cls:'c'};}
-function areaTag(c){
-  return `<span class="area-tag ${AREA_CLS[c.area]||'area-cb'}">${AREA_LABEL[c.area]||c.area}</span>`;
-}
+function areaTag(c){return `<span class="area-tag ${AREA_CLS[c.area]||'area-cb'}">${AREA_LABEL[c.area]||c.area}</span>`;}
 
-// ─── MODAL ───────────────────────────────────────────────────────────────────
-let _lastModalCustomer = null;
-function openFormModalFromDetail(){
-  if(!_lastModalCustomer) return;
-  closeModal();
-  openFormModal(_lastModalCustomer, null);
-}
+// ── DETAIL MODAL ──────────────────────────────────────────────────────────────
+let _detailCust=null;
 function openModal(c){
-  _lastModalCustomer = c;
-  const isNew=c.priority==='N';
-  const p=pri(c);
+  _detailCust=c;
+  const isNew=c.priority==='N';const p=pri(c);
   document.getElementById('modal-name').textContent=c.name;
-  document.getElementById('modal-sub').textContent='ID '+c.id+(isNew?' · Nový zákazník / akvizice':' · Priorita '+p.l+' · '+FREQ[c.priority]);
+  document.getElementById('modal-sub').textContent='ID '+c.id+(isNew?' · Akvizice':' · Priorita '+p.l+' · '+FREQ[c.priority]);
   const addr=fmtAddr(c);
-  document.getElementById('modal-addr-box').innerHTML=
-    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3949ab" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-     <div class="modal-addr-text">
-       <strong>${addr}</strong>${c.psc&&c.psc!=='–'?' · PSČ '+c.psc:''}<br>
-       <a href="${mapsUrl(c)}" target="_blank">Otevřít v Google Mapách →</a>
-     </div>`;
+  document.getElementById('modal-addr-box').innerHTML=`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3949ab" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><div class="modal-addr-text"><strong>${addr}</strong>${c.psc&&c.psc!=='–'?' · PSČ '+c.psc:''}<br><a href="${mapsUrl(c)}" target="_blank">Otevřít v Mapách →</a></div>`;
   document.getElementById('modal-rows').innerHTML=`
     <div class="modal-row"><span class="k">Město</span><span class="v">${c.city&&c.city!=='–'?c.city:'–'}</span></div>
-    <div class="modal-row"><span class="k">Oblast / Trasa</span><span class="v">${areaTag(c)}</span></div>
-    ${!isNew?`
-    <div class="modal-row"><span class="k">Obrat 4M</span><span class="v obrat">${fmt(c.obrat)} Kč</span></div>
-    <div class="modal-row"><span class="k">Průměr / měsíc</span><span class="v obrat">${fmt(c.avg)} Kč</span></div>
-    <div class="modal-row"><span class="k">Aktivní měsíce</span><span class="v">${c.cnt} / 4</span></div>
-    <div class="modal-row"><span class="k">Frekvence návštěv</span><span class="v">${FREQ[c.priority]}</span></div>`:''}
-    ${c.note?`<div class="modal-row"><span class="k">Poznámka</span><span class="v" style="color:#7c3aed">${c.note}</span></div>`:''}
-  `;
+    <div class="modal-row"><span class="k">Oblast</span><span class="v">${areaTag(c)}</span></div>
+    ${!isNew?`<div class="modal-row"><span class="k">Obrat 4M</span><span class="v obrat">${fmt(c.obrat)} Kč</span></div>
+    <div class="modal-row"><span class="k">Průměr/měsíc</span><span class="v obrat">${fmt(c.avg)} Kč</span></div>
+    <div class="modal-row"><span class="k">Aktivní měsíce</span><span class="v">${c.cnt}/4</span></div>
+    <div class="modal-row"><span class="k">Frekvence</span><span class="v">${FREQ[c.priority]}</span></div>`:''}
+    ${c.note?`<div class="modal-row"><span class="k">Poznámka</span><span class="v" style="color:#7c3aed">${c.note}</span></div>`:''}`;
   document.getElementById('btn-maps').onclick=()=>window.open(mapsUrl(c),'_blank');
   document.getElementById('modal').classList.add('open');
 }
 function closeModal(){document.getElementById('modal').classList.remove('open');}
+function openRecFromDetail(){if(!_detailCust)return;closeModal();openRec(_detailCust);}
+
+// ── ZÁPIS – DIKTOVACÍ FLOW ────────────────────────────────────────────────────
+let recCust=null, mediaRecorder=null, audioChunks=[], isRecording=false;
+let transcriptText='', parsedData=null;
+const doneSessions=new Set();
+
+// Fáze: 'idle' | 'recording' | 'transcribing' | 'parsed' | 'saving' | 'saved'
+function openRec(c,evt){
+  if(evt) evt.stopPropagation();
+  if(!API_KEY||!API_KEY.startsWith('sk-ant-')){
+    openApiKeyModal();
+    return;
+  }
+  recCust=c;
+  transcriptText=''; parsedData=null; audioChunks=[];
+  document.getElementById('rec-customer-name').textContent=c.name+(c.city&&c.city!=='–'?' · '+c.city:'');
+  document.getElementById('rec-datum').value=new Date().toISOString().split('T')[0];
+  document.getElementById('rec-transcript').textContent='Zde se zobrazí přepis vašeho diktování…';
+  document.getElementById('rec-transcript').classList.add('empty');
+  document.getElementById('rec-result').classList.remove('visible');
+  setRecPhase('idle');
+  document.getElementById('rec-modal').classList.add('open');
+  // Auto-start recording after tiny delay for UX
+  setTimeout(startRecording, 300);
+}
+
+function closeRec(){
+  if(isRecording) stopRecording(false);
+  document.getElementById('rec-modal').classList.remove('open');
+  recCust=null;
+}
+
+function setRecPhase(phase){
+  const ring=document.getElementById('rec-mic-ring');
+  const lbl=document.getElementById('rec-mic-label');
+  const wave=document.getElementById('rec-wave');
+  const status=document.getElementById('rec-status');
+  const actions=document.getElementById('rec-actions');
+
+  // Mic ring
+  if(phase==='idle'){
+    ring.className='rec-mic-ring idle'; ring.innerHTML='🎙️'; ring.onclick=()=>startRecording();
+    if(lbl) lbl.textContent='Stiskni a začni mluvit';
+    wave.classList.remove('active');
+    actions.innerHTML=`<button class="rec-btn-secondary" onclick="closeRec()">Zavřít</button>`;
+  } else if(phase==='recording'){
+    ring.className='rec-mic-ring recording'; ring.innerHTML='⏹️'; ring.onclick=()=>stopRecording(true);
+    if(lbl) lbl.textContent='Nahrávám… stiskni pro zastavení';
+    wave.classList.add('active');
+    setRecStatus('Mluvte přirozeně – popište cíl, průběh, úkoly a co příště…','rgba(255,255,255,.8)');
+    actions.innerHTML=`<button class="rec-btn-primary" onclick="stopRecording(true)" style="background:linear-gradient(90deg,#dc2626,#b91c1c)">⏹️ Zastavit nahrávání</button><button class="rec-btn-secondary" onclick="closeRec()">Zrušit</button>`;
+  } else if(phase==='transcribing'){
+    ring.className='rec-mic-ring processing'; ring.innerHTML='⌛'; ring.onclick=null;
+    if(lbl) lbl.textContent='Přepisuji zvuk…';
+    wave.classList.remove('active');
+    setRecStatus('Přepisuji zvuk pomocí Claude…','#a5b4fc');
+    actions.innerHTML=`<button class="rec-btn-secondary" onclick="closeRec()">Zrušit</button>`;
+  } else if(phase==='parsing'){
+    ring.className='rec-mic-ring processing'; ring.innerHTML='✨'; ring.onclick=null;
+    if(lbl) lbl.textContent='Claude zpracovává…';
+    setRecStatus('Claude rozděluje záznam do polí…','#c4b5fd');
+    actions.innerHTML=`<button class="rec-btn-secondary" onclick="closeRec()">Zrušit</button>`;
+  } else if(phase==='parsed'){
+    ring.className='rec-mic-ring idle'; ring.innerHTML='✅'; ring.onclick=null;
+    if(lbl) lbl.textContent='Hotovo – zkontroluj a ulož';
+    wave.classList.remove('active');
+    setRecStatus('✅ Pole vyplněna Claudem – zkontroluj a ulož','#4ade80');
+    actions.innerHTML=`
+      <button class="rec-btn-primary" id="rec-save-btn" onclick="saveToSheets()">💾 Uložit do Sheets</button>
+      <button class="rec-btn-secondary" onclick="retryRec()">🔄 Znovu nadiktovat</button>
+      <button class="rec-btn-secondary" onclick="closeRec()">Zrušit</button>`;
+  } else if(phase==='saving'){
+    actions.innerHTML=`<button class="rec-btn-primary" disabled><span style="width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;margin-right:6px"></span>Ukládám…</button>`;
+  } else if(phase==='saved'){
+    ring.className='rec-mic-ring idle'; ring.innerHTML='✅'; ring.onclick=null;
+    if(lbl) lbl.textContent='Uloženo!';
+    setRecStatus('✅ Záznam uložen do Google Sheets!','#4ade80');
+    actions.innerHTML=`<button class="rec-btn-secondary" onclick="closeRec()">Zavřít</button>`;
+  }
+}
+
+function setRecStatus(msg,color){
+  const el=document.getElementById('rec-status');
+  if(el){el.textContent=msg;el.style.color=color||'rgba(255,255,255,.75)';}
+}
+
+async function startRecording(){
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+    const mimeType=['audio/webm;codecs=opus','audio/webm','audio/ogg','audio/mp4',''].find(m=>!m||MediaRecorder.isTypeSupported(m));
+    mediaRecorder=new MediaRecorder(stream,mimeType?{mimeType}:{});
+    audioChunks=[];
+    mediaRecorder.ondataavailable=e=>{if(e.data&&e.data.size>0)audioChunks.push(e.data);};
+    mediaRecorder.onstop=()=>{stream.getTracks().forEach(t=>t.stop());processAudio();};
+    mediaRecorder.start(200);
+    isRecording=true;
+    setRecPhase('recording');
+  }catch(e){
+    setRecStatus('❌ Mikrofon nedostupný: '+e.message,'#f87171');
+    setRecPhase('idle');
+  }
+}
+
+function stopRecording(process=true){
+  if(mediaRecorder&&mediaRecorder.state!=='inactive') mediaRecorder.stop();
+  isRecording=false;
+  if(process) setRecPhase('transcribing');
+}
+
+function retryRec(){
+  transcriptText=''; parsedData=null; audioChunks=[];
+  document.getElementById('rec-transcript').textContent='Zde se zobrazí přepis vašeho diktování…';
+  document.getElementById('rec-transcript').classList.add('empty');
+  document.getElementById('rec-result').classList.remove('visible');
+  setRecPhase('idle');
+  setTimeout(startRecording, 200);
+}
+
+async function processAudio(){
+  if(!audioChunks.length){setRecStatus('Žádný zvuk – zkus znovu','#f87171');setRecPhase('idle');return;}
+  const blob=new Blob(audioChunks,{type:mediaRecorder?.mimeType||'audio/webm'});
+  const reader=new FileReader();
+  reader.onloadend=async()=>{
+    const b64=reader.result.split(',')[1];
+    const mt=(mediaRecorder?.mimeType||'audio/webm').split(';')[0];
+    // STEP 1: Transcribe
+    try{
+      const r1=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:[
+          {type:'text',text:'Přepiš tento zvukový záznam přesně do textu. Vrať pouze přepis, bez úvodu, bez komentáře. Zachovej přirozený mluvený projev. Jazyk: čeština.'},
+          {type:'document',source:{type:'base64',media_type:mt,data:b64}}
+        ]}]})
+      });
+      if(!r1.ok){const e=await r1.json().catch(()=>({}));throw new Error(e.error?.message||'HTTP '+r1.status);}
+      const d1=await r1.json();
+      transcriptText=d1.content[0].text.trim();
+      const trBox=document.getElementById('rec-transcript');
+      trBox.textContent=transcriptText; trBox.classList.remove('empty');
+    }catch(e){
+      setRecStatus('❌ Chyba přepisu: '+e.message,'#f87171');
+      setRecPhase('idle'); return;
+    }
+    // STEP 2: Parse with Claude
+    setRecPhase('parsing');
+    const cName=recCust?.name||'zákazník';
+    try{
+      const r2=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:
+          `Jsi CRM asistent obchodního zástupce JM Autodíly. Zákazník: ${cName}.\n\n`+
+          `Níže je přepis diktovaného záznamu ze schůzky. Rozděl ho do 4 polí CRM systému.\n`+
+          `Odpověz POUZE platným JSON objektem bez markdown:\n\n`+
+          `{"cil":"Cíl schůzky – s čím tam šel, co chtěl projednat","shrnuti":"Shrnutí – co se řešilo, jak schůzka dopadla","ukoly":"Úkoly – konkrétní kroky po schůzce","pristi":"Plán příští schůzky – kdy a co řešit"}\n\n`+
+          `Každé pole uprav do spisovné češtiny, stručně a věcně. Pokud info chybí, nechej prázdné.\n\nPŘEPIS:\n${transcriptText}`
+        }]})
+      });
+      if(!r2.ok){const e=await r2.json().catch(()=>({}));throw new Error(e.error?.message||'HTTP '+r2.status);}
+      const d2=await r2.json();
+      let raw=d2.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
+      parsedData=JSON.parse(raw);
+      document.getElementById('rv-cil').textContent=parsedData.cil||'–';
+      document.getElementById('rv-shrnuti').textContent=parsedData.shrnuti||'–';
+      document.getElementById('rv-ukoly').textContent=parsedData.ukoly||'–';
+      document.getElementById('rv-pristi').textContent=parsedData.pristi||'–';
+      document.getElementById('rec-result').classList.add('visible');
+      setRecPhase('parsed');
+    }catch(e){
+      setRecStatus('❌ Chyba Claude: '+e.message,'#f87171');
+      setRecPhase('idle');
+    }
+  };
+  reader.readAsDataURL(blob);
+}
+
+async function saveToSheets(){
+  if(!parsedData||!recCust) return;
+  setRecPhase('saving');
+  const datum=document.getElementById('rec-datum').value;
+  const datumCZ=datum?new Date(datum+'T12:00:00').toLocaleDateString('cs-CZ'):new Date().toLocaleDateString('cs-CZ');
+  const params=new URLSearchParams({
+    datum:datumCZ, zakaznik:recCust.name,
+    cil:parsedData.cil||'', shrnuti:parsedData.shrnuti||'',
+    ukoly:parsedData.ukoly||'', pristi:parsedData.pristi||''
+  });
+  if(!APPS_URL||!APPS_URL.includes('script.google.com')){
+    setRecStatus('⚠️ Nastav Apps Script URL v nastavení API klíče.','#fbbf24');
+    setRecPhase('parsed'); return;
+  }
+  try{
+    await fetch(APPS_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'});
+    doneSessions.add(String(recCust.id));
+    document.querySelectorAll(`.visit-item[data-cid="${recCust.id}"]`).forEach(el=>el.classList.add('done'));
+    notesLoaded=false;
+    setRecPhase('saved');
+    setTimeout(closeRec,2000);
+  }catch(e){
+    setRecStatus('❌ Chyba uložení: '+e.message,'#f87171');
+    setRecPhase('parsed');
+  }
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────────
 function showTab(id,btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  if(btn)btn.classList.add('active');
-  if(id==='zapisky'&&!notesLoaded)loadNotes();
+  if(btn) btn.classList.add('active');
+  if(id==='zapisky'&&!notesLoaded) loadNotes();
 }
 
-// ─── PŘEHLED ─────────────────────────────────────────────────────────────────
+// ── PŘEHLED ───────────────────────────────────────────────────────────────────
 function initOverview(){
   const act=C.filter(c=>c.obrat>0);
   document.getElementById('cnt-a').textContent=act.filter(c=>c.priority==='A').length;
@@ -861,7 +783,7 @@ function initOverview(){
   document.getElementById('top10-body').innerHTML=act.slice(0,10).map((c,i)=>{
     const p=pri(c);
     return `<tr>
-      <td style="color:#aaa;font-size:12px">${i+1}</td>
+      <td style="color:#bbb;font-size:12px">${i+1}</td>
       <td><span class="customer-name" onclick='openModal(${JSON.stringify(c)})'>${c.name}</span></td>
       <td class="addr-cell" title="${c.street}">${c.street&&c.street!=='–'?c.street:'<em style="color:#ccc">–</em>'}</td>
       <td><span class="city-pill">${c.city&&c.city!=='–'?c.city:'–'}</span></td>
@@ -874,17 +796,13 @@ function initOverview(){
   document.getElementById('alerts').innerHTML=[
     {i:'⚠️',t:'<b>Autodíly Bemar s.r.o.</b> (A, ČB) – adresa v systému chybí, ověřit při návštěvě.',c:'#fff8e1',b:'#f9a825'},
     {i:'📈',t:'<b>Oleksandr Babiichuk</b> (A) – Chelčického 96/13, ČB. Obrat top 5, ověřit plán rozvoje.',c:'#e8f5e9',b:'#388e3c'},
-    {i:'🛣️',t:'<b>Středa (Západ)</b> – trasa ČB → Hluboká → Křemže → Rožmitál. Michaela Bílková + Koprna v jednom jízdě.',c:'#e8f0fe',b:'#1a73e8'},
+    {i:'🛣️',t:'<b>Středa (Západ)</b> – trasa ČB → Hluboká → Křemže → Rožmitál. Michaela Bílková + Koprna.',c:'#e8f0fe',b:'#1a73e8'},
   ].map(w=>`<div style="background:${w.c};border-left:3px solid ${w.b};border-radius:7px;padding:10px 14px;margin-bottom:8px;font-size:13px">${w.i} ${w.t}</div>`).join('');
 }
 
-// ─── ZÁKAZNÍCI TABULKA ───────────────────────────────────────────────────────
+// ── ZÁKAZNÍCI TABULKA ─────────────────────────────────────────────────────────
 let sortCol='obrat',sortDir=-1;
-function setSort(col){
-  document.getElementById('sort-by').value=col;
-  if(sortCol===col)sortDir*=-1;else{sortCol=col;sortDir=['name','city','street','area'].includes(col)?1:-1;}
-  renderTable();
-}
+function setSort(col){document.getElementById('sort-by').value=col;if(sortCol===col)sortDir*=-1;else{sortCol=col;sortDir=['name','city','street','area'].includes(col)?1:-1;}renderTable();}
 function renderTable(){
   const q=document.getElementById('search').value.toLowerCase();
   const fp=document.getElementById('filter-pri').value;
@@ -893,10 +811,7 @@ function renderTable(){
   if(q) data=data.filter(c=>[c.name,c.street,c.city,c.psc,String(c.id)].join(' ').toLowerCase().includes(q));
   if(fp) data=data.filter(c=>c.priority===fp);
   if(fa) data=data.filter(c=>c.area===fa);
-  data.sort((a,b)=>{
-    const av=a[sortCol]??'',bv=b[sortCol]??'';
-    return typeof av==='string'?av.localeCompare(bv,'cs')*sortDir:(av-bv)*sortDir;
-  });
+  data.sort((a,b)=>{const av=a[sortCol]??'',bv=b[sortCol]??'';return typeof av==='string'?av.localeCompare(bv,'cs')*sortDir:(av-bv)*sortDir;});
   document.getElementById('customer-body').innerHTML=data.map(c=>{
     const p=pri(c);
     return `<tr>
@@ -912,7 +827,7 @@ function renderTable(){
   }).join('');
 }
 
-// ─── PLÁN TÝDNE ──────────────────────────────────────────────────────────────
+// ── PLÁN TÝDNE ────────────────────────────────────────────────────────────────
 function initPlan(){
   const keys=['po','ut','st','ct','pa'];
   const d=new Date(),dow=d.getDay();
@@ -923,28 +838,25 @@ function initPlan(){
     const ds=dates[i].toLocaleDateString('cs-CZ',{day:'numeric',month:'numeric'});
     return `<div class="day-card">
       <div class="day-head">
-        <div class="day-head-top"><span>${dp.label} ${ds}</span><span style="opacity:.7;font-size:11px">${dp.customers.length} schůzek</span></div>
+        <div class="day-head-top"><span>${dp.label} ${ds}</span><span style="opacity:.65;font-size:11px">${dp.customers.length} schůzek</span></div>
         <div class="day-head-sub">${dp.icon} ${dp.area}</div>
         <div class="day-head-route">🛣 ${dp.route}</div>
       </div>
       <div class="day-body">${dp.customers.map(c=>{
-        if(!c)return '';
+        if(!c) return '';
         const isNew=c.priority==='N';
         const bc=isNew?'pri-n-border':'pri-'+pri(c).cls+'-border';
-        const isDone=doneSessions.has(String(c.id));
         const addr=fmtAddr(c);
         const meta=isNew?`🆕 ${c.note||'Akvizice'}`:`Priorita ${pri(c).l} · ${fmt(c.avg)}k/m`;
-        const cJson=JSON.stringify(c).replace(/'/g,"\\'");
+        const isDone=doneSessions.has(String(c.id));
         return `<div class="visit-item ${bc}${isDone?' done':''}" data-cid="${c.id}">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
-            <div style="flex:1;min-width:0;cursor:pointer" onclick='openModal(${JSON.stringify(c)})'>
+          <div class="visit-row">
+            <div class="visit-info" onclick='openModal(${JSON.stringify(c)})'>
               <div class="visit-name">${c.name}${isNew?'<span class="tag new-tag">NOVÝ</span>':''}</div>
               <div class="visit-addr">📍 ${addr}</div>
               <div class="visit-meta">${meta}</div>
             </div>
-            <button class="btn-zapisat" onclick="openFormModal(${cJson},event)" title="Zapsat výstup ze schůzky">
-              ✏️ Zapsat
-            </button>
+            <button class="btn-zapisat" onclick='openRec(${JSON.stringify(c)},event)'>🎙️ Zapsat</button>
           </div>
         </div>`;
       }).join('')}</div>
@@ -952,45 +864,35 @@ function initPlan(){
   }).join('');
 }
 
-// ─── ZÁPISKY ─────────────────────────────────────────────────────────────────
+// ── ZÁPISKY ───────────────────────────────────────────────────────────────────
 let notesLoaded=false,allNotes=[];
 async function loadNotes(){
-  const dot=document.getElementById('notes-status-dot');
-  const stxt=document.getElementById('notes-status-text');
+  const dot=document.getElementById('notes-dot');
+  const txt=document.getElementById('notes-txt');
   const grid=document.getElementById('notes-grid');
-  dot.className='status-dot loading';
-  stxt.textContent='Načítám zápisky ze Google Sheets…';
-  grid.innerHTML='<div class="notes-empty"><p class="loading-dots">Načítám</p></div>';
+  dot.className='status-dot loading'; txt.textContent='Načítám ze Google Sheets…';
+  grid.innerHTML='<div class="notes-empty"><p class="loading-dots">Načítám zápisky</p></div>';
   try{
     const raw=await(await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Sheet1`)).text();
     const json=JSON.parse(raw.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
     const cols=json.table.cols.map(c=>c.label);
-    allNotes=(json.table.rows||[]).map(r=>{
-      const o={};cols.forEach((col,i)=>o[col]=r.c[i]?r.c[i].v||r.c[i].f||'':'');return o;
-    }).filter(r=>r['Zákazník']||r['Datum']);
+    allNotes=(json.table.rows||[]).map(r=>{const o={};cols.forEach((col,i)=>o[col]=r.c[i]?r.c[i].v||r.c[i].f||'':'');return o;}).filter(r=>r['Zákazník']||r['Datum']);
     notesLoaded=true;
-    dot.className='status-dot';
-    stxt.textContent=`Načteno ${allNotes.length} zápisků`;
+    dot.className='status-dot'; txt.textContent=`Načteno ${allNotes.length} zápisků`;
     const names=[...new Set(allNotes.map(n=>n['Zákazník']).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'cs'));
     document.getElementById('notes-filter').innerHTML='<option value="">Všichni zákazníci</option>'+names.map(n=>`<option>${n}</option>`).join('');
     renderNotes(allNotes);
   }catch(e){
-    dot.className='status-dot error';
-    stxt.textContent='Chyba při načítání – ověřte sdílení Google Sheets';
+    dot.className='status-dot error'; txt.textContent='Chyba načítání';
     grid.innerHTML=`<div class="notes-empty"><p style="color:#e63329">${e.message}</p><p style="font-size:12px;color:#aaa;margin-top:4px">Sdílet → Kdokoli s odkazem → Prohlížitel</p></div>`;
   }
 }
 function renderNotes(notes){
   const grid=document.getElementById('notes-grid');
-  if(!notes.length){grid.innerHTML='<div class="notes-empty"><p>Žádné zápisky nenalezeny</p></div>';return;}
+  if(!notes.length){grid.innerHTML='<div class="notes-empty"><p>Žádné zápisky</p></div>';return;}
   grid.innerHTML=notes.map(n=>`<div class="note-card">
-    <div class="note-header">
-      <div class="note-customer">${n['Zákazník']||'–'}</div>
-      <div class="note-date">${n['Datum']||''}</div>
-    </div>
-    <div class="note-fields">
-      ${[['Cíl schůzky'],['Shrnutí'],['Úkoly'],['Plán příští schůzky']].map(([k])=>n[k]?`<div class="note-field"><div class="note-field-label">${k}</div><div class="note-field-val">${n[k]}</div></div>`:'').join('')}
-    </div>
+    <div class="note-header"><div class="note-customer">${n['Zákazník']||'–'}</div><div class="note-date">${n['Datum']||''}</div></div>
+    <div class="note-fields">${[['Cíl schůzky'],['Shrnutí'],['Úkoly'],['Plán příští schůzky']].map(([k])=>n[k]?`<div class="note-field"><div class="note-field-label">${k}</div><div class="note-field-val">${n[k]}</div></div>`:'').join('')}</div>
   </div>`).join('');
 }
 function filterNotes(){
@@ -999,6 +901,8 @@ function filterNotes(){
   renderNotes(allNotes.filter(n=>(!cu||n['Zákazník']===cu)&&(!q||Object.values(n).join(' ').toLowerCase().includes(q))));
 }
 
+// ── INIT ──────────────────────────────────────────────────────────────────────
+updateCornerDot();
 initOverview();renderTable();initPlan();loadNotes();
 </script>
 </body>
