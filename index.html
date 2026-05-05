@@ -113,6 +113,36 @@ tr:hover td{background:#fafbfc}
 .btn-primary{background:#1a2744;color:#fff}.btn-primary:hover{background:#243460}
 .btn-maps{background:#4285f4;color:#fff}.btn-maps:hover{background:#3367d6}
 .btn-outline{background:#f4f5f7;color:#1a2744;border:1px solid #ddd}.btn-outline:hover{background:#e9eaec}
+.btn-zapisat{background:#16a34a;color:#fff;font-size:11px;padding:4px 9px;border-radius:5px;border:none;cursor:pointer;margin-top:5px;display:inline-flex;align-items:center;gap:4px;font-weight:600}
+.btn-zapisat:hover{background:#15803d}
+.visit-item.done{opacity:.65;background:#f0fdf4!important;border-left-color:#16a34a!important}
+.visit-item.done .visit-name::after{content:' ✓';color:#16a34a;font-size:11px}
+.form-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;align-items:center;justify-content:center;padding:16px}
+.form-modal-bg.open{display:flex}
+.form-modal{background:#fff;border-radius:14px;width:min(560px,100%);max-height:92vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.3)}
+.form-modal-header{background:#16a34a;color:#fff;padding:18px 20px;border-radius:14px 14px 0 0;position:relative}
+.form-modal-header h2{font-size:15px;font-weight:600;padding-right:32px;line-height:1.4}
+.form-modal-header .fmsub{font-size:12px;opacity:.8;margin-top:3px}
+.form-modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:#fff;font-size:22px;cursor:pointer;opacity:.7;line-height:1}
+.form-modal-close:hover{opacity:1}
+.form-modal-body{padding:18px 20px}
+.form-date-row{display:flex;gap:10px;align-items:center;margin-bottom:16px;background:#f0fdf4;border-radius:8px;padding:10px 14px;flex-wrap:wrap}
+.form-date-row label{font-size:13px;color:#166534;font-weight:600}
+.form-date-row input[type=date]{border:1px solid #bbf7d0;border-radius:6px;padding:6px 10px;font-size:13px;background:#fff;color:#1a2744}
+.form-field{margin-bottom:14px}
+.form-field label{display:block;font-size:12px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.form-field textarea{width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:10px 12px;font-size:13px;font-family:inherit;resize:vertical;min-height:72px;color:#1a2744;transition:border .15s;line-height:1.5}
+.form-field textarea:focus{outline:none;border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.1)}
+.form-field textarea::placeholder{color:#ccc}
+.form-modal-actions{padding:4px 20px 18px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn-save{background:#16a34a;color:#fff;padding:10px 22px;font-size:14px;font-weight:600;border-radius:7px;border:none;cursor:pointer}
+.btn-save:hover{background:#15803d}
+.btn-save:disabled{background:#9ca3af;cursor:not-allowed}
+.save-spinner{display:none;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.save-status{font-size:13px;font-weight:500}
+.save-status.ok{color:#16a34a}
+.save-status.err{color:#e63329}
 </style>
 </head>
 <body>
@@ -205,6 +235,31 @@ tr:hover td{background:#fafbfc}
     </button>
   </div>
   <div class="status-bar"><span class="status-dot" id="notes-status-dot"></span><span id="notes-status-text">Načítám…</span></div>
+  <div id="apps-script-setup" style="background:#fffbeb;border:1px solid #fcd34d;border-radius:9px;padding:14px 16px;margin-bottom:14px;font-size:13px;line-height:1.7">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+      <strong>⚙️ Propojení s Google Sheets – nastavení URL</strong>
+      <button onclick="toggleSetup()" style="font-size:12px;background:#fef3c7;border:1px solid #fcd34d;border-radius:5px;padding:3px 9px;cursor:pointer;color:#92400e">Zobrazit návod</button>
+    </div>
+    <div id="setup-detail" style="display:none;margin-top:10px;border-top:1px solid #fde68a;padding-top:10px">
+      <b>Krok 1</b> – Otevři <a href="https://script.google.com" target="_blank" style="color:#b45309;font-weight:600">script.google.com</a> → Nový projekt a vlož kód:<br>
+      <code style="display:block;background:#fef3c7;padding:8px 10px;border-radius:6px;margin:7px 0;font-size:11px;white-space:pre;border:1px solid #fde68a">function doGet(e){
+  var p=e.parameter;
+  var ss=SpreadsheetApp.openById('12rKG3kLopCDSIwZaqWYvQNmPDsFAXeioP5QGQvW6N0w');
+  var sh=ss.getSheets()[0];
+  if(sh.getLastRow()===0) sh.appendRow(['Datum','Zákazník','Cíl schůzky','Shrnutí','Úkoly','Plán příští schůzky']);
+  sh.appendRow([p.datum,p.zakaznik,p.cil,p.shrnuti,p.ukoly,p.pristi]);
+  return ContentService.createTextOutput(JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);
+}</code>
+      <b>Krok 2</b> – Nasadit → Nové nasazení → Typ: <em>Webová aplikace</em> → Spustit jako: <em>Já</em> → Přístup: <em>Kdokoli</em><br>
+      <b>Krok 3</b> – Zkopíruj URL nasazení a vlož do pole níže.
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap">
+      <input type="text" id="asurl-input" placeholder="Vlož URL Apps Script (https://script.google.com/macros/s/…/exec)"
+        style="flex:1;min-width:200px;border:1.5px solid #fcd34d;border-radius:7px;padding:8px 12px;font-size:13px;background:#fff;color:#1a2744"
+        oninput="saveAppsScriptUrl(this.value)">
+      <span id="asurl-status" style="font-size:12px;font-weight:500;white-space:nowrap"></span>
+    </div>
+  </div>
   <div class="notes-grid" id="notes-grid"><div class="notes-empty"><p class="loading-dots">Načítám zápisky</p></div></div>
 </div>
 
@@ -221,7 +276,49 @@ tr:hover td{background:#fafbfc}
     </div>
     <div class="modal-actions">
       <button class="btn btn-maps" id="btn-maps">📍 Otevřít v Mapách</button>
+      <button class="btn btn-primary" id="btn-modal-zapisat" style="background:#16a34a" onclick="openFormModalFromDetail()">✏️ Zapsat schůzku</button>
       <button class="btn btn-outline" onclick="closeModal()">Zavřít</button>
+    </div>
+  </div>
+</div>
+
+<!-- FORMULÁŘ ZÁPISU SCHŮZKY -->
+<div class="form-modal-bg" id="form-modal" onclick="if(event.target===this)closeFormModal()">
+  <div class="form-modal">
+    <div class="form-modal-header">
+      <button class="form-modal-close" onclick="closeFormModal()">×</button>
+      <h2 id="fm-title">✏️ Zápis ze schůzky</h2>
+      <div class="fmsub" id="fm-sub"></div>
+    </div>
+    <div class="form-modal-body">
+      <div class="form-date-row">
+        <label>📅 Datum schůzky:</label>
+        <input type="date" id="fm-datum">
+      </div>
+      <div class="form-field">
+        <label>Cíl schůzky</label>
+        <textarea id="fm-cil" rows="2" placeholder="S čím jsem tam šel – co jsem chtěl projednat…"></textarea>
+      </div>
+      <div class="form-field">
+        <label>Shrnutí</label>
+        <textarea id="fm-shrnuti" rows="3" placeholder="Co se řešilo, jak schůzka proběhla…"></textarea>
+      </div>
+      <div class="form-field">
+        <label>Úkoly</label>
+        <textarea id="fm-ukoly" rows="2" placeholder="Konkrétní kroky – co udělat po schůzce…"></textarea>
+      </div>
+      <div class="form-field">
+        <label>Plán příští schůzky</label>
+        <textarea id="fm-pristi" rows="2" placeholder="Co příště řešit, kdy se vrátit…"></textarea>
+      </div>
+    </div>
+    <div class="form-modal-actions">
+      <button class="btn-save" id="btn-save" onclick="saveToSheets()">
+        <span class="save-spinner" id="save-spinner"></span>
+        💾 Uložit do Google Sheets
+      </button>
+      <button class="btn btn-outline" onclick="closeFormModal()">Zrušit</button>
+      <span class="save-status" id="save-status"></span>
     </div>
   </div>
 </div>
@@ -231,6 +328,121 @@ const SHEET_ID='12rKG3kLopCDSIwZaqWYvQNmPDsFAXeioP5QGQvW6N0w';
 const FREQ={A:'každé 1–2 týdny',B:'1× měsíčně',C:'1× za 6–8 týdnů'};
 const AREA_LABEL={cb:'ČB centrum',jih:'Jih',zapad:'Západ',vychod:'Východ',ostatni:'Ostatní'};
 const AREA_CLS={cb:'area-cb',jih:'area-jih',zapad:'area-zapad',vychod:'area-vychod',ostatni:'area-ostatni'};
+
+// ─── FORMULÁŘ ZÁPISU SCHŮZKY ─────────────────────────────────────────────────
+// Nastavte APPS_SCRIPT_URL po nasazení Google Apps Script (viz instrukce níže)
+// Apps Script URL – uložená v localStorage pro trvalost
+let APPS_SCRIPT_URL = localStorage.getItem('crm_apps_script_url') || '';
+
+function toggleSetup(){
+  const d=document.getElementById('setup-detail');
+  d.style.display=d.style.display==='none'?'block':'none';
+}
+
+function saveAppsScriptUrl(val){
+  APPS_SCRIPT_URL = val.trim();
+  localStorage.setItem('crm_apps_script_url', APPS_SCRIPT_URL);
+  const st=document.getElementById('asurl-status');
+  if(APPS_SCRIPT_URL && APPS_SCRIPT_URL.includes('script.google.com')){
+    st.textContent='✅ URL uložena';st.style.color='#16a34a';
+  } else if(APPS_SCRIPT_URL){
+    st.textContent='⚠️ Zkontroluj URL formát';st.style.color='#b45309';
+  } else {
+    st.textContent='';
+  }
+}
+
+// Načti uloženou URL při startu
+window.addEventListener('DOMContentLoaded',()=>{
+  const stored=localStorage.getItem('crm_apps_script_url');
+  if(stored){
+    const inp=document.getElementById('asurl-input');
+    if(inp) inp.value=stored;
+    APPS_SCRIPT_URL=stored;
+    const st=document.getElementById('asurl-status');
+    if(st&&stored.includes('script.google.com')){st.textContent='✅ URL uložena';st.style.color='#16a34a';}
+  }
+});
+
+let currentVisitCustomer=null;
+const doneSessions=new Set();
+
+function openFormModal(c,evt){
+  if(evt) evt.stopPropagation();
+  currentVisitCustomer=c;
+  document.getElementById('fm-datum').value=new Date().toISOString().split('T')[0];
+  ['fm-cil','fm-shrnuti','fm-ukoly','fm-pristi'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fm-title').textContent='✏️ Zápis ze schůzky';
+  document.getElementById('fm-sub').textContent=c.name+(c.city&&c.city!=='–'?' · '+c.city:'')+(c.street&&c.street!=='–'?' · '+c.street:'');
+  document.getElementById('save-status').textContent='';
+  document.getElementById('save-status').className='save-status';
+  document.getElementById('btn-save').disabled=false;
+  document.getElementById('save-spinner').style.display='none';
+  document.getElementById('form-modal').classList.add('open');
+}
+
+function closeFormModal(){
+  document.getElementById('form-modal').classList.remove('open');
+  currentVisitCustomer=null;
+}
+
+async function saveToSheets(){
+  const c=currentVisitCustomer;
+  if(!c) return;
+  const datum=document.getElementById('fm-datum').value;
+  const cil=document.getElementById('fm-cil').value.trim();
+  const shrnuti=document.getElementById('fm-shrnuti').value.trim();
+  const ukoly=document.getElementById('fm-ukoly').value.trim();
+  const pristi=document.getElementById('fm-pristi').value.trim();
+  const btn=document.getElementById('btn-save');
+  const spinner=document.getElementById('save-spinner');
+  const status=document.getElementById('save-status');
+
+  if(!cil&&!shrnuti){
+    status.textContent='⚠️ Vyplňte alespoň Cíl nebo Shrnutí.';
+    status.className='save-status err';
+    return;
+  }
+
+  const datumCZ=datum?new Date(datum+'T12:00:00').toLocaleDateString('cs-CZ'):new Date().toLocaleDateString('cs-CZ');
+
+  btn.disabled=true;
+  spinner.style.display='inline-block';
+  status.textContent='Ukládám…';
+  status.className='save-status';
+
+  // Pokud není nastaven Apps Script URL, použij přímý zápis přes gviz (read-only)
+  // a zobraz instrukce
+  if(!APPS_SCRIPT_URL || !APPS_SCRIPT_URL.includes('script.google.com')){
+    spinner.style.display='none';
+    btn.disabled=false;
+    status.innerHTML='⚠️ Nejprve vlož URL Apps Script v záložce <b>Zápisky</b>.';
+    status.className='save-status err';
+    return;
+  }
+
+  try{
+    const params=new URLSearchParams({
+      datum:datumCZ, zakaznik:c.name, cil, shrnuti, ukoly, pristi
+    });
+    await fetch(APPS_SCRIPT_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'});
+    spinner.style.display='none';
+    btn.disabled=false;
+    status.textContent='✅ Uloženo do Google Sheets!';
+    status.className='save-status ok';
+    doneSessions.add(String(c.id));
+    document.querySelectorAll(`.visit-item[data-cid="${c.id}"]`).forEach(el=>el.classList.add('done'));
+    setTimeout(()=>{
+      closeFormModal();
+      notesLoaded=false; // force reload next time
+    },1600);
+  }catch(e){
+    spinner.style.display='none';
+    btn.disabled=false;
+    status.textContent='❌ Chyba připojení – zkontrolujte Apps Script URL.';
+    status.className='save-status err';
+  }
+}
 
 // ─── ZÁKAZNÍCI S ADRESAMI ────────────────────────────────────────────────────
 // Zdroj: Adresář zákazníků celá ČR.xlsx (filtrováno ČB středisko) + Obraty ČB
@@ -369,7 +581,14 @@ function areaTag(c){
 }
 
 // ─── MODAL ───────────────────────────────────────────────────────────────────
+let _lastModalCustomer = null;
+function openFormModalFromDetail(){
+  if(!_lastModalCustomer) return;
+  closeModal();
+  openFormModal(_lastModalCustomer, null);
+}
 function openModal(c){
+  _lastModalCustomer = c;
   const isNew=c.priority==='N';
   const p=pri(c);
   document.getElementById('modal-name').textContent=c.name;
@@ -484,12 +703,21 @@ function initPlan(){
         if(!c)return '';
         const isNew=c.priority==='N';
         const bc=isNew?'pri-n-border':'pri-'+pri(c).cls+'-border';
+        const isDone=doneSessions.has(String(c.id));
         const addr=fmtAddr(c);
         const meta=isNew?`🆕 ${c.note||'Akvizice'}`:`Priorita ${pri(c).l} · ${fmt(c.avg)}k/m`;
-        return `<div class="visit-item ${bc}" onclick='openModal(${JSON.stringify(c)})'>
-          <div class="visit-name">${c.name}${isNew?'<span class="tag new-tag">NOVÝ</span>':''}</div>
-          <div class="visit-addr">📍 ${addr}</div>
-          <div class="visit-meta">${meta}</div>
+        const cJson=JSON.stringify(c).replace(/'/g,"\\'");
+        return `<div class="visit-item ${bc}${isDone?' done':''}" data-cid="${c.id}">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
+            <div style="flex:1;min-width:0;cursor:pointer" onclick='openModal(${JSON.stringify(c)})'>
+              <div class="visit-name">${c.name}${isNew?'<span class="tag new-tag">NOVÝ</span>':''}</div>
+              <div class="visit-addr">📍 ${addr}</div>
+              <div class="visit-meta">${meta}</div>
+            </div>
+            <button class="btn-zapisat" onclick="openFormModal(${cJson},event)" title="Zapsat výstup ze schůzky">
+              ✏️ Zapsat
+            </button>
+          </div>
         </div>`;
       }).join('')}</div>
     </div>`;
