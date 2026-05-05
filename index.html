@@ -144,33 +144,53 @@ tr:hover td{background:#fafbfc}
 .save-status.ok{color:#16a34a}
 .save-status.err{color:#e63329}
 
-/* ── AI DIKTOVÁNÍ ─────────────────────────────────────── */
-.dictation-box{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);border-radius:12px;padding:16px;margin-bottom:16px;color:#fff}
-.dictation-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap}
-.dictation-title{font-size:13px;font-weight:700;letter-spacing:.3px;opacity:.9}
-.dictation-api-row{display:flex;gap:6px;align-items:center;flex:1;min-width:200px}
-.dictation-api-row input{flex:1;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:5px 10px;font-size:12px;color:#fff;min-width:0}
-.dictation-api-row input::placeholder{color:rgba(255,255,255,.4)}
-.dictation-api-row input:focus{outline:none;border-color:rgba(255,255,255,.6)}
-.api-saved-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;flex-shrink:0;display:none}
-.api-saved-dot.visible{display:inline-block}
-.mic-area{display:flex;flex-direction:column;align-items:center;gap:10px;margin:4px 0 8px}
-.mic-btn{width:70px;height:70px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:28px;transition:all .2s}
-.mic-btn.idle{background:rgba(255,255,255,.15)}
-.mic-btn.idle:hover{background:rgba(255,255,255,.25)}
-.mic-btn.recording{background:#e63329;animation:mic-pulse 1.4s ease-out infinite}
-.mic-btn.processing{background:rgba(250,204,21,.2);cursor:not-allowed}
-@keyframes mic-pulse{0%{box-shadow:0 0 0 0 rgba(230,51,41,.6)}70%{box-shadow:0 0 0 16px rgba(230,51,41,0)}100%{box-shadow:0 0 0 0 rgba(230,51,41,0)}}
-.mic-label{font-size:12px;opacity:.7;text-align:center}
-.transcript-box{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:10px 12px;font-size:13px;color:#e2e8f0;min-height:56px;max-height:110px;overflow-y:auto;line-height:1.5;white-space:pre-wrap;word-break:break-word}
-.transcript-box.empty{color:rgba(255,255,255,.3);font-style:italic}
-.ai-btn{background:linear-gradient(90deg,#7c3aed,#4f46e5);color:#fff;border:none;border-radius:7px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
-.ai-btn:hover{filter:brightness(1.12)}
-.ai-btn:disabled{filter:grayscale(1);cursor:not-allowed;opacity:.55}
-.ai-spinner-el{width:14px;height:14px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
-.ai-status{font-size:12px;opacity:.85;min-height:18px}
-.dictation-or{display:flex;align-items:center;gap:8px;margin:14px 0 2px;color:rgba(255,255,255,.35);font-size:12px}
-.dictation-or::before,.dictation-or::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.12)}
+/* ── DIKTOVÁNÍ OVERLAY ──────────────────────────────────────────── */
+.dictation-overlay{display:none;position:fixed;inset:0;background:rgba(10,15,30,.92);z-index:500;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px)}
+.dictation-overlay.open{display:flex}
+.dictation-panel{background:linear-gradient(160deg,#0f172a 0%,#1e3a5f 100%);border-radius:20px;padding:28px 24px;width:min(420px,100%);color:#fff;box-shadow:0 32px 80px rgba(0,0,0,.5);text-align:center}
+.dictation-panel h3{font-size:16px;font-weight:700;margin-bottom:4px}
+.dictation-panel .dp-sub{font-size:12px;opacity:.6;margin-bottom:24px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mic-ring{width:96px;height:96px;border-radius:50%;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 16px;cursor:pointer;transition:all .2s;user-select:none}
+.mic-ring:hover{background:rgba(255,255,255,.18)}
+.mic-ring.recording{background:#e63329;border-color:#e63329;animation:mic-pulse 1.4s ease-out infinite;box-shadow:0 0 0 0 rgba(230,51,41,.6)}
+.mic-ring.processing{background:rgba(250,204,21,.2);border-color:rgba(250,204,21,.4);cursor:default}
+@keyframes mic-pulse{0%{box-shadow:0 0 0 0 rgba(230,51,41,.5)}70%{box-shadow:0 0 0 20px rgba(230,51,41,0)}100%{box-shadow:0 0 0 0 rgba(230,51,41,0)}}
+.mic-ring-label{font-size:13px;opacity:.75;margin-bottom:18px;min-height:20px}
+.dictation-wave{display:flex;align-items:center;justify-content:center;gap:4px;height:28px;margin-bottom:18px}
+.dictation-wave span{display:inline-block;width:4px;border-radius:2px;background:rgba(255,255,255,.35);height:6px}
+.dictation-wave.active span{animation:wave 1.1s ease-in-out infinite}
+.dictation-wave.active span:nth-child(2){animation-delay:.15s}
+.dictation-wave.active span:nth-child(3){animation-delay:.3s}
+.dictation-wave.active span:nth-child(4){animation-delay:.45s}
+.dictation-wave.active span:nth-child(5){animation-delay:.6s}
+@keyframes wave{0%,100%{height:6px;opacity:.35}50%{height:22px;opacity:1}}
+.transcript-preview{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:12px 14px;font-size:13px;color:#cbd5e1;min-height:52px;max-height:100px;overflow-y:auto;text-align:left;line-height:1.5;white-space:pre-wrap;word-break:break-word;margin-bottom:16px}
+.transcript-preview.empty{color:rgba(255,255,255,.3);font-style:italic}
+.dp-status{font-size:12px;min-height:18px;margin-bottom:14px}
+.dp-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.dp-btn-process{background:linear-gradient(90deg,#7c3aed,#4f46e5);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.dp-btn-process:hover{filter:brightness(1.12)}
+.dp-btn-process:disabled{opacity:.45;cursor:not-allowed;filter:none}
+.dp-btn-cancel{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer}
+.dp-btn-cancel:hover{background:rgba(255,255,255,.18)}
+.dp-spinner{width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+/* Tlačítko Nadiktovat vše ve formuláři */
+.btn-diktovat{background:linear-gradient(90deg,#1a2744,#243460);color:#fff;border:none;border-radius:8px;padding:11px 18px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;width:100%;justify-content:center;margin-bottom:16px;transition:.15s}
+.btn-diktovat:hover{filter:brightness(1.12)}
+.btn-diktovat .mic-icon{font-size:18px}
+/* Nastavení tab */
+.settings-card{background:#fff;border-radius:12px;border:.5px solid #e0e0e0;padding:20px;margin-bottom:16px}
+.settings-card h3{font-size:14px;font-weight:700;color:#1a2744;margin-bottom:4px}
+.settings-card p{font-size:13px;color:#888;margin-bottom:14px;line-height:1.5}
+.settings-input-row{display:flex;gap:8px;align-items:center}
+.settings-input-row input{flex:1;border:1.5px solid #e0e0e0;border-radius:8px;padding:9px 12px;font-size:14px;color:#1a2744;transition:.15s}
+.settings-input-row input:focus{outline:none;border-color:#1a2744}
+.settings-save-btn{background:#1a2744;color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.settings-save-btn:hover{background:#243460}
+.api-status-badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;padding:6px 12px;border-radius:8px;margin-top:10px}
+.api-status-badge.ok{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
+.api-status-badge.err{background:#fff0f0;color:#c0392b;border:1px solid #fecaca}
+.api-status-badge.none{background:#f8f9fb;color:#888;border:1px solid #e0e0e0}
 
 </style>
 </head>
@@ -187,6 +207,7 @@ tr:hover td{background:#fafbfc}
   <button onclick="showTab('zakaznici',this)">Zákazníci</button>
   <button onclick="showTab('plan',this)">Plán týdne</button>
   <button onclick="showTab('zapisky',this)">Zápisky</button>
+  <button onclick="showTab('nastaveni',this)">Nastaveni</button>
 </nav>
 
 <div id="prehled" class="tab active">
@@ -268,6 +289,36 @@ tr:hover td{background:#fafbfc}
   <div class="notes-grid" id="notes-grid"><div class="notes-empty"><p class="loading-dots">Načítám zápisky</p></div></div>
 </div>
 
+<div id="nastaveni" class="tab">
+  <div class="settings-card">
+    <h3>&#128273; Anthropic API kl&#237;&#269;</h3>
+    <p>Klic je potreba pro AI diktovani. Ulozi se pouze do vaseho prohlizece (localStorage). Ziskate ho na <a href="https://console.anthropic.com" target="_blank" style="color:#3949ab">console.anthropic.com</a>.</p>
+    <div class="settings-input-row">
+      <input type="password" id="settings-api-key" placeholder="sk-ant-api03-..." autocomplete="off">
+      <button class="settings-save-btn" onclick="saveApiKeyFromSettings()">Ulozit</button>
+    </div>
+    <div id="api-key-badge" class="api-status-badge none">Klic neni nastaven</div>
+  </div>
+  <div class="settings-card">
+    <h3>&#128202; Google Apps Script URL</h3>
+    <p>Pro zapis zapisku do Google Sheets. Zapis vyzaduje Apps Script, nacteni ze Sheets funguje bez nej.</p>
+    <div class="settings-input-row">
+      <input type="text" id="settings-apps-url" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off">
+      <button class="settings-save-btn" onclick="saveAppsUrlFromSettings()">Ulozit</button>
+    </div>
+    <div id="apps-url-badge" class="api-status-badge none">URL neni nastavena</div>
+    <details style="margin-top:14px">
+      <summary style="font-size:13px;color:#555;cursor:pointer;font-weight:500">Jak nastavit Apps Script</summary>
+      <div style="margin-top:10px;font-size:13px;color:#555;line-height:1.7;background:#f8f9fb;border-radius:8px;padding:12px">
+        1. Otevri <a href="https://script.google.com" target="_blank" style="color:#3949ab">script.google.com</a> a vloz novy projekt<br>
+        2. Vloz kod funkce doGet ktera zapise radek do Sheets<br>
+        3. Nasad jako webovou aplikaci - pristup: Kdokoli<br>
+        4. Zkopiruj URL nasazeni a vloz vyse
+      </div>
+    </details>
+  </div>
+</div>
+
 <div class="modal-bg" id="modal" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="modal-header">
@@ -287,6 +338,50 @@ tr:hover td{background:#fafbfc}
   </div>
 </div>
 
+<!-- DIKTOVACÍ OVERLAY -->
+<div class="dictation-overlay" id="dictation-overlay">
+  <div class="dictation-panel">
+    <h3>🎙️ Nadiktovat průběh schůzky</h3>
+    <div class="dp-sub" id="dp-customer-name">–</div>
+    <div class="mic-ring idle" id="dp-mic-ring" onclick="toggleRecording()">🎙️</div>
+    <div class="mic-ring-label" id="dp-mic-label">Stiskni pro zahájení nahrávání</div>
+    <div class="dictation-wave" id="dp-wave">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="transcript-preview empty" id="dp-transcript">Zde se zobrazí přepis vašeho diktování…</div>
+    <div class="dp-status" id="dp-status"></div>
+    <div class="dp-actions">
+      <button class="dp-btn-process" id="dp-process-btn" onclick="parseWithClaude()" disabled>
+        <span class="dp-spinner" id="dp-spinner"></span>
+        ✨ Zpracovat pomocí Claude
+      </button>
+      <button class="dp-btn-cancel" onclick="closeDictation()">Zavřít</button>
+    </div>
+  </div>
+</div>
+
+<!-- DIKTOVATICI OVERLAY -->
+<div class="dictation-overlay" id="dictation-overlay" onclick="if(event.target===this)closeDictation()">
+  <div class="dictation-panel">
+    <h3>Nadiktovat prubeh schuzky</h3>
+    <div class="dp-sub" id="dp-customer-name">zakaznik</div>
+    <div class="mic-ring idle" id="dp-mic-ring" onclick="toggleRecording()" style="font-size:36px;line-height:96px">&#127908;</div>
+    <div class="mic-ring-label" id="dp-mic-label">Stiskni pro zahajeni nahravani</div>
+    <div class="dictation-wave" id="dp-wave">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="transcript-preview empty" id="dp-transcript">Zde se zobrazi prepis vaseho diktovani...</div>
+    <div class="dp-status" id="dp-status"></div>
+    <div class="dp-actions">
+      <button class="dp-btn-process" id="dp-process-btn" onclick="parseWithClaude()" disabled>
+        <span class="dp-spinner" id="dp-spinner"></span>
+        Zpracovat pomoci Claude
+      </button>
+      <button class="dp-btn-cancel" onclick="closeDictation()">Zavrit</button>
+    </div>
+  </div>
+</div>
+
 <!-- FORMULÁŘ ZÁPISU SCHŮZKY -->
 <div class="form-modal-bg" id="form-modal" onclick="if(event.target===this)closeFormModal()">
   <div class="form-modal">
@@ -297,59 +392,35 @@ tr:hover td{background:#fafbfc}
     </div>
     <div class="form-modal-body">
       <div class="form-date-row">
-        <label>Datum:</label>
+        <label>📅 Datum:</label>
         <input type="date" id="fm-datum">
       </div>
-
-      <div class="dictation-box">
-        <div class="dictation-top">
-          <span class="dictation-title">&#127908; AI Diktovani</span>
-          <div class="dictation-api-row">
-            <input type="password" id="api-key-input" placeholder="Anthropic API klic (sk-ant-...)" oninput="saveApiKey(this.value)">
-            <span class="api-saved-dot" id="api-saved-dot" title="API klic ulozen"></span>
-          </div>
-        </div>
-        <div class="mic-area">
-          <button class="mic-btn idle" id="mic-btn" onclick="toggleRecording()">&#127908;</button>
-          <div class="mic-label" id="mic-label">Stiskni pro zahajeni diktovani</div>
-        </div>
-        <div style="margin-bottom:10px">
-          <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">Prepis hlasu</div>
-          <div class="transcript-box empty" id="transcript-box">Zde se zobrazi prepis vasecho diktovani...</div>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
-          <button class="ai-btn" id="ai-parse-btn" onclick="parseWithClaude()" disabled>
-            <span class="ai-spinner-el" id="ai-spinner"></span>
-            &#10024; Zpracovat pomoci Claude
-          </button>
-          <div class="ai-status" id="ai-status"></div>
-        </div>
-        <div class="dictation-or">nebo vyplnte rucne</div>
-      </div>
-
+      <button class="btn-diktovat" onclick="openDictation()">
+        <span class="mic-icon">🎙️</span> Nadiktovat vše – Claude vyplní pole automaticky
+      </button>
       <div class="form-field">
-        <label>Cil schuzky</label>
-        <textarea id="fm-cil" rows="2" placeholder="S cim jsem tam sel - co jsem chtel projednat..."></textarea>
+        <label>Cíl schůzky</label>
+        <textarea id="fm-cil" rows="2" placeholder="S čím jsem tam šel – co jsem chtěl projednat…"></textarea>
       </div>
       <div class="form-field">
-        <label>Shrnuti</label>
-        <textarea id="fm-shrnuti" rows="3" placeholder="Co se resilo, jak schuzka probehla..."></textarea>
+        <label>Shrnutí</label>
+        <textarea id="fm-shrnuti" rows="3" placeholder="Co se řešilo, jak schůzka proběhla…"></textarea>
       </div>
       <div class="form-field">
-        <label>Ukoly</label>
-        <textarea id="fm-ukoly" rows="2" placeholder="Konkretni kroky - co udelat po schuzce..."></textarea>
+        <label>Úkoly</label>
+        <textarea id="fm-ukoly" rows="2" placeholder="Konkrétní kroky – co udělat po schůzce…"></textarea>
       </div>
       <div class="form-field">
-        <label>Plan pristi schuzky</label>
-        <textarea id="fm-pristi" rows="2" placeholder="Co priste resit, kdy se vratit..."></textarea>
+        <label>Plán příští schůzky</label>
+        <textarea id="fm-pristi" rows="2" placeholder="Co příště řešit, kdy se vrátit…"></textarea>
       </div>
     </div>
     <div class="form-modal-actions">
       <button class="btn-save" id="btn-save" onclick="saveToSheets()">
         <span class="save-spinner" id="save-spinner"></span>
-        Ulozit do Google Sheets
+        💾 Uložit do Google Sheets
       </button>
-      <button class="btn btn-outline" onclick="closeFormModal()">Zrusit</button>
+      <button class="btn btn-outline" onclick="closeFormModal()">Zrušit</button>
       <span class="save-status" id="save-status"></span>
     </div>
   </div>
@@ -365,27 +436,62 @@ const AREA_CLS={cb:'area-cb',jih:'area-jih',zapad:'area-zapad',vychod:'area-vych
 let APPS_SCRIPT_URL = localStorage.getItem('crm_apps_script_url') || '';
 let ANTHROPIC_API_KEY = localStorage.getItem('crm_api_key') || '';
 
-
-function saveApiKey(val){
-  ANTHROPIC_API_KEY=val.trim();
-  localStorage.setItem('crm_api_key',ANTHROPIC_API_KEY);
-  const dot=document.getElementById('api-saved-dot');
-  if(dot) dot.classList.toggle('visible', ANTHROPIC_API_KEY.startsWith('sk-ant-'));
+function saveApiKeyFromSettings(){
+  const val=(document.getElementById('settings-api-key').value||'').trim();
+  ANTHROPIC_API_KEY=val;localStorage.setItem('crm_api_key',val);updateSettingsBadges();
+}
+function saveAppsUrlFromSettings(){
+  const val=(document.getElementById('settings-apps-url').value||'').trim();
+  APPS_SCRIPT_URL=val;localStorage.setItem('crm_apps_script_url',val);updateSettingsBadges();
+}
+function updateSettingsBadges(){
+  const ab=document.getElementById('api-key-badge');
+  const ub=document.getElementById('apps-url-badge');
+  if(ab){
+    if(ANTHROPIC_API_KEY&&ANTHROPIC_API_KEY.startsWith('sk-ant-')){ab.className='api-status-badge ok';ab.textContent='OK - API klic ulozen';}
+    else if(ANTHROPIC_API_KEY){ab.className='api-status-badge err';ab.textContent='Neplatny format klice';}
+    else{ab.className='api-status-badge none';ab.textContent='Klic neni nastaven';}
+  }
+  if(ub){
+    if(APPS_SCRIPT_URL&&APPS_SCRIPT_URL.includes('script.google.com')){ub.className='api-status-badge ok';ub.textContent='OK - Apps Script URL ulozena';}
+    else if(APPS_SCRIPT_URL){ub.className='api-status-badge err';ub.textContent='Neplatny format URL';}
+    else{ub.className='api-status-badge none';ub.textContent='URL neni nastavena';}
+  }
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
-  // Restore API key indicator
-  if(ANTHROPIC_API_KEY){const dot=document.getElementById('api-saved-dot');if(dot&&ANTHROPIC_API_KEY.startsWith('sk-ant-'))dot.classList.add('visible');}
+  const ai=document.getElementById('settings-api-key');
+  const au=document.getElementById('settings-apps-url');
+  if(ai&&ANTHROPIC_API_KEY) ai.value=ANTHROPIC_API_KEY;
+  if(au&&APPS_SCRIPT_URL) au.value=APPS_SCRIPT_URL;
+  updateSettingsBadges();
 });
 
-// === AI DIKTOVANI ===
-let mediaRecorder=null, audioChunks=[], isRecording=false, transcriptText='';
+// === AI DIKTOVANI - OVERLAY ===
+let mediaRecorder=null,audioChunks=[],isRecording=false,transcriptText='';
 
-async function toggleRecording(){
-  if(isRecording) stopRecording();
-  else await startRecording();
+function openDictation(){
+  if(!ANTHROPIC_API_KEY||!ANTHROPIC_API_KEY.startsWith('sk-ant-')){
+    alert('Nejprve nastav Anthropic API klic v zalozce Nastaveni.');return;
+  }
+  transcriptText='';audioChunks=[];
+  const tr=document.getElementById('dp-transcript');
+  if(tr){tr.classList.add('empty');}
+  setDpStatus('','');
+  const pb=document.getElementById('dp-process-btn');
+  if(pb) pb.disabled=true;
+  const cn=document.getElementById('dp-customer-name');
+  if(cn) cn.textContent=currentVisitCustomer?.name||'zakaznik';
+  setMicState('idle');
+  document.getElementById('dictation-overlay').classList.add('open');
 }
-
+function closeDictation(){
+  if(isRecording) stopRecording();
+  document.getElementById('dictation-overlay').classList.remove('open');
+}
+async function toggleRecording(){
+  if(isRecording) stopRecording(); else await startRecording();
+}
 async function startRecording(){
   try{
     const stream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
@@ -395,88 +501,75 @@ async function startRecording(){
     mediaRecorder.ondataavailable=e=>{if(e.data&&e.data.size>0)audioChunks.push(e.data);};
     mediaRecorder.onstop=()=>{stream.getTracks().forEach(t=>t.stop());handleAudioReady();};
     mediaRecorder.start(250);
-    isRecording=true;
-    setMicState('recording');
-    setAiStatus('Nahravam...', 'rgba(255,255,255,.8)');
-  }catch(e){
-    setAiStatus('Mikrofon nedostupny: '+e.message,'#f87171');
-  }
+    isRecording=true;setMicState('recording');
+    setDpStatus('Nahravani... mluvte prirozene o prubehu schuzky','rgba(255,255,255,.8)');
+  }catch(e){setDpStatus('Mikrofon nedostupny: '+e.message,'#f87171');}
 }
-
 function stopRecording(){
   if(mediaRecorder&&mediaRecorder.state!=='inactive') mediaRecorder.stop();
-  isRecording=false;
-  setMicState('processing');
+  isRecording=false;setMicState('processing');
 }
-
 function setMicState(state){
-  const btn=document.getElementById('mic-btn');
-  const lbl=document.getElementById('mic-label');
-  if(!btn) return;
-  if(state==='idle'){btn.className='mic-btn idle';btn.innerHTML='&#127908;';lbl.textContent='Stiskni pro zahajeni diktovani';}
-  else if(state==='recording'){btn.className='mic-btn recording';btn.innerHTML='&#9209;';lbl.textContent='Nahravam... stiskni pro zastaveni';}
-  else if(state==='processing'){btn.className='mic-btn processing';btn.innerHTML='&#8987;';lbl.textContent='Prepisuji zvuk...';}
+  const ring=document.getElementById('dp-mic-ring');
+  const lbl=document.getElementById('dp-mic-label');
+  const wave=document.getElementById('dp-wave');
+  if(!ring) return;
+  if(state==='idle'){ring.className='mic-ring idle';ring.innerHTML='&#127908;';if(lbl)lbl.textContent='Stiskni pro zahajeni nahravani';if(wave)wave.classList.remove('active');}
+  else if(state==='recording'){ring.className='mic-ring recording';ring.innerHTML='&#9209;';if(lbl)lbl.textContent='Nahravani... stiskni pro zastaveni';if(wave)wave.classList.add('active');}
+  else if(state==='processing'){ring.className='mic-ring processing';ring.innerHTML='&#8987;';if(lbl)lbl.textContent='Prepisuji zvuk pomoci Claude...';if(wave)wave.classList.remove('active');}
 }
-
 async function handleAudioReady(){
-  if(!ANTHROPIC_API_KEY||!ANTHROPIC_API_KEY.startsWith('sk-ant-')){
-    setAiStatus('Zadej Anthropic API klic vyse (sk-ant-...)','#fbbf24');
-    setMicState('idle');return;
-  }
-  if(audioChunks.length===0){setAiStatus('Zadny zvuk nezaznamenan','#f87171');setMicState('idle');return;}
-  const blob=new Blob(audioChunks,{type:mediaRecorder.mimeType||'audio/webm'});
-  setAiStatus('Prepisuji zvuk pomoci Claude...','#a5b4fc');
+  if(!ANTHROPIC_API_KEY||!ANTHROPIC_API_KEY.startsWith('sk-ant-')){setDpStatus('Zadej API klic v Nastaveni.','#fbbf24');setMicState('idle');return;}
+  if(!audioChunks.length){setDpStatus('Zadny zvuk - zkus znovu.','#f87171');setMicState('idle');return;}
+  const blob=new Blob(audioChunks,{type:mediaRecorder?.mimeType||'audio/webm'});
+  setDpStatus('Prepisuji zvuk...','#a5b4fc');
   const reader=new FileReader();
   reader.onloadend=async()=>{
     const b64=reader.result.split(',')[1];
-    const mt=(mediaRecorder.mimeType||'audio/webm').split(';')[0];
+    const mt=(mediaRecorder?.mimeType||'audio/webm').split(';')[0];
     try{
       const resp=await fetch('https://api.anthropic.com/v1/messages',{
         method:'POST',
         headers:{'Content-Type':'application/json','x-api-key':ANTHROPIC_API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
         body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1024,messages:[{role:'user',content:[
-          {type:'text',text:'Prepis tento zvukovy zaznam do textu. Vrat pouze samotny prepis, bez uvodu a bez komentare. Jazyk: cestina.'},
+          {type:'text',text:'Prepis tento zvukovy zaznam presne do textu. Vrat pouze prepis bez uvodu. Jazyk: cestina.'},
           {type:'document',source:{type:'base64',media_type:mt,data:b64}}
         ]}]})
       });
-      if(!resp.ok){const err=await resp.json().catch(()=>({}));throw new Error(err.error?.message||('HTTP '+resp.status));}
+      if(!resp.ok){const err=await resp.json().catch(()=>({}));throw new Error(err.error?.message||'HTTP '+resp.status);}
       const data=await resp.json();
       transcriptText=data.content[0].text.trim();
-      const box=document.getElementById('transcript-box');
-      box.textContent=transcriptText;
-      box.classList.remove('empty');
-      document.getElementById('ai-parse-btn').disabled=false;
-      setAiStatus('Prepis hotov - stiskni Zpracovat pomoci Claude','#4ade80');
-    }catch(e){
-      setAiStatus('Chyba prepisu: '+e.message,'#f87171');
-    }
+      const box=document.getElementById('dp-transcript');
+      if(box){box.textContent=transcriptText;box.classList.remove('empty');}
+      const pb=document.getElementById('dp-process-btn');if(pb)pb.disabled=false;
+      setDpStatus('Prepis hotov - stiskni Zpracovat pomoci Claude','#4ade80');
+    }catch(e){setDpStatus('Chyba prepisu: '+e.message,'#f87171');}
     setMicState('idle');
   };
   reader.readAsDataURL(blob);
 }
-
 async function parseWithClaude(){
-  if(!transcriptText){setAiStatus('Nejprve nadiktuj text','#fbbf24');return;}
-  if(!ANTHROPIC_API_KEY||!ANTHROPIC_API_KEY.startsWith('sk-ant-')){setAiStatus('Zadej Anthropic API klic','#fbbf24');return;}
-  const btn=document.getElementById('ai-parse-btn');
-  const spinner=document.getElementById('ai-spinner');
-  btn.disabled=true; if(spinner) spinner.style.display='inline-block';
-  setAiStatus('Claude zpracovava zaznam...','#a5b4fc');
+  if(!transcriptText){setDpStatus('Nejprve nadiktuj text.','#fbbf24');return;}
+  if(!ANTHROPIC_API_KEY||!ANTHROPIC_API_KEY.startsWith('sk-ant-')){setDpStatus('Zadej API klic v Nastaveni.','#fbbf24');return;}
+  const pb=document.getElementById('dp-process-btn');
+  const sp=document.getElementById('dp-spinner');
+  if(pb)pb.disabled=true;if(sp)sp.style.display='inline-block';
+  setDpStatus('Claude zpracovava zaznam...','#a5b4fc');
   const cName=currentVisitCustomer?.name||'zakaznik';
   try{
     const resp=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':ANTHROPIC_API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:
-        'Jsi CRM asistent obchodniho zastupce JM Autodily. Zakaznik: '+cName+'.\n\n'+
-        'Nize je prepis diktovaneho zaznamu ze schuzky. Rozdel ho do 4 poli CRM systemu.\n'+
-        'Odpovez POUZE platnym JSON objektem bez markdown, bez komentaru:\n\n'+
-        '{"cil":"Cil schuzky","shrnuti":"Shrnuti prubehu","ukoly":"Konkretni ukoly","pristi":"Plan pristi schuzky"}\n\n'+
-        'Kazde pole prepis do spisovne cestiny, strucne a vecne. Pokud informace chybi, nechej pole prazdne.\n\n'+
+        'Jsi CRM asistent obchodniho zastupce JM Autodily. Zakaznik: '+cName+'.\n'+
+        'Prepis diktovaneho zaznamu ze schuzky. Rozdel do 4 poli.\n'+
+        'Odpovez POUZE platnym JSON bez markdown:\n'+
+        '{"cil":"Cil schuzky","shrnuti":"Shrnuti prubehu","ukoly":"Konkretni ukoly","pristi":"Plan pristi schuzky"}\n'+
+        'Kazde pole uprav do spisovne cestiny. Pokud info chybi, nechej prazdne.\n\n'+
         'PREPIS:\n'+transcriptText
       }]})
     });
-    if(!resp.ok){const err=await resp.json().catch(()=>({}));throw new Error(err.error?.message||('HTTP '+resp.status));}
+    if(!resp.ok){const err=await resp.json().catch(()=>({}));throw new Error(err.error?.message||'HTTP '+resp.status);}
     const data=await resp.json();
     let raw=data.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
     const parsed=JSON.parse(raw);
@@ -484,20 +577,21 @@ async function parseWithClaude(){
       const el=document.getElementById('fm-'+k);
       if(el&&parsed[k]!==undefined) el.value=parsed[k]||'';
     });
-    setAiStatus('Pole vyplnena - zkontroluj a uloz','#4ade80');
+    setDpStatus('Pole vyplnena - zkontroluj a uloz do Sheets','#4ade80');
+    if(sp)sp.style.display='none';
+    setTimeout(()=>closeDictation(),1600);
   }catch(e){
-    setAiStatus('Chyba Claude: '+e.message,'#f87171');
-    btn.disabled=false;
+    setDpStatus('Chyba Claude: '+e.message,'#f87171');
+    if(pb)pb.disabled=false;if(sp)sp.style.display='none';
   }
-  if(spinner) spinner.style.display='none';
 }
-
-function setAiStatus(msg,color){
-  const el=document.getElementById('ai-status');
+function setDpStatus(msg,color){
+  const el=document.getElementById('dp-status');
   if(el){el.textContent=msg;el.style.color=color||'rgba(255,255,255,.8)';}
 }
 
 // === FORMULAR SCHUZKY ===
+
 let currentVisitCustomer=null;
 const doneSessions=new Set();
 
